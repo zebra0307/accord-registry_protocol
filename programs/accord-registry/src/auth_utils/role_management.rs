@@ -5,6 +5,30 @@ use crate::models::*;
 // ROLE MANAGEMENT INSTRUCTIONS
 // ========================================
 
+/// Register a new user (Self-Service)
+#[derive(Accounts)]
+pub struct RegisterUser<'info> {
+    #[account(
+        init,
+        payer = user,
+        space = 8 + UserAccount::LEN,
+        seeds = [b"user", user.key().as_ref()],
+        bump
+    )]
+    pub user_account: Account<'info, UserAccount>,
+    
+    #[account(
+        seeds = [b"registry_v3"],
+        bump = registry.bump
+    )]
+    pub registry: Account<'info, GlobalRegistry>,
+    
+    #[account(mut)]
+    pub user: Signer<'info>,
+    
+    pub system_program: Program<'info, System>,
+}
+
 /// Initialize a user account with a role
 #[derive(Accounts)]
 #[instruction(user_address: Pubkey)]
@@ -221,6 +245,39 @@ pub struct CreateAuditLog<'info> {
 // ========================================
 // ROLE MANAGEMENT INSTRUCTION HANDLERS
 // ========================================
+
+pub fn register_user(
+    ctx: Context<RegisterUser>,
+    role: UserRole,
+) -> Result<()> {
+    // Only allow User or Validator self-registration for now
+    require!(
+        role == UserRole::User || role == UserRole::Validator, 
+        ErrorCode::UnauthorizedAdmin // Using existing error for simplicity
+    );
+
+    let user_account = &mut ctx.accounts.user_account;
+    let user = &ctx.accounts.user;
+    let clock = Clock::get()?;
+    
+    user_account.authority = user.key();
+    user_account.role = role.clone();
+    user_account.assigned_by = user.key(); // Self-assigned
+    user_account.assigned_at = clock.unix_timestamp;
+    user_account.is_active = true;
+    user_account.bump = ctx.bumps.user_account;
+    
+    // Assign default permissions
+    user_account.permissions = match role {
+        UserRole::User => permissions::USER_PERMISSIONS,
+        UserRole::Validator => permissions::VALIDATOR_PERMISSIONS,
+        _ => 0,
+    };
+    
+    msg!("User registered self as: {:?} with perms {}", role, user_account.permissions);
+    
+    Ok(())
+}
 
 pub fn assign_role(
     ctx: Context<AssignRole>,
