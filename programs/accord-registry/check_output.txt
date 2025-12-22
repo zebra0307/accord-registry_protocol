@@ -1,0 +1,57 @@
+    Checking accord-registry v0.1.0 (/home/rammsey/accord-registry/programs/accord-registry)
+error[E0432]: unresolved imports `anchor_spl::token_2022::Mint`, `anchor_spl::token_2022::TokenAccount`
+ --> programs/accord-registry/src/instructions/contexts.rs:3:18
+  |
+3 |     token_2022::{Mint, Token2022, TokenAccount},
+  |                  ^^^^             ^^^^^^^^^^^^
+  |                  |                |
+  |                  |                no `TokenAccount` in `token_2022`
+  |                  |                help: a similar name exists in the module: `CloseAccount`
+  |                  no `Mint` in `token_2022`
+  |
+  = help: consider importing one of these items instead:
+          anchor_spl::token::Mint
+          anchor_spl::token_interface::Mint
+          spl_token_2022::extension::AccountType::Mint
+          spl_token_2022::extension::confidential_mint_burn::instruction::ConfidentialMintBurnInstruction::Mint
+          spl_token_2022::state::Mint
+  = help: consider importing one of these structs instead:
+          anchor_spl::token::TokenAccount
+          anchor_spl::token_interface::TokenAccount
+
+warning: ambiguous glob re-exports
+  --> programs/accord-registry/src/instructions/mod.rs:13:9
+   |
+13 | pub use errors::*;
+   |         ^^^^^^^^^ the name `ErrorCode` in the type namespace is first re-exported here
+...
+21 | pub use compliance::*;
+   |         ------------- but the name `ErrorCode` in the type namespace is also re-exported here
+   |
+   = note: `#[warn(ambiguous_glob_reexports)]` on by default
+
+warning: unused import: `errors::*`
+  --> programs/accord-registry/src/instructions/mod.rs:13:9
+   |
+13 | pub use errors::*;
+   |         ^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused variable: `project`
+  --> programs/accord-registry/src/instructions/track_impact.rs:18:9
+   |
+18 |     let project = &mut ctx.accounts.project;
+   |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_project`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `project`
+  --> programs/accord-registry/src/instructions/monitoring.rs:12:9
+   |
+12 |     let project = &mut ctx.accounts.project;
+   |         ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_project`
+
+For more information about this error, try `rustc --explain E0432`.
+warning: `accord-registry` (lib) generated 4 warnings
+error: could not compile `accord-registry` (lib) due to 1 previous error; 4 warnings emitted
