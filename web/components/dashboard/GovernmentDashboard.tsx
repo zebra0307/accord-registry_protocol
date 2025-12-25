@@ -59,18 +59,19 @@ export default function GovernmentDashboard() {
             // We'll fallback to a mock "Approval" action that just updates compliance state if possible.
 
             // Alternative: "Approve Project Compliance"
-            // Instruction: approve_project_compliance
+            const [userPda] = PublicKey.findProgramAddressSync([Buffer.from("user"), publicKey.toBuffer()], program.programId);
 
             await program.methods
                 .approveProjectCompliance("CCTS-OFFICIAL-ID", new (require("bn.js"))(amount), true)
                 .accounts({
                     project: projectPda,
                     registry: registryPda,
-                    authority: publicKey, // Government Authority
+                    authority: publicKey,
+                    userAccount: userPda,
                 } as any)
                 .rpc();
 
-            alert(`Credits Issued & Compliance Approved for ${projectId}`);
+            alert(`Compliance Approved for ${projectId}. Developer can now claim credits.`);
             fetchVerifiedProjects();
 
         } catch (e) {
@@ -125,12 +126,12 @@ export default function GovernmentDashboard() {
                                                 disabled={!!issuingId}
                                                 className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity"
                                             >
-                                                {issuingId === p.projectId ? <Loader2 className="animate-spin w-4 h-4" /> : <FileSignature className="w-4 h-4" />}
-                                                Issue Credits
+                                                {issuingId === p.projectId ? <Loader2 className="animate-spin w-4 h-4" /> : <CheckCheck className="w-4 h-4" />}
+                                                Approve Compliance
                                             </button>
                                         ) : (
                                             <div className="flex items-center gap-2 text-green-400 border border-green-500/30 px-3 py-1.5 rounded bg-green-500/10">
-                                                <CheckCheck className="w-4 h-4" /> Credits Issued
+                                                <CheckCheck className="w-4 h-4" /> Compliance Approved
                                             </div>
                                         )}
                                     </div>

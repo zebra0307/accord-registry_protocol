@@ -3,12 +3,15 @@ import { useProgram } from '@/hooks/useProgram';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Loader2, Plus, FileText, BarChart3, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { PublicKey, SystemProgram } from '@solana/web3.js';
+import { getAssociatedTokenAddress, TOKEN_2022_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 export default function DeveloperDashboard({ userRole }: { userRole: string }) {
     const { program } = useProgram();
     const { publicKey } = useWallet();
     const [projects, setProjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [mintingId, setMintingId] = useState<string | null>(null);
 
     useEffect(() => {
         if (!program || !publicKey) return;
@@ -39,6 +42,51 @@ export default function DeveloperDashboard({ userRole }: { userRole: string }) {
 
         fetchMyProjects();
     }, [program, publicKey]);
+
+    const handleMint = async (projectPda: PublicKey, projectId: string, amount: any) => {
+        if (!program || !publicKey) return;
+        try {
+            setMintingId(projectId);
+            console.log("Minting for project:", projectId, "Amount:", amount.toString());
+
+            const [registryPda] = PublicKey.findProgramAddressSync([Buffer.from("registry_v3")], program.programId);
+            const [mintPda] = PublicKey.findProgramAddressSync([Buffer.from("carbon_token_mint_v3")], program.programId); // Use correct seed
+
+            // Derive ATA
+            const recipientAta = await getAssociatedTokenAddress(
+                mintPda,
+                publicKey,
+                false,
+                TOKEN_2022_PROGRAM_ID,
+                ASSOCIATED_TOKEN_PROGRAM_ID
+            );
+
+            console.log("ATA:", recipientAta.toBase58());
+
+            await program.methods
+                .mintVerifiedCredits(amount)
+                .accounts({
+                    project: projectPda,
+                    registry: registryPda,
+                    carbonTokenMint: mintPda,
+                    recipientTokenAccount: recipientAta,
+                    owner: publicKey,
+                    recipient: publicKey,
+                    tokenProgram: TOKEN_2022_PROGRAM_ID,
+                    associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+                    systemProgram: SystemProgram.programId
+                } as any)
+                .rpc();
+
+            alert(`Successfully Minted ${amount.toString()} Credits!`);
+            window.location.reload();
+        } catch (e) {
+            console.error("Mint Failed:", e);
+            alert("Mint Failed. Check console.");
+        } finally {
+            setMintingId(null);
+        }
+    };
 
     return (
         <div className="space-y-6">
@@ -92,6 +140,25 @@ export default function DeveloperDashboard({ userRole }: { userRole: string }) {
                         {projects.map((item) => {
                             const p = item.account;
                             const status = Object.keys(p.verificationStatus)[0];
+                            const isComplianceApproved = p.compliance.auditStatus === "Approved";
+                            // Ensure 1:1 format or decimals? Assuming amount is raw tokens (decimals handled in mint logic check? 
+                            // Verify context: `let verified_capacity = project.carbon_tons_estimated * 10u64.pow(6);`
+                            // So `mintVerifiedCredits` expects `amount` in raw atomic units?
+                            // No, `mintVerifiedCredits` signature: `pub fn mint_verified_credits(ctx, amount: u64)`
+                            // And it checks `project.tokens_minted + amount <= verified_capacity`.
+                            // So we should try to mint the remaining available.
+                            // Available to mint = (tons * 10^6) - tokens_minted.
+                            // Let's mint 100 for test or full mount.
+                            // Ideally, we pass the amount. Use estimated tons * 10^6 for now if not minted.
+
+                            // BN Math for Mintable Amount
+                            const BN = require("bn.js");
+                            const estimatedEnv = new BN(p.carbonTonsEstimated);
+                            const minted = new BN(p.tokensMinted);
+                            const multiplier = new BN(1000000);
+                            const maxMint = estimatedEnv.mul(multiplier).sub(minted);
+                            const isMintable = maxMint.gt(new BN(0));
+
                             return (
                                 <div key={item.publicKey.toString()} className="p-4 flex flex-col md:flex-row justify-between items-center gap-4 hover:bg-white/5 transition-colors">
                                     <div>
@@ -100,16 +167,24 @@ export default function DeveloperDashboard({ userRole }: { userRole: string }) {
                                             <span className={`text-[10px] px-2 py-0.5 rounded uppercase font-bold border ${getStatusStyle(status)}`}>
                                                 {status}
                                             </span>
+                                            {isComplianceApproved && <span className="text-[10px] px-2 py-0.5 rounded uppercase font-bold border bg-blue-500/10 text-blue-400 border-blue-500/30">COMPLIANT</span>}
                                         </div>
                                         <div className="text-xs text-slate-400 mt-1">
                                             Sector: {Object.keys(p.projectSector)[0]} | Est. {p.carbonTonsEstimated.toString()} Tons
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        {status === 'verified' && (
-                                            <button className="text-xs bg-green-500/10 hover:bg-green-500/20 text-green-400 border border-green-500/50 px-3 py-1.5 rounded transition-colors">
-                                                Mint Credits
+                                        {status === 'verified' && isComplianceApproved && isMintable && (
+                                            <button
+                                                onClick={() => handleMint(item.publicKey, p.projectId, maxMint)}
+                                                disabled={!!mintingId}
+                                                className="text-xs bg-green-500/10 hover:bg-green-500/20 text-green-400 border border-green-500/50 px-3 py-1.5 rounded transition-colors flex items-center gap-2"
+                                            >
+                                                {mintingId === p.projectId ? <Loader2 className="animate-spin w-3 h-3" /> : 'Mint Credits'}
                                             </button>
+                                        )}
+                                        {status === 'verified' && !isComplianceApproved && (
+                                            <span className="text-xs text-amber-500 italic">Processing Compliance...</span>
                                         )}
                                         <button className="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded transition-colors">
                                             View PDD

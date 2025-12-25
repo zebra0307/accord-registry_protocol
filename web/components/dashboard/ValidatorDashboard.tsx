@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useProgram } from '@/hooks/useProgram';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Loader2, ShieldCheck, CheckCircle, XCircle, Search } from 'lucide-react';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, SystemProgram } from '@solana/web3.js';
 
 export default function ValidatorDashboard() {
     const { program } = useProgram();
@@ -31,6 +31,37 @@ export default function ValidatorDashboard() {
             console.error("Fetch Error:", e);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleReject = async (projectPda: PublicKey, projectId: string) => {
+        if (!program || !publicKey) return;
+        const reason = prompt("Enter Rejection Reason:", "Compliance criteria not met");
+        if (!reason) return;
+
+        try {
+            setActionLoading(projectId);
+            const [registryPda] = PublicKey.findProgramAddressSync([Buffer.from("registry_v3")], program.programId);
+            const [userPda] = PublicKey.findProgramAddressSync([Buffer.from("user"), publicKey.toBuffer()], program.programId);
+
+            await program.methods
+                .rejectProject(reason)
+                .accounts({
+                    project: projectPda,
+                    registry: registryPda,
+                    admin: publicKey,
+                    adminAccount: userPda,
+                    systemProgram: SystemProgram.programId
+                } as any)
+                .rpc();
+
+            alert(`Project ${projectId} Rejected.`);
+            fetchPendingProjects();
+        } catch (e) {
+            console.error("Rejection Failed:", e);
+            alert("Rejection Failed. Check console.");
+        } finally {
+            setActionLoading(null);
         }
     };
 
@@ -126,7 +157,9 @@ export default function ValidatorDashboard() {
 
                                         <div className="flex gap-3">
                                             <button
-                                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg flex items-center gap-2 transition-colors"
+                                                onClick={() => handleReject(item.publicKey, p.projectId)}
+                                                disabled={!!actionLoading}
+                                                className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50"
                                                 title="Reject Project"
                                             >
                                                 <XCircle className="w-4 h-4" /> Reject

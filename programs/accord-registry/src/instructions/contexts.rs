@@ -122,6 +122,33 @@ pub struct VerifyProject<'info> {
     pub admin_account: Account<'info, UserAccount>,
 }
 
+// Account validation for reject_project instruction
+#[derive(Accounts)]
+pub struct RejectProject<'info> {
+    #[account(
+        mut,
+        seeds = [b"project", project.owner.as_ref(), project.project_id.as_bytes()],
+        bump = project.bump
+    )]
+    pub project: Account<'info, Project>,
+
+    #[account(
+        seeds = [b"registry_v3"],
+        bump = registry.bump,
+    )]
+    pub registry: Account<'info, GlobalRegistry>,
+
+    pub admin: Signer<'info>, // This is the verifier/validator
+
+    #[account(
+        seeds = [b"user", admin.key().as_ref()],
+        bump = admin_account.bump,
+        constraint = admin_account.is_active @ ErrorCode::UserNotActive,
+        constraint = (admin_account.permissions & permissions::VERIFY_PROJECT) != 0 @ ErrorCode::InsufficientPermissions
+    )]
+    pub admin_account: Account<'info, UserAccount>,
+}
+
 // Account validation for mint_verified_credits instruction
 #[derive(Accounts)]
 pub struct MintVerifiedCredits<'info> {

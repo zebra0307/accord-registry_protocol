@@ -50,6 +50,56 @@ pub fn verify_project(
     Ok(())
 }
 
+pub fn reject_project(
+    ctx: Context<RejectProject>,
+    reason: String,
+) -> Result<()> {
+    let project = &mut ctx.accounts.project;
+    
+    require!(
+        project.verification_status == VerificationStatus::Pending || 
+        project.verification_status == VerificationStatus::AwaitingAudit ||
+        project.verification_status == VerificationStatus::UnderReview,
+        ErrorCode::ProjectAlreadyProcessed
+    );
+    
+    // Update status
+    project.verification_status = VerificationStatus::Rejected;
+    // Note: We are not storing 'reason' in account state to avoid resizing, 
+    // but it is emitted in the transaction logs/events if we added an event.
+
+    msg!("Project {} rejected by validator {}.", project.project_id, ctx.accounts.admin.key());
+    msg!("Rejection Reason: {}", reason);
+    
+    // Consuming the fee (paying the verifier/admin for their time)
+    let fee = project.verification_fee_lamports;
+    if fee > 0 {
+        // Validation: If assigned verifier exists, ensure signer is them
+        if let Some(assigned_verifier) = project.verifier {
+            require!(assigned_verifier == ctx.accounts.admin.key(), ErrorCode::UnauthorizedVerifier);
+        }
+
+        **project.to_account_info().try_borrow_mut_lamports()? = project
+            .to_account_info()
+            .lamports()
+            .checked_sub(fee)
+            .ok_or(ErrorCode::MathOverflow)?;
+            
+        **ctx.accounts.admin.to_account_info().try_borrow_mut_lamports()? = ctx
+            .accounts.admin
+            .to_account_info()
+            .lamports()
+            .checked_add(fee)
+            .ok_or(ErrorCode::MathOverflow)?;
+
+        project.verification_fee_lamports = 0;
+        project.audit_escrow_balance = 0;
+        msg!("Verification Fee Released (Consumed) for Rejection: {} lamports", fee);
+    }
+    
+    Ok(())
+}
+
 pub fn multi_party_verify_project(
     ctx: Context<MultiPartyVerifyProject>,
     verified_carbon_tons: u64,

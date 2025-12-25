@@ -64,6 +64,14 @@ pub mod blue_carbon_registry {
         instructions::verify_project(ctx, verified_carbon_tons)
     }
 
+    /// Rejects a project (consuming fee for validation effort)
+    pub fn reject_project(
+        ctx: Context<RejectProject>,
+        reason: String,
+    ) -> Result<()> {
+        instructions::verify_project::reject_project(ctx, reason)
+    }
+
     pub fn initialize_verification(
         ctx: Context<InitializeVerification>,
         fee_lamports: u64,
