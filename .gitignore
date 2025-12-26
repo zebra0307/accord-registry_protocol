@@ -1,32 +1,53 @@
+# Anchor / Solana
 .anchor
-.DS_Store
 target
-**/*.rs.bk
-node_modules
 test-ledger
+**/*.rs.bk
+
+# Dependencies
+node_modules
 .yarn
 
 # Environment & Secrets
 .env
 .env.*
+.env.local
 
-# Keypairs
+# Keypairs & Wallets (NEVER commit these!)
 **/*-keypair.json
 **/*-wallet.json
-id.json
-secret.json
+**/id.json
+**/secret.json
+*.pem
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
 test_output*.txt
 
-# IDE
+# IDE & Editors
 .vscode
 .idea
 *.swp
+*.swo
+*~
 
-# Gemeni / Agent
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Build Artifacts
+dist/
+build/
+.next/
+out/
+
+# Agent / AI
 .gemini
+.cursor
 
+# Misc
+*.bak
+*.tmp

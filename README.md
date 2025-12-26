@@ -1,67 +1,113 @@
-# Accord Registry (Blue Carbon)
-A decentralized registry for carbon credits on Solana, featuring role-based access control for Developers, Validators (ACVA), and Government (BEE).
+# Accord Registry Protocol
+
+A decentralized carbon credit registry on Solana, featuring role-based access control for Developers, Validators (ACVA), and Government (BEE).
 
 ## Overview
+
 This project implements a blockchain-based system for managing the lifecycle of Carbon Credits (CCTS):
+
 1.  **Project Registration**: Developers register projects with geospatial data (H3 indices).
 2.  **Validation**: Validators (ACVA) review and verify project data.
-3.  **Credit Issuance**: Government Authority (BEE) approves compliance and issues tokens.
-4.  **Trading**: Users can trade credits (marketplace foundation).
+3.  **Compliance Approval**: Government Authority (BEE) approves compliance (Article 6).
+4.  **Credit Issuance**: Verified and compliant projects can mint SPL Token-2022 credits.
+5.  **Trading**: Native marketplace and AMM DEX for credit trading.
 
 ## Technology Stack
--   **Blockchain**: Solana (Anchor Framework 0.30.1)
--   **Frontend**: Next.js 14, React, Tailwind CSS
--   **Wallet Integration**: Solana Wallet Adapter
--   **Mapping**: Leaflet + H3-js
+
+-   **Blockchain**: Solana
+-   **Framework**: Anchor 0.30.1
+-   **Token Standard**: SPL Token-2022
+-   **Testing**: Mocha, Chai, ts-mocha
 
 ## Getting Started
 
 ### Prerequisites
--   Rust & Cargo
--   Solana CLI
--   Node.js (v18+) & NPM/Yarn
--   Anchor CLI
 
-### 1. Build the Program
+-   Rust & Cargo (rustup)
+-   Solana CLI (`solana-install`)
+-   Anchor CLI (`cargo install --git https://github.com/coral-xyz/anchor avm`)
+-   Node.js (v18+) & npm
+
+### 1. Install Dependencies
+
 ```bash
-# Install dependencies
 npm install
+```
 
-# Build the Anchor program
+### 2. Build the Program
+
+```bash
 anchor build
-
-# Get Program ID (if deploying)
-solana address -k target/deploy/accord_registry-keypair.json
 ```
 
-### 2. Configure Frontend
-Navigate to the `web` directory:
+### 3. Run Tests
+
+Start a local validator in one terminal:
 ```bash
-cd web
-npm install
+solana-test-validator
 ```
 
-Create a `.env.local` file in `web/` (if using specific RPCs or keys):
-```env
-NEXT_PUBLIC_SOLANA_RPC=https://api.devnet.solana.com
-```
-
-### 3. Run Application
-Inside `web/`:
+In another terminal, run the tests:
 ```bash
-npm run dev
+anchor test --skip-local-validator
 ```
-Open [http://localhost:3000](http://localhost:3000).
 
-## Roles & Features
-The dashboard automatically adapts to your role:
--   **User/Developer**: View "My Projects", "Register Project".
--   **Validator**: View "Pending Projects", "Validate Project".
--   **Government**: View "Verified Projects", "Issue Credits".
+Or run tests with a fresh validator:
+```bash
+anchor test
+```
 
-> **Note**: For this prototype, you can self-assign roles using the "Join Registry" buttons on the Dashboard.
+## Program Architecture
+
+### Core Modules (`programs/accord-registry/src/`)
+
+-   **`lib.rs`**: Program entry point and instruction dispatcher.
+-   **`models.rs`**: On-chain data structures (Project, UserAccount, GlobalRegistry, etc.).
+-   **`instructions/`**: Business logic for each lifecycle stage.
+    -   `register_project.rs`: Project creation with double-counting prevention.
+    -   `verify_project.rs`: Validator verification and rejection logic.
+    -   `compliance.rs`: Government compliance approval (Article 6).
+    -   `mint_credits.rs`: Token-2022 minting for verified projects.
+    -   `marketplace.rs`: P2P listing and trading.
+    -   `dex.rs`: AMM liquidity pool for carbon credits.
+-   **`auth_utils/`**: Role-based access control (RBAC).
+    -   `role_management.rs`: User registration, role assignment, permissions.
+
+### Key Accounts
+
+| Account            | Seeds                                  | Purpose                                  |
+|--------------------|----------------------------------------|------------------------------------------|
+| `GlobalRegistry`   | `[b"registry_v3"]`                     | System-wide state, mint authority        |
+| `UserAccount`      | `[b"user", wallet_pubkey]`             | Role and permissions for each user       |
+| `Project`          | `[b"project", owner, project_id]`      | Project metadata and status              |
+| `VerificationNode` | `[b"verifier", verifier_pubkey]`       | Validator credentials and reputation     |
+| `LiquidityPool`    | `[b"liquidity_pool", mint_a, mint_b]`  | AMM pool state                           |
+
+## Roles & Permissions
+
+| Role       | Permissions                                      |
+|------------|--------------------------------------------------|
+| User       | Register projects, mint credits (own projects)   |
+| Validator  | Verify/Reject projects, earn audit fees          |
+| Government | Approve compliance, authorize exports (LoA)      |
+| Admin      | All permissions, system initialization           |
 
 ## Project Structure
--   `programs/`: Solana smart contract code (Rust).
--   `tests/`: Integration tests using Mocha/Chai.
--   `web/`: Next.js Frontend application.
+
+```
+accord-registry/
+├── programs/accord-registry/   # Solana program (Rust)
+│   └── src/
+│       ├── lib.rs              # Entry point
+│       ├── models.rs           # Data structures
+│       ├── instructions/       # Business logic
+│       └── auth_utils/         # RBAC
+├── tests/                      # Integration tests (TypeScript)
+├── target/                     # Build artifacts
+├── Anchor.toml                 # Anchor configuration
+└── package.json                # Node dependencies
+```
+
+## License
+
+MIT

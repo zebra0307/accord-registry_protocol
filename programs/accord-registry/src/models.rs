@@ -151,6 +151,7 @@ impl GlobalRegistry {
         8 + // total_credits_issued
         8 + // total_projects  
         32 + // admin
+        32 + // government_authority
         32 + // mint_authority
         32 + // carbon_token_mint
         1 + // bump
@@ -667,8 +668,9 @@ pub struct DoubleCountingRegistry {
 }
 
 impl DoubleCountingRegistry {
-    // 8 (discriminator) + 4 (vec len) + (8 * 2000) (cells) + 32 (authority) + 1 (bump)
-    pub const LEN: usize = 8 + 4 + (8 * 2000) + 32 + 1; 
+    // 8 (discriminator) + 4 (vec len) + (8 * 500) (cells) + 32 (authority) + 1 (bump)
+    // Total: 8 + 4 + 4000 + 32 + 1 = 4045 bytes (fits in 10KB limit)
+    pub const LEN: usize = 8 + 4 + (8 * 500) + 32 + 1; 
 }
 
 // Platform Analytics for Dashboard

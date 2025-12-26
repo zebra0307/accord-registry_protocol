@@ -30,6 +30,7 @@ describe("blue-carbon-registry", () => {
   let investorTokenAccount: PublicKey;
   let investorWallet: Keypair;
   let retirementAccount: PublicKey;
+  let doubleCountingRegistryPda: PublicKey;
 
   const projectId = `BCP-${Date.now()}`; // Make unique with timestamp
   const ipfsCid = "QmYwAPJzv5CZsnAzt8auVKRQm6VLw4Dy8YQANhBBfmGjw8";
@@ -68,6 +69,12 @@ describe("blue-carbon-registry", () => {
 
       tokenMint = carbonTokenMintPda;
 
+      // Derive the double counting registry PDA
+      [doubleCountingRegistryPda] = PublicKey.findProgramAddressSync(
+        [Buffer.from("double_counting_registry")],
+        program.programId
+      );
+
       console.log("Test setup completed successfully");
     } catch (error) {
       console.error("Test setup failed:", error);
@@ -94,6 +101,7 @@ describe("blue-carbon-registry", () => {
           registry: registryPda,
           carbonTokenMint: tokenMint,
           admin: projectOwner.publicKey,
+          governmentAuthority: projectOwner.publicKey, // Use project owner as gov authority for tests
           tokenProgram: TOKEN_2022_PROGRAM_ID,
           systemProgram: SystemProgram.programId,
           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
@@ -111,6 +119,26 @@ describe("blue-carbon-registry", () => {
       assert.equal(registryAccount.admin.toString(), projectOwner.publicKey.toString());
 
       console.log("✅ Registry initialized successfully");
+    }
+  });
+
+  it("Initializes the Double Counting Registry", async () => {
+    try {
+      await program.account.doubleCountingRegistry.fetch(doubleCountingRegistryPda);
+      console.log("✅ Double Counting Registry already exists");
+    } catch {
+      console.log("Double Counting Registry not found, initializing...");
+      await program.methods
+        .initializeDoubleCountingRegistry()
+        .accounts({
+          doubleCountingRegistry: doubleCountingRegistryPda,
+          authority: projectOwner.publicKey,
+          systemProgram: SystemProgram.programId,
+        } as any)
+        .signers([projectOwner])
+        .rpc();
+
+      console.log("✅ Double Counting Registry initialized");
     }
   });
 
@@ -175,6 +203,8 @@ describe("blue-carbon-registry", () => {
       establishmentDate: new anchor.BN(Date.now() / 1000),
       vintageYear: 2024,
       pricePerTon: new anchor.BN(10_000_000),
+      cctsRegistryId: "", // Empty for initial registration
+      complianceIdSignature: Buffer.from([]), // Empty signature
     };
 
     const tx = await program.methods
@@ -183,7 +213,8 @@ describe("blue-carbon-registry", () => {
         project: projectPda,
         registry: registryPda,
         projectOwner: projectOwner.publicKey,
-        userAccount: ownerUserAccount, // Pass the user account
+        userAccount: ownerUserAccount,
+        doubleCountingRegistry: doubleCountingRegistryPda,
         systemProgram: SystemProgram.programId,
       } as any)
       .signers([projectOwner])
