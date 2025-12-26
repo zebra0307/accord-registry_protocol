@@ -1,6 +1,32 @@
 # Accord Registry Protocol
 
-A decentralized carbon credit registry on Solana, featuring role-based access control for Developers, Validators (ACVA), and Government (BEE).
+[![Solana](https://img.shields.io/badge/Solana-black?logo=solana&logoColor=14F195)](https://solana.com)
+[![Anchor](https://img.shields.io/badge/Anchor-0.32.1-blue)](https://www.anchor-lang.com/)
+[![Token-2022](https://img.shields.io/badge/SPL-Token--2022-purple)](https://spl.solana.com/token-2022)
+[![Tests](https://img.shields.io/badge/Tests-18%20Passing-brightgreen)](#run-tests)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **A decentralized carbon credit registry protocol built on Solana, enabling transparent lifecycle management of carbon credits from registration to retirement.**
+
+## About
+
+**Accord Registry** is a next-generation **MRV (Measurement, Reporting, and Verification)** infrastructure protocol designed to bring transparency, trust, and efficiency to global carbon markets. Built on Solana for speed and minimal environmental footprint, it implements the complete lifecycle of carbon credits aligned with **Paris Agreement Article 6** requirements.
+
+The protocol enables:
+- 🌿 **Project Developers** to register and tokenize verified carbon reduction/removal projects
+- 🔍 **Accredited Validators** to verify projects with on-chain escrow incentives
+- 🏛️ **Government Authorities** to issue Letters of Authorization (LoA) preventing double-counting
+- 💱 **Market Participants** to trade credits via native AMM DEX and P2P marketplace
+- 🔥 **Offset Buyers** to retire credits and receive immutable on-chain retirement certificates
+
+What sets Accord Registry apart:
+- **Double-Counting Prevention**: H3 geospatial indexing ensures no overlapping project boundaries
+- **Compliance-First Design**: Built-in support for CCTS registry IDs and government signatures
+- **Token-2022**: Modern token standard with transfer hooks for audit trails
+- **Permissioned Roles**: RBAC system ensures only authorized actors can perform sensitive operations
+- **Fully On-Chain**: All state transitions are verifiable on the Solana blockchain
+
+---
 
 ## Overview
 
@@ -15,7 +41,7 @@ This project implements a blockchain-based system for managing the lifecycle of 
 ## Technology Stack
 
 -   **Blockchain**: Solana
--   **Framework**: Anchor 0.30.1
+-   **Framework**: Anchor 0.32.1
 -   **Token Standard**: SPL Token-2022
 -   **Testing**: Mocha, Chai, ts-mocha
 
@@ -42,19 +68,14 @@ anchor build
 
 ### 3. Run Tests
 
-Start a local validator in one terminal:
-```bash
-solana-test-validator
-```
-
-In another terminal, run the tests:
-```bash
-anchor test --skip-local-validator
-```
-
-Or run tests with a fresh validator:
+Run tests with a fresh local validator:
 ```bash
 anchor test
+```
+
+Or if you have a validator already running:
+```bash
+anchor test --skip-local-validator
 ```
 
 ## Program Architecture
@@ -92,6 +113,19 @@ anchor test
 | Government | Approve compliance, authorize exports (LoA)      |
 | Admin      | All permissions, system initialization           |
 
+## Test Coverage
+
+All 18 integration tests passing:
+
+- ✅ Registry & Double-Counting Prevention Initialization
+- ✅ Role-Based Access Control (RBAC)
+- ✅ Project Registration & Verification
+- ✅ Compliance Approval (Government)
+- ✅ Credit Minting, Transfer & Retirement
+- ✅ Batch Minting to Multiple Recipients
+- ✅ AMM DEX (Pool Init, Add/Remove Liquidity, Swap)
+- ✅ P2P Marketplace (Create, Buy, Cancel Listings)
+
 ## Project Structure
 
 ```
@@ -108,6 +142,14 @@ accord-registry/
 └── package.json                # Node dependencies
 ```
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
 
 MIT
+
+---
+
+**Built for a sustainable future. 🌍**
