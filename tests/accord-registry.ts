@@ -174,10 +174,9 @@ describe("blue-carbon-registry", () => {
       ).accounts({
         userAccount: ownerUserAccount,
         registry: registryPda,
-        admin: projectOwner.publicKey, // Self-assign as first admin (bootstrapping issue handled by passing constraint check if registry admin matches?)
-        // Wait, AssignRole check: registry.admin == admin.key(). Registry admin IS projectOwner. So valid.
+        admin: projectOwner.publicKey,
         systemProgram: SystemProgram.programId,
-      }).signers([projectOwner]).rpc();
+      } as any).signers([projectOwner]).rpc();
       console.log("✅ Assigned Admin role to ProjectOwner");
     } catch (e) {
       console.log("Role assignment failed (maybe exists):", e);
@@ -276,8 +275,8 @@ describe("blue-carbon-registry", () => {
     ).accounts({
       project: projectPda,
       authority: projectOwner.publicKey,
-      userAccount: ownerUserAccount
-    }).signers([projectOwner]).rpc();
+      userAccount: ownerUserAccount,
+    } as any).signers([projectOwner]).rpc();
 
     console.log("Compliance approval tx:", tx);
     console.log("✅ Compliance approved successfully");
