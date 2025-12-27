@@ -7,81 +7,46 @@ import { useWalletStore, isSuperAdminWallet } from "@/stores/useWalletStore";
 import Link from "next/link";
 import { PublicKey } from "@solana/web3.js";
 
-// Mock data for proposals
-const MOCK_PROPOSALS = [
-    {
-        id: 1,
-        type: "AssignRole",
-        target: "5abc...xyz",
-        proposer: "7def...uvw",
-        createdAt: "2024-12-25T10:00:00",
-        expiresAt: "2024-12-28T10:00:00",
-        approvals: ["7def...uvw", "9ghi...rst"],
-        requiredApprovals: 3,
-        executed: false,
-        cancelled: false,
-        data: "Assign Validator role to 5abc...xyz",
-    },
-    {
-        id: 2,
-        type: "UpdateThreshold",
-        target: "multisig",
-        proposer: "9ghi...rst",
-        createdAt: "2024-12-26T08:00:00",
-        expiresAt: "2024-12-29T08:00:00",
-        approvals: ["9ghi...rst"],
-        requiredApprovals: 3,
-        executed: false,
-        cancelled: false,
-        data: "Change threshold from 3 to 2",
-    },
-];
+// Type definitions
+interface Proposal {
+    id: number;
+    type: string;
+    target: string;
+    proposer: string;
+    createdAt: string;
+    expiresAt: string;
+    approvals: string[];
+    requiredApprovals: number;
+    executed: boolean;
+    cancelled: boolean;
+    data: string;
+}
 
-const MOCK_ADMINS = [
-    { pubkey: "CC1E...ThpK", role: "SuperAdmin", addedAt: "2024-01-01" },
-    { pubkey: "7def...uvw", role: "Admin", addedAt: "2024-03-15" },
-    { pubkey: "9ghi...rst", role: "Admin", addedAt: "2024-06-20" },
-];
+interface Admin {
+    pubkey: string;
+    role: string;
+    addedAt: string;
+}
 
-const MOCK_AUDIT_LOGS = [
-    { action: "RoleAssigned", performedBy: "CC1E...", target: "7def...", time: "2 hours ago", success: true },
-    { action: "ProposalApproved", performedBy: "9ghi...", target: "Proposal #1", time: "5 hours ago", success: true },
-    { action: "ProjectVerified", performedBy: "7def...", target: "ICM-MH-2024-001", time: "1 day ago", success: true },
-    { action: "CreditsMinted", performedBy: "7def...", target: "800 tons", time: "1 day ago", success: true },
-    { action: "ProposalCreated", performedBy: "9ghi...", target: "Proposal #2", time: "2 days ago", success: true },
-];
+interface AuditLog {
+    action: string;
+    performedBy: string;
+    target: string;
+    time: string;
+    success: boolean;
+}
 
-// Mock KYC review requests
-const MOCK_KYC_REVIEWS = [
-    {
-        id: "kyc1",
-        wallet: "5abc...xyz",
-        currentLevel: 1,
-        requestedLevel: 2,
-        submittedAt: "2024-12-26T14:30:00",
-        email: "user1@example.com",
-        phone: "+91 9876543210",
-        documents: [
-            { type: "governmentId", fileName: "aadhar.pdf", status: "pending" },
-            { type: "selfie", fileName: "selfie.jpg", status: "pending" },
-            { type: "proofOfAddress", fileName: "utility_bill.pdf", status: "pending" },
-        ],
-    },
-    {
-        id: "kyc2",
-        wallet: "9ghi...rst",
-        currentLevel: 1,
-        requestedLevel: 2,
-        submittedAt: "2024-12-25T09:15:00",
-        email: "user2@example.com",
-        phone: "+91 9123456789",
-        documents: [
-            { type: "governmentId", fileName: "passport.pdf", status: "pending" },
-            { type: "selfie", fileName: "photo.jpg", status: "pending" },
-            { type: "proofOfAddress", fileName: "bank_statement.pdf", status: "pending" },
-        ],
-    },
-];
+interface KYCReview {
+    id: string;
+    wallet: string;
+    currentLevel: number;
+    requestedLevel: number;
+    submittedAt: string;
+    email: string;
+    phone: string;
+    documents: { type: string; fileName: string; status: string }[];
+}
+
 
 const PROPOSAL_TYPE_LABELS: Record<string, { label: string; icon: string; color: string }> = {
     AssignRole: { label: "Assign Role", icon: "👤", color: "text-blue-400" },
@@ -100,13 +65,42 @@ function SuperAdminDashboardContent() {
     const { program } = useProgram();
 
     const [activeTab, setActiveTab] = useState<"proposals" | "admins" | "audit" | "kyc">("proposals");
+    const [proposals, setProposals] = useState<Proposal[]>([]);
+    const [admins, setAdmins] = useState<Admin[]>([]);
+    const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+    const [kycReviews, setKycReviews] = useState<KYCReview[]>([]);
+    const [loading, setLoading] = useState(true);
     const [multisigConfig, setMultisigConfig] = useState({
         threshold: 2,
-        adminCount: 3,
+        adminCount: 0,
         isEnabled: true,
-        emergencyAdmin: "CC1E...ThpK",
-        proposalCount: 2,
+        emergencyAdmin: "",
+        proposalCount: 0,
     });
+
+    // Fetch admin data from on-chain
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // TODO: Implement actual on-chain data fetching
+                // const onChainProposals = await program.account.proposal.all();
+                setProposals([]);
+                setAdmins([]);
+                setAuditLogs([]);
+                setKycReviews([]);
+            } catch (error) {
+                console.error("Failed to fetch admin data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (connected && publicKey) {
+            fetchData();
+        } else {
+            setLoading(false);
+        }
+    }, [connected, publicKey, program]);
 
     // Check if user is authorized - MUST check wallet address directly
     const walletAddress = publicKey?.toBase58() || "";
@@ -208,8 +202,8 @@ function SuperAdminDashboardContent() {
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     {[
-                        { label: "Pending Proposals", value: MOCK_PROPOSALS.filter(p => !p.executed && !p.cancelled).length.toString(), icon: "📋", color: "text-yellow-400" },
-                        { label: "Active Admins", value: MOCK_ADMINS.length.toString(), icon: "👥", color: "text-blue-400" },
+                        { label: "Pending Proposals", value: proposals.filter(p => !p.executed && !p.cancelled).length.toString(), icon: "📋", color: "text-yellow-400" },
+                        { label: "Active Admins", value: admins.length.toString(), icon: "👥", color: "text-blue-400" },
                         { label: "System Status", value: "Online", icon: "🟢", color: "text-emerald-400" },
                         { label: "Audit Logs", value: "128", icon: "📜", color: "text-purple-400" },
                     ].map((stat) => (
@@ -254,11 +248,11 @@ function SuperAdminDashboardContent() {
                         <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
                             <h2 className="text-xl font-semibold text-white">Active Proposals</h2>
                             <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-sm font-medium">
-                                {MOCK_PROPOSALS.filter(p => !p.executed && !p.cancelled).length} pending
+                                {proposals.filter(p => !p.executed && !p.cancelled).length} pending
                             </span>
                         </div>
 
-                        {MOCK_PROPOSALS.length === 0 ? (
+                        {proposals.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="text-4xl mb-4">📋</div>
                                 <h3 className="text-lg font-semibold text-white mb-2">No Active Proposals</h3>
@@ -266,7 +260,7 @@ function SuperAdminDashboardContent() {
                             </div>
                         ) : (
                             <div className="divide-y divide-gray-700/50">
-                                {MOCK_PROPOSALS.map((proposal) => {
+                                {proposals.map((proposal) => {
                                     const typeInfo = PROPOSAL_TYPE_LABELS[proposal.type];
                                     const approvalProgress = (proposal.approvals.length / proposal.requiredApprovals) * 100;
 
@@ -362,7 +356,7 @@ function SuperAdminDashboardContent() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-700/50">
-                                    {MOCK_ADMINS.map((admin) => (
+                                    {admins.map((admin) => (
                                         <tr key={admin.pubkey} className="hover:bg-gray-700/20">
                                             <td className="p-4">
                                                 <div className="flex items-center space-x-3">
@@ -413,7 +407,7 @@ function SuperAdminDashboardContent() {
                         </div>
 
                         <div className="divide-y divide-gray-700/50">
-                            {MOCK_AUDIT_LOGS.map((log, i) => (
+                            {auditLogs.map((log, i) => (
                                 <div key={i} className="p-4 hover:bg-gray-700/20 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-4">
@@ -447,11 +441,11 @@ function SuperAdminDashboardContent() {
                                 <p className="text-gray-400 text-sm mt-1">Review and approve Level 2 KYC verification requests</p>
                             </div>
                             <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-sm font-medium">
-                                {MOCK_KYC_REVIEWS.length} pending
+                                {kycReviews.length} pending
                             </span>
                         </div>
 
-                        {MOCK_KYC_REVIEWS.length === 0 ? (
+                        {kycReviews.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="text-4xl mb-4">✅</div>
                                 <h3 className="text-lg font-medium text-white mb-2">No Pending Reviews</h3>
@@ -459,7 +453,7 @@ function SuperAdminDashboardContent() {
                             </div>
                         ) : (
                             <div className="divide-y divide-gray-700/50">
-                                {MOCK_KYC_REVIEWS.map((review) => (
+                                {kycReviews.map((review) => (
                                     <div key={review.id} className="p-6">
                                         <div className="flex items-start justify-between mb-4">
                                             <div className="flex items-center space-x-4">

@@ -28,50 +28,6 @@ interface ActivityItem {
     amount?: number;
 }
 
-const MOCK_PROJECTS: Project[] = [
-    {
-        id: "1",
-        projectId: "ICM-MH-2024-001",
-        name: "Mangrove Restoration Mumbai",
-        status: "verified",
-        sector: "blueCarbon",
-        location: "Maharashtra, IN",
-        claimedTons: 1500,
-        issuedCredits: 1200,
-        submittedAt: "2024-10-15",
-        verifiedAt: "2024-12-20",
-    },
-    {
-        id: "2",
-        projectId: "ICM-KA-2024-002",
-        name: "Seagrass Meadow Karnataka",
-        status: "pending",
-        sector: "blueCarbon",
-        location: "Karnataka, IN",
-        claimedTons: 800,
-        issuedCredits: 0,
-        submittedAt: "2024-12-22",
-    },
-    {
-        id: "3",
-        projectId: "ICM-GO-2023-005",
-        name: "Solar Farm Initiative",
-        status: "draft",
-        sector: "renewableEnergy",
-        location: "Goa, IN",
-        claimedTons: 2000,
-        issuedCredits: 0,
-        submittedAt: "2024-12-01",
-    },
-];
-
-const MOCK_ACTIVITY: ActivityItem[] = [
-    { id: "1", type: "transfer", description: "Received 100 ICM from 7def...uvw", time: "2 hours ago", amount: 100 },
-    { id: "2", type: "verification", description: "Project ICM-KA-2024-002 submitted for verification", time: "1 day ago" },
-    { id: "3", type: "listing", description: "Listed 200 credits on marketplace at $12.50/credit", time: "3 days ago", amount: 200 },
-    { id: "4", type: "mint", description: "Minted 500 credits from ICM-MH-2024-001", time: "1 week ago", amount: 500 },
-];
-
 const STATUS_CONFIG = {
     draft: { label: "Draft", color: "bg-gray-500/10 text-gray-400", icon: "📝" },
     pending: { label: "Pending Verification", color: "bg-yellow-500/10 text-yellow-400", icon: "⏳" },
@@ -100,10 +56,38 @@ function DeveloperDashboardContent() {
     const { program } = useProgram();
     const { role, isRegistered, setRole, setIsRegistered, setPermissions } = useWalletStore();
 
-    const [projects, setProjects] = useState<Project[]>(MOCK_PROJECTS);
-    const [activity, setActivity] = useState<ActivityItem[]>(MOCK_ACTIVITY);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [activity, setActivity] = useState<ActivityItem[]>([]);
     const [registering, setRegistering] = useState(false);
     const [checkingRegistration, setCheckingRegistration] = useState(true);
+    const [loadingProjects, setLoadingProjects] = useState(true);
+
+    // Fetch user's projects from on-chain (placeholder for real implementation)
+    useEffect(() => {
+        const fetchProjects = async () => {
+            if (!publicKey || !program) {
+                setLoadingProjects(false);
+                return;
+            }
+
+            try {
+                // TODO: Implement actual on-chain project fetching
+                // const userProjects = await program.account.project.all([
+                //     { memcmp: { offset: 8, bytes: publicKey.toBase58() } }
+                // ]);
+                // setProjects(userProjects.map(...));
+
+                setProjects([]);
+                setActivity([]);
+            } catch (error) {
+                console.error("Failed to fetch projects:", error);
+            } finally {
+                setLoadingProjects(false);
+            }
+        };
+
+        fetchProjects();
+    }, [publicKey, program]);
 
     // Calculate stats
     const stats = {

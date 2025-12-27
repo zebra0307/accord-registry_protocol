@@ -32,75 +32,7 @@ interface CompletedVerification {
     status: "approved" | "rejected";
 }
 
-const MOCK_PENDING: PendingProject[] = [
-    {
-        id: "1",
-        projectId: "ICM-KA-2024-002",
-        name: "Seagrass Meadow Karnataka",
-        developer: "5abc...xyz",
-        claimedTons: 800,
-        escrowAmount: 0.5,
-        submittedAt: "2024-12-25",
-        sector: "blueCarbon",
-        location: "Karnataka, IN",
-        depinData: { satellite: true, iot: true, drone: true },
-    },
-    {
-        id: "2",
-        projectId: "ICM-TN-2024-003",
-        name: "Mangrove Buffer Zone Chennai",
-        developer: "7def...uvw",
-        claimedTons: 1200,
-        escrowAmount: 0.75,
-        submittedAt: "2024-12-24",
-        sector: "blueCarbon",
-        location: "Tamil Nadu, IN",
-        depinData: { satellite: true, iot: false, drone: true },
-    },
-    {
-        id: "3",
-        projectId: "ICM-GO-2024-004",
-        name: "Wetland Restoration Goa",
-        developer: "9ghi...rst",
-        claimedTons: 500,
-        escrowAmount: 0.3,
-        submittedAt: "2024-12-23",
-        sector: "wetlands",
-        location: "Goa, IN",
-        depinData: { satellite: true, iot: true, drone: false },
-    },
-];
-
-const MOCK_COMPLETED: CompletedVerification[] = [
-    {
-        id: "1",
-        projectId: "ICM-MH-2024-001",
-        name: "Mangrove Restoration Mumbai",
-        verifiedTons: 1500,
-        fee: 0.15,
-        completedAt: "2024-12-20",
-        status: "approved",
-    },
-    {
-        id: "2",
-        projectId: "ICM-KL-2024-001",
-        name: "Backwater Protection Kerala",
-        verifiedTons: 950,
-        fee: 0.095,
-        completedAt: "2024-12-18",
-        status: "approved",
-    },
-    {
-        id: "3",
-        projectId: "ICM-AN-2024-001",
-        name: "Coral Reef Project",
-        verifiedTons: 0,
-        fee: 0,
-        completedAt: "2024-12-15",
-        status: "rejected",
-    },
-];
-
+// Sector icons configuration
 const SECTOR_ICONS: Record<string, string> = {
     blueCarbon: "🌊",
     wetlands: "🏞️",
@@ -116,12 +48,36 @@ function ValidatorDashboardContent() {
     const [selectedProject, setSelectedProject] = useState<PendingProject | null>(null);
     const [verificationNotes, setVerificationNotes] = useState("");
     const [calculatedTons, setCalculatedTons] = useState<number | null>(null);
+    const [pendingProjects, setPendingProjects] = useState<PendingProject[]>([]);
+    const [completedVerifications, setCompletedVerifications] = useState<CompletedVerification[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch validator data from on-chain
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // TODO: Implement actual on-chain data fetching
+                setPendingProjects([]);
+                setCompletedVerifications([]);
+            } catch (error) {
+                console.error("Failed to fetch validator data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (connected) {
+            fetchData();
+        } else {
+            setLoading(false);
+        }
+    }, [connected]);
 
     const stats = {
-        verifiedProjects: 15,
-        pendingQueue: MOCK_PENDING.length,
-        totalEarnings: 2.5,
-        stakedAmount: 10,
+        verifiedProjects: completedVerifications.filter(v => v.status === "approved").length,
+        pendingQueue: pendingProjects.length,
+        totalEarnings: completedVerifications.reduce((sum, v) => sum + v.fee, 0),
+        stakedAmount: 0,
     };
 
     const isAuthorized = role === "validator" || role === "superAdmin";
@@ -227,16 +183,16 @@ function ValidatorDashboardContent() {
                 {/* Tabs */}
                 <div className="flex space-x-2 mb-6">
                     {[
-                        { id: "pending", label: "Pending Verifications", count: MOCK_PENDING.length },
-                        { id: "completed", label: "Completed", count: MOCK_COMPLETED.length },
+                        { id: "pending", label: "Pending Verifications", count: pendingProjects.length },
+                        { id: "completed", label: "Completed", count: completedVerifications.length },
                         { id: "tools", label: "Validator Tools" },
                     ].map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors ${activeTab === tab.id
-                                    ? "bg-blue-500/10 text-blue-400 border border-blue-500/30"
-                                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                                ? "bg-blue-500/10 text-blue-400 border border-blue-500/30"
+                                : "text-gray-400 hover:text-white hover:bg-gray-800"
                                 }`}
                         >
                             {tab.label}
@@ -252,7 +208,7 @@ function ValidatorDashboardContent() {
                 {/* Pending Verifications Tab */}
                 {activeTab === "pending" && (
                     <div className="space-y-4">
-                        {MOCK_PENDING.map((project) => (
+                        {pendingProjects.map((project) => (
                             <div
                                 key={project.id}
                                 className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-colors"
@@ -332,7 +288,7 @@ function ValidatorDashboardContent() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-700/50">
-                                {MOCK_COMPLETED.map((item) => (
+                                {completedVerifications.map((item) => (
                                     <tr key={item.id} className="hover:bg-gray-700/20">
                                         <td className="p-4">
                                             <div className="font-medium text-white">{item.name}</div>
@@ -343,8 +299,8 @@ function ValidatorDashboardContent() {
                                         <td className="p-4 text-gray-400">{item.completedAt}</td>
                                         <td className="p-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.status === "approved"
-                                                    ? "bg-emerald-500/10 text-emerald-400"
-                                                    : "bg-red-500/10 text-red-400"
+                                                ? "bg-emerald-500/10 text-emerald-400"
+                                                : "bg-red-500/10 text-red-400"
                                                 }`}>
                                                 {item.status === "approved" ? "Approved" : "Rejected"}
                                             </span>

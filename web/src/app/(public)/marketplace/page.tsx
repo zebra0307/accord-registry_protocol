@@ -4,48 +4,19 @@ import { useState, useEffect } from "react";
 import { useConnection } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 
-// Mock data for demonstration
-const MOCK_LISTINGS = [
-    {
-        id: "1",
-        projectId: "ICM-MH-2024-001",
-        seller: "5abc...xyz",
-        sector: "blueCarbon",
-        vintageYear: 2024,
-        quantityAvailable: 500,
-        pricePerTon: 15,
-        qualityRating: 4,
-        countryCode: "IN",
-        regionName: "Maharashtra",
-        coBenefits: ["biodiversityConservation", "communityLivelihoods"],
-    },
-    {
-        id: "2",
-        projectId: "ICM-KA-2024-002",
-        seller: "7def...uvw",
-        sector: "forestry",
-        vintageYear: 2024,
-        quantityAvailable: 1200,
-        pricePerTon: 12,
-        qualityRating: 5,
-        countryCode: "IN",
-        regionName: "Karnataka",
-        coBenefits: ["coastalProtection", "waterQuality"],
-    },
-    {
-        id: "3",
-        projectId: "ICM-GO-2023-005",
-        seller: "9ghi...rst",
-        sector: "renewableEnergy",
-        vintageYear: 2023,
-        quantityAvailable: 800,
-        pricePerTon: 18,
-        qualityRating: 4,
-        countryCode: "IN",
-        regionName: "Goa",
-        coBenefits: ["energySecurity"],
-    },
-];
+interface Listing {
+    id: string;
+    projectId: string;
+    seller: string;
+    sector: string;
+    vintageYear: number;
+    quantityAvailable: number;
+    pricePerTon: number;
+    qualityRating: number;
+    countryCode: string;
+    regionName: string;
+    coBenefits: string[];
+}
 
 const SECTORS = [
     { id: "all", label: "All Sectors" },
@@ -67,12 +38,31 @@ const SECTOR_ICONS: Record<string, string> = {
 };
 
 export default function MarketplacePage() {
-    const [listings, setListings] = useState(MOCK_LISTINGS);
-    const [filteredListings, setFilteredListings] = useState(MOCK_LISTINGS);
+    const [listings, setListings] = useState<Listing[]>([]);
+    const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
     const [selectedSector, setSelectedSector] = useState("all");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sortBy, setSortBy] = useState("priceAsc");
+    const [loading, setLoading] = useState(true);
+
+    // Fetch listings from on-chain
+    useEffect(() => {
+        const fetchListings = async () => {
+            try {
+                // TODO: Implement actual on-chain listing fetching
+                // const onChainListings = await program.account.carbonCreditListing.all();
+                setListings([]);
+                setFilteredListings([]);
+            } catch (error) {
+                console.error("Failed to fetch listings:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchListings();
+    }, []);
 
     // Apply filters
     useEffect(() => {

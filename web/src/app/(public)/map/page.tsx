@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 // Mock project locations
-const MOCK_PROJECTS = [
+const projects = [
     {
         id: "ICM-MH-2024-001",
         name: "Mangrove Restoration Mumbai",
@@ -66,7 +66,7 @@ const SECTOR_ICONS: Record<string, string> = {
 };
 
 export default function MapPage() {
-    const [selectedProject, setSelectedProject] = useState<typeof MOCK_PROJECTS[0] | null>(null);
+    const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
     const [mapView, setMapView] = useState<"satellite" | "terrain">("satellite");
 
     // Calculate map bounds for India
@@ -135,7 +135,7 @@ export default function MapPage() {
                                 </svg>
 
                                 {/* Project Markers */}
-                                {MOCK_PROJECTS.map((project, index) => {
+                                {projects.map((project, index) => {
                                     // Calculate position on the placeholder map (normalized)
                                     const x = ((project.lng - 70) / 20) * 100; // 70-90 range for India
                                     const y = ((25 - project.lat) / 15) * 100; // 10-25 range for India
@@ -270,10 +270,10 @@ export default function MapPage() {
                         {/* Project List */}
                         <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
                             <div className="p-4 border-b border-gray-700/50">
-                                <h3 className="font-semibold text-white">All Projects ({MOCK_PROJECTS.length})</h3>
+                                <h3 className="font-semibold text-white">All Projects ({projects.length})</h3>
                             </div>
                             <div className="max-h-80 overflow-y-auto divide-y divide-gray-700/50">
-                                {MOCK_PROJECTS.map((project) => (
+                                {projects.map((project) => (
                                     <button
                                         key={project.id}
                                         onClick={() => setSelectedProject(project)}
@@ -297,12 +297,12 @@ export default function MapPage() {
                         {/* Stats */}
                         <div className="mt-6 grid grid-cols-2 gap-4">
                             <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                                <div className="text-2xl font-bold text-white">{MOCK_PROJECTS.length}</div>
+                                <div className="text-2xl font-bold text-white">{projects.length}</div>
                                 <div className="text-xs text-gray-400">Total Projects</div>
                             </div>
                             <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
                                 <div className="text-2xl font-bold text-emerald-400">
-                                    {MOCK_PROJECTS.reduce((sum, p) => sum + p.carbonTons, 0).toLocaleString()}
+                                    {projects.reduce((sum, p) => sum + p.carbonTons, 0).toLocaleString()}
                                 </div>
                                 <div className="text-xs text-gray-400">Total Tons</div>
                             </div>

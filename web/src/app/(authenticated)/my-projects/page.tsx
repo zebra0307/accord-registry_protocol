@@ -17,7 +17,7 @@ interface Project {
 }
 
 // Mock data - will be replaced with real on-chain data
-const MOCK_PROJECTS: Project[] = [
+const projects: Project[] = [
     {
         id: "1",
         projectId: "ICM-MH-2024-001",
@@ -80,7 +80,7 @@ function MyProjectsContent() {
         const loadProjects = async () => {
             // In a real app, fetch from on-chain
             await new Promise(resolve => setTimeout(resolve, 500));
-            setProjects(MOCK_PROJECTS);
+            setProjects(projects);
             setLoading(false);
         };
 

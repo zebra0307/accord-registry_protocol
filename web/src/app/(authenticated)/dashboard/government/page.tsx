@@ -32,7 +32,7 @@ interface IssuedLoA {
     status: "active" | "expired" | "revoked";
 }
 
-const MOCK_PENDING_LOA: PendingLoA[] = [
+const pendingLoAs: PendingLoA[] = [
     {
         id: "1",
         projectId: "ICM-MH-2024-001",
@@ -59,7 +59,7 @@ const MOCK_PENDING_LOA: PendingLoA[] = [
     },
 ];
 
-const MOCK_ISSUED: IssuedLoA[] = [
+const issuedLoAs: IssuedLoA[] = [
     {
         id: "1",
         projectId: "ICM-KL-2023-001",
@@ -99,7 +99,7 @@ function GovernmentDashboardContent() {
 
     const stats = {
         loasIssued: 45,
-        pendingRequests: MOCK_PENDING_LOA.length,
+        pendingRequests: pendingLoAs.length,
         creditsExported: 50000,
         exportLimit: 100000,
         ndcProgress: 45,
@@ -206,8 +206,8 @@ function GovernmentDashboardContent() {
                 {/* Tabs */}
                 <div className="flex space-x-2 mb-6 overflow-x-auto">
                     {[
-                        { id: "pending", label: "Pending LoA", count: MOCK_PENDING_LOA.length },
-                        { id: "issued", label: "Issued LoAs", count: MOCK_ISSUED.length },
+                        { id: "pending", label: "Pending LoA", count: pendingLoAs.length },
+                        { id: "issued", label: "Issued LoAs", count: issuedLoAs.length },
                         { id: "compliance", label: "Article 6 Compliance" },
                         { id: "policy", label: "Policy Settings" },
                     ].map((tab) => (
@@ -232,7 +232,7 @@ function GovernmentDashboardContent() {
                 {/* Pending LoA Tab */}
                 {activeTab === "pending" && (
                     <div className="space-y-4">
-                        {MOCK_PENDING_LOA.map((loa) => (
+                        {pendingLoAs.map((loa) => (
                             <div
                                 key={loa.id}
                                 className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-colors"
@@ -310,7 +310,7 @@ function GovernmentDashboardContent() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-700/50">
-                                {MOCK_ISSUED.map((loa) => (
+                                {issuedLoAs.map((loa) => (
                                     <tr key={loa.id} className="hover:bg-gray-700/20">
                                         <td className="p-4">
                                             <div className="font-medium text-white">{loa.name}</div>

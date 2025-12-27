@@ -5,58 +5,18 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletStore, isSuperAdminWallet } from "@/stores/useWalletStore";
 import Link from "next/link";
 
-// Mock users data
-const MOCK_USERS = [
-    {
-        pubkey: "5abc123xyz...",
-        role: "user",
-        kycStatus: "verified",
-        kycLevel: 2,
-        createdAt: "2024-01-15",
-        projectCount: 3,
-        creditsHeld: 2500,
-        isActive: true,
-    },
-    {
-        pubkey: "7def456uvw...",
-        role: "validator",
-        kycStatus: "verified",
-        kycLevel: 2,
-        createdAt: "2024-02-20",
-        projectCount: 0,
-        verificationsCompleted: 15,
-        isActive: true,
-    },
-    {
-        pubkey: "9ghi789rst...",
-        role: "government",
-        kycStatus: "verified",
-        kycLevel: 2,
-        createdAt: "2024-03-01",
-        loaIssued: 8,
-        isActive: true,
-    },
-    {
-        pubkey: "2jkl012mno...",
-        role: "user",
-        kycStatus: "pending",
-        kycLevel: 1,
-        createdAt: "2024-12-20",
-        projectCount: 0,
-        creditsHeld: 0,
-        isActive: true,
-    },
-    {
-        pubkey: "4pqr345stu...",
-        role: "user",
-        kycStatus: "none",
-        kycLevel: 0,
-        createdAt: "2024-12-25",
-        projectCount: 0,
-        creditsHeld: 0,
-        isActive: true,
-    },
-];
+interface User {
+    pubkey: string;
+    role: string;
+    kycStatus: string;
+    kycLevel: number;
+    createdAt: string;
+    projectCount?: number;
+    creditsHeld?: number;
+    verificationsCompleted?: number;
+    loaIssued?: number;
+    isActive: boolean;
+}
 
 const ROLE_OPTIONS = [
     { id: "user", label: "User (Developer)", description: "Can register projects, trade credits", color: "text-gray-400" },
@@ -89,14 +49,35 @@ function UserManagementContent() {
     const { connected, publicKey } = useWallet();
     const { role } = useWalletStore();
 
-    const [users, setUsers] = useState(MOCK_USERS);
+    const [users, setUsers] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [roleFilter, setRoleFilter] = useState("all");
     const [kycFilter, setKycFilter] = useState("all");
-    const [selectedUser, setSelectedUser] = useState<typeof MOCK_USERS[0] | null>(null);
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [showAssignModal, setShowAssignModal] = useState(false);
     const [newRole, setNewRole] = useState("");
     const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
+
+    // Fetch users from on-chain
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                // TODO: Implement actual on-chain user fetching
+                setUsers([]);
+            } catch (error) {
+                console.error("Failed to fetch users:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (connected) {
+            fetchUsers();
+        } else {
+            setLoading(false);
+        }
+    }, [connected]);
 
     // Check authorization by wallet address directly
     const walletAddress = publicKey?.toBase58() || "";
