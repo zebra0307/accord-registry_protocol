@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useConnection } from "@solana/wallet-adapter-react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useAllListings, useAllProjects } from "@/hooks/useOnChainData";
+import { formatAddress } from "@/lib/data/onchain";
 
 interface Listing {
     id: string;
@@ -38,34 +39,53 @@ const SECTOR_ICONS: Record<string, string> = {
 };
 
 export default function MarketplacePage() {
-    const [listings, setListings] = useState<Listing[]>([]);
-    const [filteredListings, setFilteredListings] = useState<Listing[]>([]);
     const [selectedSector, setSelectedSector] = useState("all");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sortBy, setSortBy] = useState("priceAsc");
-    const [loading, setLoading] = useState(true);
 
-    // Fetch listings from on-chain
-    useEffect(() => {
-        const fetchListings = async () => {
-            try {
-                // TODO: Implement actual on-chain listing fetching
-                // const onChainListings = await program.account.carbonCreditListing.all();
-                setListings([]);
-                setFilteredListings([]);
-            } catch (error) {
-                console.error("Failed to fetch listings:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Fetch listings and projects from on-chain
+    const { data: onChainListings, isLoading: loading } = useAllListings();
+    const { data: onChainProjects } = useAllProjects();
 
-        fetchListings();
-    }, []);
+    // Build a project lookup map for getting sector info
+    const projectMap = useMemo(() => {
+        const map = new Map<string, { sector: string; regionName: string; countryCode: string }>();
+        onChainProjects?.forEach(p => {
+            map.set(p.projectId, {
+                sector: p.projectSector,
+                regionName: p.location.regionName,
+                countryCode: p.location.countryCode,
+            });
+        });
+        return map;
+    }, [onChainProjects]);
 
-    // Apply filters
-    useEffect(() => {
+    // Transform on-chain listings to UI format
+    const listings = useMemo<Listing[]>(() => {
+        if (!onChainListings) return [];
+
+        return onChainListings.map((l) => {
+            const project = projectMap.get(l.projectId);
+            return {
+                id: l.publicKey.toString(),
+                projectId: l.projectId,
+                seller: formatAddress(l.seller),
+                sector: project?.sector || "unknown",
+                vintageYear: l.vintageYear,
+                quantityAvailable: l.quantityAvailable,
+                pricePerTon: l.pricePerTon / 1_000_000, // Convert from micro-tokens
+                qualityRating: l.qualityRating,
+                countryCode: project?.countryCode || "",
+                regionName: project?.regionName || "",
+                coBenefits: l.coBenefits,
+            };
+        });
+    }, [onChainListings, projectMap]);
+
+
+    // Apply filters using useMemo (more efficient than useEffect+state)
+    const filteredListings = useMemo(() => {
         let filtered = [...listings];
 
         // Sector filter
@@ -97,8 +117,9 @@ export default function MarketplacePage() {
                 break;
         }
 
-        setFilteredListings(filtered);
+        return filtered;
     }, [listings, selectedSector, minPrice, maxPrice, sortBy]);
+
 
     return (
         <div className="min-h-screen py-12">

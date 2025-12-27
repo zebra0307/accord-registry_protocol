@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useAllProjects } from "@/hooks/useOnChainData";
+import { formatAddress } from "@/lib/data/onchain";
 
 interface Project {
     id: string;
@@ -34,27 +36,32 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function ExplorePage() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("all");
 
-    // Fetch projects from on-chain
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                // TODO: Implement actual on-chain project fetching
-                // const onChainProjects = await program.account.project.all();
-                setProjects([]);
-            } catch (error) {
-                console.error("Failed to fetch projects:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Fetch all projects from on-chain
+    const { data: onChainProjects, isLoading: loading, error } = useAllProjects();
 
-        fetchProjects();
-    }, []);
+    // Transform on-chain data to UI format
+    const projects = useMemo<Project[]>(() => {
+        if (!onChainProjects) return [];
+
+        return onChainProjects.map((p) => ({
+            id: p.projectId,
+            name: p.projectId,
+            sector: p.projectSector,
+            status: p.verificationStatus,
+            carbonTons: p.carbonTonsEstimated,
+            creditsIssued: p.creditsIssued,
+            location: {
+                regionName: p.location.regionName,
+                countryCode: p.location.countryCode,
+            },
+            owner: formatAddress(p.owner),
+            qualityRating: p.qualityRating,
+            vintageYear: p.vintageYear,
+        }));
+    }, [onChainProjects]);
 
     const filteredProjects = projects.filter((project) => {
         const matchesSearch =
@@ -64,12 +71,12 @@ export default function ExplorePage() {
         return matchesSearch && matchesStatus;
     });
 
-    const stats = {
+    const stats = useMemo(() => ({
         totalProjects: projects.length,
         verifiedProjects: projects.filter(p => p.status === "verified").length,
         creditsIssued: projects.reduce((sum, p) => sum + p.creditsIssued, 0),
-        countries: new Set(projects.map(p => p.location.countryCode)).size || 0,
-    };
+        countries: new Set(projects.map(p => p.location.countryCode).filter(Boolean)).size || 0,
+    }), [projects]);
 
     return (
         <div className="min-h-screen py-12">

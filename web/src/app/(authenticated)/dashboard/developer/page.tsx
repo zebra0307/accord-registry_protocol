@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import { useWalletStore, isSuperAdminWallet } from "@/stores/useWalletStore";
 import Link from "next/link";
 import { PublicKey } from "@solana/web3.js";
+import { useMyProjects } from "@/hooks/useOnChainData";
+import { lamportsToSol } from "@/lib/data/onchain";
 
 interface Project {
     id: string;
@@ -31,6 +33,8 @@ interface ActivityItem {
 const STATUS_CONFIG = {
     draft: { label: "Draft", color: "bg-gray-500/10 text-gray-400", icon: "📝" },
     pending: { label: "Pending Verification", color: "bg-yellow-500/10 text-yellow-400", icon: "⏳" },
+    awaitingAudit: { label: "Awaiting Audit", color: "bg-yellow-500/10 text-yellow-400", icon: "⏳" },
+    underReview: { label: "Under Review", color: "bg-blue-500/10 text-blue-400", icon: "🔍" },
     verified: { label: "Verified", color: "bg-emerald-500/10 text-emerald-400", icon: "✅" },
     loa_issued: { label: "LoA Issued", color: "bg-purple-500/10 text-purple-400", icon: "📜" },
     rejected: { label: "Rejected", color: "bg-red-500/10 text-red-400", icon: "❌" },
@@ -41,6 +45,9 @@ const SECTOR_ICONS: Record<string, string> = {
     forestry: "🌲",
     renewableEnergy: "⚡",
     wetlands: "🏞️",
+    wasteManagement: "♻️",
+    agriculture: "🌾",
+    industrial: "🏭",
 };
 
 const ACTIVITY_ICONS: Record<string, string> = {
@@ -56,46 +63,50 @@ function DeveloperDashboardContent() {
     const { program } = useProgram();
     const { role, isRegistered, setRole, setIsRegistered, setPermissions } = useWalletStore();
 
-    const [projects, setProjects] = useState<Project[]>([]);
+    // Fetch user's projects from on-chain using TanStack Query
+    const { data: onChainProjects, isLoading: loadingProjects, error: projectsError } = useMyProjects();
+
     const [activity, setActivity] = useState<ActivityItem[]>([]);
     const [registering, setRegistering] = useState(false);
     const [checkingRegistration, setCheckingRegistration] = useState(true);
-    const [loadingProjects, setLoadingProjects] = useState(true);
 
-    // Fetch user's projects from on-chain (placeholder for real implementation)
-    useEffect(() => {
-        const fetchProjects = async () => {
-            if (!publicKey || !program) {
-                setLoadingProjects(false);
-                return;
+    // Transform on-chain projects to UI format
+    const projects = useMemo<Project[]>(() => {
+        if (!onChainProjects) return [];
+
+        return onChainProjects.map((p) => {
+            // Map verification status to UI status
+            let status: Project["status"] = "draft";
+            if (p.verificationStatus === "verified") {
+                status = p.compliance.loaIssued ? "loa_issued" : "verified";
+            } else if (p.verificationStatus === "pending" || p.verificationStatus === "awaitingAudit") {
+                status = "pending";
+            } else if (p.verificationStatus === "rejected") {
+                status = "rejected";
             }
 
-            try {
-                // TODO: Implement actual on-chain project fetching
-                // const userProjects = await program.account.project.all([
-                //     { memcmp: { offset: 8, bytes: publicKey.toBase58() } }
-                // ]);
-                // setProjects(userProjects.map(...));
+            return {
+                id: p.publicKey.toString(),
+                projectId: p.projectId,
+                name: p.projectId, // Projects use projectId as name
+                status,
+                sector: p.projectSector,
+                location: `${p.location.regionName}, ${p.location.countryCode}`,
+                claimedTons: p.carbonTonsEstimated,
+                issuedCredits: p.creditsIssued,
+                submittedAt: new Date(p.establishmentDate * 1000).toISOString().split("T")[0],
+                verifiedAt: p.verificationStatus === "verified" ? new Date().toISOString().split("T")[0] : undefined,
+            };
+        });
+    }, [onChainProjects]);
 
-                setProjects([]);
-                setActivity([]);
-            } catch (error) {
-                console.error("Failed to fetch projects:", error);
-            } finally {
-                setLoadingProjects(false);
-            }
-        };
-
-        fetchProjects();
-    }, [publicKey, program]);
-
-    // Calculate stats
-    const stats = {
+    // Calculate stats from real data
+    const stats = useMemo(() => ({
         totalProjects: projects.length,
         creditsIssued: projects.reduce((sum, p) => sum + p.issuedCredits, 0),
         pendingVerification: projects.filter(p => p.status === "pending").length,
-        escrowLocked: 1.5,
-    };
+        escrowLocked: onChainProjects?.reduce((sum, p) => sum + lamportsToSol(p.auditEscrowBalance), 0) || 0,
+    }), [projects, onChainProjects]);
 
     // Check registration and handle superadmin
     useEffect(() => {
