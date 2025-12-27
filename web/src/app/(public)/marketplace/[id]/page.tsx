@@ -86,8 +86,8 @@ export default function ListingDetailPage() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔍</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Listing Not Found</h2>
-                    <p className="text-gray-400 mb-6">The listing you're looking for doesn't exist.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Listing Not Found</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">The listing you're looking for doesn't exist.</p>
                     <Link
                         href="/marketplace"
                         className="px-6 py-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 font-medium hover:bg-emerald-500/20"
@@ -129,51 +129,51 @@ export default function ListingDetailPage() {
                     {/* Listing Details */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Header */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-8">
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-8">
                             <div className="flex items-start justify-between mb-6">
                                 <div className="flex items-center space-x-4">
-                                    <div className="w-16 h-16 bg-gray-700/50 rounded-xl flex items-center justify-center text-4xl">
+                                    <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700/50 rounded-xl flex items-center justify-center text-4xl">
                                         {SECTOR_ICONS[listing.sector]}
                                     </div>
                                     <div>
                                         <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-xs font-medium">
                                             {listing.sector.replace(/([A-Z])/g, " $1").trim()}
                                         </span>
-                                        <h1 className="text-2xl font-bold text-white mt-2">{listing.projectName}</h1>
-                                        <p className="text-gray-400">{listing.projectId}</p>
+                                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mt-2">{listing.projectName}</h1>
+                                        <p className="text-gray-600 dark:text-gray-400">{listing.projectId}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-1 text-yellow-400">
                                     {"★".repeat(Math.floor(listing.qualityRating))}
-                                    <span className="text-white ml-2">{listing.qualityRating}</span>
+                                    <span className="text-gray-900 dark:text-white ml-2">{listing.qualityRating}</span>
                                 </div>
                             </div>
 
                             <p className="text-gray-300 mb-6">{listing.description}</p>
 
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div className="p-4 bg-gray-900/50 rounded-xl text-center">
-                                    <div className="text-gray-400 text-sm">Price/Credit</div>
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl text-center">
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">Price/Credit</div>
                                     <div className="text-xl font-bold text-emerald-400">${listing.pricePerTon}</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-xl text-center">
-                                    <div className="text-gray-400 text-sm">Available</div>
-                                    <div className="text-xl font-bold text-white">{listing.quantity}</div>
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl text-center">
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">Available</div>
+                                    <div className="text-xl font-bold text-gray-900 dark:text-white">{listing.quantity}</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-xl text-center">
-                                    <div className="text-gray-400 text-sm">Vintage</div>
-                                    <div className="text-xl font-bold text-white">{listing.vintage}</div>
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl text-center">
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">Vintage</div>
+                                    <div className="text-xl font-bold text-gray-900 dark:text-white">{listing.vintage}</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-xl text-center">
-                                    <div className="text-gray-400 text-sm">Location</div>
-                                    <div className="text-xl font-bold text-white">📍 {listing.location.split(",")[0]}</div>
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl text-center">
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">Location</div>
+                                    <div className="text-xl font-bold text-gray-900 dark:text-white">📍 {listing.location.split(",")[0]}</div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Co-Benefits */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h2 className="font-semibold text-white mb-4">Co-Benefits & SDG Contributions</h2>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Co-Benefits & SDG Contributions</h2>
                             <div className="flex flex-wrap gap-3">
                                 {listing.coBenefits.map((benefit) => (
                                     <span
@@ -187,16 +187,16 @@ export default function ListingDetailPage() {
                         </div>
 
                         {/* Project Link */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h2 className="font-semibold text-white mb-4">Project Information</h2>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Project Information</h2>
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-gray-400 text-sm">Seller</p>
-                                    <p className="text-white font-mono">{listing.seller}</p>
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm">Seller</p>
+                                    <p className="text-gray-900 dark:text-white font-mono">{listing.seller}</p>
                                 </div>
                                 <Link
                                     href={`/project/${listing.projectId}`}
-                                    className="px-4 py-2 bg-gray-700 rounded-lg text-white text-sm hover:bg-gray-600"
+                                    className="px-4 py-2 bg-gray-700 rounded-lg text-gray-900 dark:text-white text-sm hover:bg-gray-600"
                                 >
                                     View Project Details
                                 </Link>
@@ -206,19 +206,19 @@ export default function ListingDetailPage() {
 
                     {/* Purchase Panel */}
                     <div className="lg:col-span-1">
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 sticky top-24">
-                            <h2 className="text-lg font-semibold text-white mb-6">Purchase Credits</h2>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 sticky top-24">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Purchase Credits</h2>
 
                             {!connected ? (
                                 <div className="text-center py-8">
                                     <div className="text-4xl mb-4">🔒</div>
-                                    <p className="text-gray-400 mb-4">Connect your wallet to purchase</p>
+                                    <p className="text-gray-600 dark:text-gray-400 mb-4">Connect your wallet to purchase</p>
                                 </div>
                             ) : (
                                 <>
                                     {/* Amount Input */}
                                     <div className="mb-6">
-                                        <label className="block text-sm text-gray-400 mb-2">Amount to Purchase</label>
+                                        <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Amount to Purchase</label>
                                         <div className="relative">
                                             <input
                                                 type="number"
@@ -226,7 +226,7 @@ export default function ListingDetailPage() {
                                                 onChange={(e) => setPurchaseAmount(e.target.value)}
                                                 min={1}
                                                 max={listing.quantity}
-                                                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                                                className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                             />
                                             <button
                                                 onClick={() => setPurchaseAmount(listing.quantity.toString())}
@@ -241,15 +241,15 @@ export default function ListingDetailPage() {
                                     {/* Price Breakdown */}
                                     <div className="space-y-3 mb-6">
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-400">Subtotal</span>
-                                            <span className="text-white">${totalPrice.toFixed(2)}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
+                                            <span className="text-gray-900 dark:text-white">${totalPrice.toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-gray-400">Platform Fee (2%)</span>
-                                            <span className="text-white">${platformFee.toFixed(2)}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Platform Fee (2%)</span>
+                                            <span className="text-gray-900 dark:text-white">${platformFee.toFixed(2)}</span>
                                         </div>
-                                        <div className="border-t border-gray-700 pt-3 flex justify-between">
-                                            <span className="text-white font-semibold">Total</span>
+                                        <div className="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between">
+                                            <span className="text-gray-900 dark:text-white font-semibold">Total</span>
                                             <span className="text-2xl font-bold text-emerald-400">${totalCost.toFixed(2)}</span>
                                         </div>
                                     </div>
@@ -258,7 +258,7 @@ export default function ListingDetailPage() {
                                     <button
                                         onClick={handlePurchase}
                                         disabled={isPurchasing || amount <= 0 || amount > listing.quantity}
-                                        className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                                        className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                                     >
                                         {isPurchasing ? "Processing..." : `Buy ${amount} Credits`}
                                     </button>

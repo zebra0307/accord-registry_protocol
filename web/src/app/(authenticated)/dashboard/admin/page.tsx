@@ -113,8 +113,8 @@ function SuperAdminDashboardContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔒</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
-                    <p className="text-gray-400 mb-4">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Access Denied</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
                         You need SuperAdmin privileges to access this dashboard.
                     </p>
                     <p className="text-gray-500 text-sm mb-6">
@@ -122,7 +122,7 @@ function SuperAdminDashboardContent() {
                     </p>
                     <Link
                         href="/dashboard"
-                        className="px-6 py-3 bg-gray-700 rounded-xl text-white font-medium hover:bg-gray-600"
+                        className="px-6 py-3 bg-gray-700 rounded-xl text-gray-900 dark:text-white font-medium hover:bg-gray-600"
                     >
                         Go to Dashboard
                     </Link>
@@ -141,20 +141,20 @@ function SuperAdminDashboardContent() {
                             👑
                         </div>
                         <div>
-                            <h1 className="text-3xl font-bold text-white">SuperAdmin Dashboard</h1>
-                            <p className="text-gray-400">Multi-signature governance & system administration</p>
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">SuperAdmin Dashboard</h1>
+                            <p className="text-gray-600 dark:text-gray-400">Multi-signature governance & system administration</p>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
                         <Link
                             href="/dashboard/admin/users"
-                            className="px-6 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white font-semibold hover:bg-gray-600 transition-colors"
+                            className="px-6 py-3 bg-gray-700 border border-gray-600 rounded-xl text-gray-900 dark:text-white font-semibold hover:bg-gray-600 transition-colors"
                         >
                             👥 Manage Users
                         </Link>
                         <Link
                             href="/dashboard/admin/proposal"
-                            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+                            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90 transition-opacity"
                         >
                             + Create Proposal
                         </Link>
@@ -165,21 +165,21 @@ function SuperAdminDashboardContent() {
                 <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl p-6 mb-8">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-white mb-2">Multi-Signature Status</h2>
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Multi-Signature Status</h2>
                             <div className="flex items-center space-x-6 text-sm">
                                 <div>
-                                    <span className="text-gray-400">Threshold:</span>
-                                    <span className="text-white ml-2 font-medium">{multisigConfig.threshold} of {multisigConfig.adminCount}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Threshold:</span>
+                                    <span className="text-gray-900 dark:text-white ml-2 font-medium">{multisigConfig.threshold} of {multisigConfig.adminCount}</span>
                                 </div>
                                 <div>
-                                    <span className="text-gray-400">Status:</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Status:</span>
                                     <span className={`ml-2 font-medium ${multisigConfig.isEnabled ? "text-emerald-400" : "text-red-400"}`}>
                                         {multisigConfig.isEnabled ? "Enabled" : "Disabled"}
                                     </span>
                                 </div>
                                 <div>
-                                    <span className="text-gray-400">Total Proposals:</span>
-                                    <span className="text-white ml-2 font-medium">{multisigConfig.proposalCount}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Total Proposals:</span>
+                                    <span className="text-gray-900 dark:text-white ml-2 font-medium">{multisigConfig.proposalCount}</span>
                                 </div>
                             </div>
                         </div>
@@ -209,11 +209,11 @@ function SuperAdminDashboardContent() {
                     ].map((stat) => (
                         <div
                             key={stat.label}
-                            className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6"
+                            className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6"
                         >
                             <div className="flex items-center space-x-3 mb-2">
                                 <span className="text-2xl">{stat.icon}</span>
-                                <span className="text-gray-400 text-sm">{stat.label}</span>
+                                <span className="text-gray-600 dark:text-gray-400 text-sm">{stat.label}</span>
                             </div>
                             <div className={`text-3xl font-bold ${stat.color}`}>{stat.value}</div>
                         </div>
@@ -233,7 +233,7 @@ function SuperAdminDashboardContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors flex items-center space-x-2 ${activeTab === tab.id
                                 ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                : "text-gray-400 hover:text-white"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                 }`}
                         >
                             <span>{tab.icon}</span>
@@ -244,9 +244,9 @@ function SuperAdminDashboardContent() {
 
                 {/* Content */}
                 {activeTab === "proposals" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                         <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-white">Active Proposals</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Active Proposals</h2>
                             <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-sm font-medium">
                                 {proposals.filter(p => !p.executed && !p.cancelled).length} pending
                             </span>
@@ -255,30 +255,30 @@ function SuperAdminDashboardContent() {
                         {proposals.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="text-4xl mb-4">📋</div>
-                                <h3 className="text-lg font-semibold text-white mb-2">No Active Proposals</h3>
-                                <p className="text-gray-400">Create a new proposal to get started.</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Active Proposals</h3>
+                                <p className="text-gray-600 dark:text-gray-400">Create a new proposal to get started.</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-gray-700/50">
+                            <div className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {proposals.map((proposal) => {
                                     const typeInfo = PROPOSAL_TYPE_LABELS[proposal.type];
                                     const approvalProgress = (proposal.approvals.length / proposal.requiredApprovals) * 100;
 
                                     return (
-                                        <div key={proposal.id} className="p-6 hover:bg-gray-700/20 transition-colors">
+                                        <div key={proposal.id} className="p-6 hover:bg-gray-200 dark:hover:bg-gray-700/20 transition-colors">
                                             <div className="flex items-start justify-between">
                                                 <div className="flex items-start space-x-4">
-                                                    <div className="w-12 h-12 bg-gray-700/50 rounded-xl flex items-center justify-center text-2xl">
+                                                    <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700/50 rounded-xl flex items-center justify-center text-2xl">
                                                         {typeInfo.icon}
                                                     </div>
                                                     <div>
                                                         <div className="flex items-center space-x-2">
-                                                            <h3 className="text-lg font-semibold text-white">Proposal #{proposal.id}</h3>
-                                                            <span className={`px-2 py-1 rounded text-xs font-medium ${typeInfo.color} bg-gray-700/50`}>
+                                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Proposal #{proposal.id}</h3>
+                                                            <span className={`px-2 py-1 rounded text-xs font-medium ${typeInfo.color} bg-gray-100 dark:bg-gray-700/50`}>
                                                                 {typeInfo.label}
                                                             </span>
                                                         </div>
-                                                        <p className="text-gray-400 text-sm mt-1">{proposal.data}</p>
+                                                        <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{proposal.data}</p>
                                                         <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
                                                             <span>Proposed by {proposal.proposer}</span>
                                                             <span>•</span>
@@ -290,7 +290,7 @@ function SuperAdminDashboardContent() {
                                                 <div className="flex items-center space-x-4">
                                                     {/* Approval Progress */}
                                                     <div className="text-right">
-                                                        <div className="text-sm text-gray-400 mb-1">
+                                                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                                                             {proposal.approvals.length} / {proposal.requiredApprovals} approvals
                                                         </div>
                                                         <div className="w-32 h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -314,8 +314,8 @@ function SuperAdminDashboardContent() {
                                             </div>
 
                                             {/* Approvers */}
-                                            <div className="mt-4 p-3 bg-gray-900/50 rounded-lg">
-                                                <div className="text-xs text-gray-400 mb-2">Approved by:</div>
+                                            <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                                <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">Approved by:</div>
                                                 <div className="flex items-center space-x-2">
                                                     {proposal.approvals.map((approver, i) => (
                                                         <span key={i} className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-xs">
@@ -336,9 +336,9 @@ function SuperAdminDashboardContent() {
                 )}
 
                 {activeTab === "admins" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                         <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-white">Multi-Sig Admins</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Multi-Sig Admins</h2>
                             <button className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 rounded-lg text-purple-400 text-sm font-medium hover:bg-purple-500/20">
                                 + Add Admin (via Proposal)
                             </button>
@@ -346,25 +346,25 @@ function SuperAdminDashboardContent() {
 
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-900/50">
+                                <thead className="bg-gray-50 dark:bg-gray-900/50">
                                     <tr>
-                                        <th className="text-left p-4 text-sm text-gray-400 font-medium">Admin</th>
-                                        <th className="text-left p-4 text-sm text-gray-400 font-medium">Role</th>
-                                        <th className="text-left p-4 text-sm text-gray-400 font-medium">Added</th>
-                                        <th className="text-center p-4 text-sm text-gray-400 font-medium">Status</th>
-                                        <th className="text-right p-4 text-sm text-gray-400 font-medium">Actions</th>
+                                        <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Admin</th>
+                                        <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Role</th>
+                                        <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Added</th>
+                                        <th className="text-center p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Status</th>
+                                        <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-700/50">
+                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                     {admins.map((admin) => (
-                                        <tr key={admin.pubkey} className="hover:bg-gray-700/20">
+                                        <tr key={admin.pubkey} className="hover:bg-gray-200 dark:hover:bg-gray-700/20">
                                             <td className="p-4">
                                                 <div className="flex items-center space-x-3">
-                                                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-gray-900 dark:text-white font-bold">
                                                         {admin.pubkey.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div>
-                                                        <div className="font-medium text-white font-mono">{admin.pubkey}</div>
+                                                        <div className="font-medium text-gray-900 dark:text-white font-mono">{admin.pubkey}</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -376,7 +376,7 @@ function SuperAdminDashboardContent() {
                                                     {admin.role}
                                                 </span>
                                             </td>
-                                            <td className="p-4 text-gray-400">{admin.addedAt}</td>
+                                            <td className="p-4 text-gray-600 dark:text-gray-400">{admin.addedAt}</td>
                                             <td className="p-4 text-center">
                                                 <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-xs font-medium">
                                                     Active
@@ -398,17 +398,17 @@ function SuperAdminDashboardContent() {
                 )}
 
                 {activeTab === "audit" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                         <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-white">Audit Logs</h2>
-                            <button className="px-4 py-2 bg-gray-700 rounded-lg text-white text-sm font-medium hover:bg-gray-600">
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Audit Logs</h2>
+                            <button className="px-4 py-2 bg-gray-700 rounded-lg text-gray-900 dark:text-white text-sm font-medium hover:bg-gray-600">
                                 Export Logs
                             </button>
                         </div>
 
-                        <div className="divide-y divide-gray-700/50">
+                        <div className="divide-y divide-gray-200 dark:divide-gray-700/50">
                             {auditLogs.map((log, i) => (
-                                <div key={i} className="p-4 hover:bg-gray-700/20 transition-colors">
+                                <div key={i} className="p-4 hover:bg-gray-200 dark:hover:bg-gray-700/20 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center space-x-4">
                                             <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg ${log.success ? "bg-emerald-500/10" : "bg-red-500/10"
@@ -416,8 +416,8 @@ function SuperAdminDashboardContent() {
                                                 {log.success ? "✓" : "✗"}
                                             </div>
                                             <div>
-                                                <div className="text-white font-medium">{log.action.replace(/([A-Z])/g, " $1").trim()}</div>
-                                                <div className="text-sm text-gray-400">
+                                                <div className="text-gray-900 dark:text-white font-medium">{log.action.replace(/([A-Z])/g, " $1").trim()}</div>
+                                                <div className="text-sm text-gray-600 dark:text-gray-400">
                                                     <span className="text-purple-400">{log.performedBy}</span>
                                                     <span className="mx-2">→</span>
                                                     <span>{log.target}</span>
@@ -434,11 +434,11 @@ function SuperAdminDashboardContent() {
 
                 {/* KYC Reviews Tab */}
                 {activeTab === "kyc" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                         <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
                             <div>
-                                <h2 className="text-xl font-semibold text-white">Pending KYC Reviews</h2>
-                                <p className="text-gray-400 text-sm mt-1">Review and approve Level 2 KYC verification requests</p>
+                                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Pending KYC Reviews</h2>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Review and approve Level 2 KYC verification requests</p>
                             </div>
                             <span className="px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-sm font-medium">
                                 {kycReviews.length} pending
@@ -448,11 +448,11 @@ function SuperAdminDashboardContent() {
                         {kycReviews.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="text-4xl mb-4">✅</div>
-                                <h3 className="text-lg font-medium text-white mb-2">No Pending Reviews</h3>
-                                <p className="text-gray-400">All KYC requests have been processed</p>
+                                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No Pending Reviews</h3>
+                                <p className="text-gray-600 dark:text-gray-400">All KYC requests have been processed</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-gray-700/50">
+                            <div className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {kycReviews.map((review) => (
                                     <div key={review.id} className="p-6">
                                         <div className="flex items-start justify-between mb-4">
@@ -462,12 +462,12 @@ function SuperAdminDashboardContent() {
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center space-x-2">
-                                                        <span className="font-mono text-white">{review.wallet}</span>
+                                                        <span className="font-mono text-gray-900 dark:text-white">{review.wallet}</span>
                                                         <span className="px-2 py-0.5 bg-yellow-500/10 text-yellow-400 rounded text-xs">
                                                             Level {review.currentLevel} → {review.requestedLevel}
                                                         </span>
                                                     </div>
-                                                    <div className="text-sm text-gray-400 mt-1">
+                                                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                                         Submitted: {new Date(review.submittedAt).toLocaleString()}
                                                     </div>
                                                 </div>
@@ -494,14 +494,14 @@ function SuperAdminDashboardContent() {
                                         </div>
 
                                         {/* User Info */}
-                                        <div className="grid grid-cols-2 gap-4 mb-4 p-4 bg-gray-900/50 rounded-lg">
+                                        <div className="grid grid-cols-2 gap-4 mb-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                             <div>
                                                 <span className="text-gray-500 text-xs">Email</span>
-                                                <div className="text-white">{review.email}</div>
+                                                <div className="text-gray-900 dark:text-white">{review.email}</div>
                                             </div>
                                             <div>
                                                 <span className="text-gray-500 text-xs">Phone</span>
-                                                <div className="text-white">{review.phone}</div>
+                                                <div className="text-gray-900 dark:text-white">{review.phone}</div>
                                             </div>
                                         </div>
 
@@ -513,7 +513,7 @@ function SuperAdminDashboardContent() {
                                                     <button
                                                         key={i}
                                                         onClick={() => alert(`Viewing document: ${doc.fileName}`)}
-                                                        className="px-3 py-2 bg-gray-700/50 rounded-lg text-sm text-gray-300 hover:bg-gray-600/50 flex items-center space-x-2"
+                                                        className="px-3 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-sm text-gray-300 hover:bg-gray-600/50 flex items-center space-x-2"
                                                     >
                                                         <span>📄</span>
                                                         <span>{doc.type}</span>
@@ -537,8 +537,8 @@ function SuperAdminDashboardContent() {
                                 ⚠️
                             </div>
                             <div>
-                                <h3 className="font-semibold text-white">Emergency Actions</h3>
-                                <p className="text-sm text-gray-400">
+                                <h3 className="font-semibold text-gray-900 dark:text-white">Emergency Actions</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400">
                                     Only available to the designated Emergency Admin. Use with extreme caution.
                                 </p>
                             </div>

@@ -123,8 +123,8 @@ function SettingsContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔒</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to access settings.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to access settings.</p>
                 </div>
             </div>
         );
@@ -135,8 +135,8 @@ function SettingsContent() {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-white">Settings</h1>
-                    <p className="text-gray-400 mt-1">Manage your account and request role upgrades</p>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Settings</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your account and request role upgrades</p>
                 </div>
 
                 {/* Tabs */}
@@ -151,7 +151,7 @@ function SettingsContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors flex items-center space-x-2 ${activeTab === tab.id
                                 ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                : "text-gray-400 hover:text-white hover:bg-gray-800"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             <span>{tab.icon}</span>
@@ -164,27 +164,27 @@ function SettingsContent() {
                 {activeTab === "profile" && (
                     <div className="space-y-6">
                         {/* Account Info */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h2 className="text-xl font-semibold text-white mb-6">Account Information</h2>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Account Information</h2>
 
                             <div className="space-y-4">
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-sm text-gray-400">Wallet Address</div>
-                                        <div className="font-mono text-white">{walletAddress}</div>
+                                        <div className="text-sm text-gray-600 dark:text-gray-400">Wallet Address</div>
+                                        <div className="font-mono text-gray-900 dark:text-white">{walletAddress}</div>
                                     </div>
                                     <button
                                         onClick={() => navigator.clipboard.writeText(walletAddress)}
-                                        className="px-4 py-2 bg-gray-700/50 rounded-lg text-gray-300 hover:bg-gray-600/50"
+                                        className="px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-gray-300 hover:bg-gray-600/50"
                                     >
                                         Copy
                                     </button>
                                 </div>
 
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-sm text-gray-400">Current Role</div>
-                                        <div className="text-white capitalize font-semibold">
+                                        <div className="text-sm text-gray-600 dark:text-gray-400">Current Role</div>
+                                        <div className="text-gray-900 dark:text-white capitalize font-semibold">
                                             {role === "none" ? "Unregistered" : role}
                                         </div>
                                     </div>
@@ -198,9 +198,9 @@ function SettingsContent() {
                                     )}
                                 </div>
 
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-sm text-gray-400">Registration Status</div>
+                                        <div className="text-sm text-gray-600 dark:text-gray-400">Registration Status</div>
                                         <div className={`font-semibold ${isRegistered ? "text-emerald-400" : "text-yellow-400"}`}>
                                             {isRegistered ? "✅ Registered" : "⏳ Not Registered"}
                                         </div>
@@ -210,16 +210,16 @@ function SettingsContent() {
                         </div>
 
                         {/* KYC Status */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h2 className="text-xl font-semibold text-white mb-6">KYC Verification</h2>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">KYC Verification</h2>
 
                             {/* KYC Level Indicator */}
                             <div className="mb-6">
                                 <div className="flex items-center space-x-4 mb-4">
                                     <div className="text-3xl">⚪</div>
                                     <div>
-                                        <div className="text-lg font-semibold text-white">Level 0: Unverified</div>
-                                        <div className="text-gray-400 text-sm">Complete verification to unlock platform features</div>
+                                        <div className="text-lg font-semibold text-gray-900 dark:text-white">Level 0: Unverified</div>
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Complete verification to unlock platform features</div>
                                     </div>
                                 </div>
 
@@ -252,7 +252,7 @@ function SettingsContent() {
 
                             <Link
                                 href="/settings/kyc"
-                                className="block w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold text-center hover:opacity-90 transition-opacity"
+                                className="block w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold text-center hover:opacity-90 transition-opacity"
                             >
                                 Start KYC Verification →
                             </Link>
@@ -264,9 +264,9 @@ function SettingsContent() {
                 {activeTab === "request" && (
                     <div className="space-y-6">
                         {/* Role Selection */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h2 className="text-xl font-semibold text-white mb-2">Request Role Upgrade</h2>
-                            <p className="text-gray-400 mb-6">Select the role you want to apply for and provide supporting documentation.</p>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Request Role Upgrade</h2>
+                            <p className="text-gray-600 dark:text-gray-400 mb-6">Select the role you want to apply for and provide supporting documentation.</p>
 
                             <div className="grid gap-4">
                                 {(Object.keys(ROLE_INFO) as RoleRequestType[]).map((roleKey) => {
@@ -285,23 +285,23 @@ function SettingsContent() {
                                             onClick={() => setSelectedRole(roleKey)}
                                             className={`p-6 rounded-xl text-left transition-all ${isSelected
                                                 ? `${colorClasses.bg} ${colorClasses.border} border-2`
-                                                : "bg-gray-900/50 border border-gray-700/50 hover:border-gray-600"
+                                                : "bg-gray-50 dark:bg-gray-900/50 border border-gray-700/50 hover:border-gray-600"
                                                 }`}
                                         >
                                             <div className="flex items-start space-x-4">
                                                 <span className="text-3xl">{info.icon}</span>
                                                 <div className="flex-1">
-                                                    <div className={`font-semibold text-lg ${isSelected ? colorClasses.text : "text-white"}`}>
+                                                    <div className={`font-semibold text-lg ${isSelected ? colorClasses.text : "text-gray-900 dark:text-white"}`}>
                                                         {info.title}
                                                     </div>
-                                                    <div className="text-gray-400 text-sm mt-1">{info.description}</div>
+                                                    <div className="text-gray-600 dark:text-gray-400 text-sm mt-1">{info.description}</div>
 
                                                     {isSelected && (
                                                         <div className="mt-4 pt-4 border-t border-gray-700/50">
                                                             <div className="text-sm font-medium text-gray-300 mb-2">Requirements:</div>
                                                             <ul className="space-y-1">
                                                                 {info.requirements.map((req, i) => (
-                                                                    <li key={i} className="text-sm text-gray-400 flex items-center">
+                                                                    <li key={i} className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
                                                                         <span className="text-emerald-400 mr-2">•</span>
                                                                         {req}
                                                                     </li>
@@ -325,8 +325,8 @@ function SettingsContent() {
 
                         {/* Application Form */}
                         {selectedRole && (
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                                <h2 className="text-xl font-semibold text-white mb-6">Application Details</h2>
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Application Details</h2>
 
                                 {/* Justification */}
                                 <div className="mb-6">
@@ -337,7 +337,7 @@ function SettingsContent() {
                                         value={justification}
                                         onChange={(e) => setJustification(e.target.value)}
                                         rows={4}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         placeholder="Explain your qualifications and why you should be granted this role..."
                                     />
                                 </div>
@@ -347,7 +347,7 @@ function SettingsContent() {
                                     <label className="block text-sm font-medium text-gray-300 mb-2">
                                         Supporting Documents
                                     </label>
-                                    <div className="border-2 border-dashed border-gray-700 rounded-xl p-6 text-center hover:border-gray-600 transition-colors">
+                                    <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 text-center hover:border-gray-600 transition-colors">
                                         <input
                                             type="file"
                                             onChange={handleFileChange}
@@ -358,7 +358,7 @@ function SettingsContent() {
                                         />
                                         <label htmlFor="file-upload" className="cursor-pointer">
                                             <div className="text-4xl mb-2">📎</div>
-                                            <div className="text-gray-400">Click to upload files</div>
+                                            <div className="text-gray-600 dark:text-gray-400">Click to upload files</div>
                                             <div className="text-gray-500 text-sm mt-1">PDF, JPG, PNG (max 10MB each)</div>
                                         </label>
                                     </div>
@@ -366,7 +366,7 @@ function SettingsContent() {
                                     {documents.length > 0 && (
                                         <div className="mt-4 space-y-2">
                                             {documents.map((doc, index) => (
-                                                <div key={index} className="flex items-center justify-between p-3 bg-gray-900/50 rounded-lg">
+                                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                                     <div className="flex items-center space-x-3">
                                                         <span className="text-xl">📄</span>
                                                         <span className="text-gray-300">{doc.name}</span>
@@ -387,7 +387,7 @@ function SettingsContent() {
                                 <button
                                     onClick={handleSubmitRequest}
                                     disabled={submitting || !justification.trim()}
-                                    className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                                    className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                                 >
                                     {submitting ? "Submitting..." : "Submit Role Request"}
                                 </button>
@@ -402,16 +402,16 @@ function SettingsContent() {
 
                 {/* Request History Tab */}
                 {activeTab === "history" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                         <div className="p-6 border-b border-gray-700/50">
-                            <h2 className="text-xl font-semibold text-white">Request History</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Request History</h2>
                         </div>
 
                         {requests.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="text-6xl mb-4">📭</div>
-                                <h3 className="text-lg font-semibold text-white mb-2">No Requests Yet</h3>
-                                <p className="text-gray-400 mb-6">You haven't submitted any role requests.</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Requests Yet</h3>
+                                <p className="text-gray-600 dark:text-gray-400 mb-6">You haven't submitted any role requests.</p>
                                 <button
                                     onClick={() => setActiveTab("request")}
                                     className="px-6 py-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 font-medium"
@@ -420,7 +420,7 @@ function SettingsContent() {
                                 </button>
                             </div>
                         ) : (
-                            <div className="divide-y divide-gray-700/50">
+                            <div className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {requests.map((request) => {
                                     const roleInfo = ROLE_INFO[request.requestedRole];
                                     const statusStyles = {
@@ -435,14 +435,14 @@ function SettingsContent() {
                                                 <div className="flex items-start space-x-4">
                                                     <span className="text-3xl">{roleInfo.icon}</span>
                                                     <div>
-                                                        <div className="font-semibold text-white">{roleInfo.title} Role Request</div>
-                                                        <div className="text-gray-400 text-sm mt-1">Submitted: {request.submittedAt}</div>
+                                                        <div className="font-semibold text-gray-900 dark:text-white">{roleInfo.title} Role Request</div>
+                                                        <div className="text-gray-600 dark:text-gray-400 text-sm mt-1">Submitted: {request.submittedAt}</div>
                                                         <div className="text-gray-500 text-sm mt-2">{request.justification}</div>
                                                         {request.documents.length > 0 && (
                                                             <div className="flex items-center space-x-2 mt-2">
                                                                 <span className="text-gray-500 text-sm">Documents:</span>
                                                                 {request.documents.map((doc, i) => (
-                                                                    <span key={i} className="px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-400">
+                                                                    <span key={i} className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 rounded text-xs text-gray-600 dark:text-gray-400">
                                                                         {doc}
                                                                     </span>
                                                                 ))}

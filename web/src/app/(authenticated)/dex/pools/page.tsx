@@ -80,12 +80,12 @@ export default function PoolsPage() {
                         <Link href="/dex" className="text-emerald-400 hover:underline text-sm">
                             ← Back to DEX
                         </Link>
-                        <h1 className="text-3xl font-bold text-white mt-2">Liquidity Pools</h1>
-                        <p className="text-gray-400 mt-1">Provide liquidity and earn trading fees</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-2">Liquidity Pools</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">Provide liquidity and earn trading fees</p>
                     </div>
                     <Link
                         href="/dex/pools/create"
-                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90 transition-opacity"
                     >
                         + Create Pool
                     </Link>
@@ -100,10 +100,10 @@ export default function PoolsPage() {
                     ].map((stat) => (
                         <div
                             key={stat.label}
-                            className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 text-center"
+                            className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 text-center"
                         >
-                            <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                            <div className="text-sm text-gray-400">{stat.label}</div>
+                            <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                         </div>
                     ))}
                 </div>
@@ -111,7 +111,7 @@ export default function PoolsPage() {
 
                 {/* Sort Options */}
                 <div className="flex items-center space-x-4 mb-6">
-                    <span className="text-gray-400 text-sm">Sort by:</span>
+                    <span className="text-gray-600 dark:text-gray-400 text-sm">Sort by:</span>
                     {[
                         { id: "tvl", label: "TVL" },
                         { id: "apr", label: "APR" },
@@ -122,7 +122,7 @@ export default function PoolsPage() {
                             onClick={() => setSortBy(option.id as any)}
                             className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${sortBy === option.id
                                 ? "bg-emerald-500/10 text-emerald-400"
-                                : "text-gray-400 hover:text-white"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                 }`}
                         >
                             {option.label}
@@ -131,48 +131,48 @@ export default function PoolsPage() {
                 </div>
 
                 {/* Pools Table */}
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl overflow-hidden">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden">
                     <table className="w-full">
-                        <thead className="bg-gray-900/50">
+                        <thead className="bg-gray-50 dark:bg-gray-900/50">
                             <tr>
-                                <th className="text-left p-4 text-sm text-gray-400 font-medium">Pool</th>
-                                <th className="text-right p-4 text-sm text-gray-400 font-medium">TVL</th>
-                                <th className="text-right p-4 text-sm text-gray-400 font-medium">APR</th>
-                                <th className="text-right p-4 text-sm text-gray-400 font-medium">24h Volume</th>
-                                <th className="text-center p-4 text-sm text-gray-400 font-medium">Fee</th>
-                                <th className="text-right p-4 text-sm text-gray-400 font-medium">Actions</th>
+                                <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Pool</th>
+                                <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">TVL</th>
+                                <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">APR</th>
+                                <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">24h Volume</th>
+                                <th className="text-center p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Fee</th>
+                                <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-700/50">
+                        <tbody className="divide-y divide-gray-200 dark:divide-gray-700/50">
                             {sortedPools.map((pool) => (
-                                <tr key={pool.id} className="hover:bg-gray-700/20 transition-colors">
+                                <tr key={pool.id} className="hover:bg-gray-200 dark:hover:bg-gray-700/20 transition-colors">
                                     <td className="p-4">
                                         <div className="flex items-center space-x-3">
                                             <div className="flex -space-x-2">
-                                                <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-gray-800">
+                                                <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-gray-900 dark:text-white text-xs font-bold border-2 border-gray-800">
                                                     A
                                                 </div>
-                                                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-gray-800">
+                                                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-gray-900 dark:text-white text-xs font-bold border-2 border-gray-800">
                                                     {pool.quoteMint === "SOL" ? "◎" : "$"}
                                                 </div>
                                             </div>
                                             <div>
-                                                <div className="font-medium text-white">{pool.pair}</div>
-                                                <div className="text-sm text-gray-400">{pool.feeBps / 100}% fee tier</div>
+                                                <div className="font-medium text-gray-900 dark:text-white">{pool.pair}</div>
+                                                <div className="text-sm text-gray-600 dark:text-gray-400">{pool.feeBps / 100}% fee tier</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="p-4 text-right">
-                                        <div className="font-medium text-white">${pool.tvl.toLocaleString()}</div>
+                                        <div className="font-medium text-gray-900 dark:text-white">${pool.tvl.toLocaleString()}</div>
                                     </td>
                                     <td className="p-4 text-right">
                                         <div className="font-medium text-emerald-400">{pool.apr}%</div>
                                     </td>
                                     <td className="p-4 text-right">
-                                        <div className="font-medium text-white">${pool.volume24h.toLocaleString()}</div>
+                                        <div className="font-medium text-gray-900 dark:text-white">${pool.volume24h.toLocaleString()}</div>
                                     </td>
                                     <td className="p-4 text-center">
-                                        <span className="px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-300">
+                                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 rounded text-xs text-gray-300">
                                             {pool.feeBps / 100}%
                                         </span>
                                     </td>
@@ -186,7 +186,7 @@ export default function PoolsPage() {
                                             </Link>
                                             <Link
                                                 href={`/dex/pools/${pool.id}`}
-                                                className="px-4 py-2 bg-gray-700/50 rounded-lg text-white text-sm font-medium hover:bg-gray-600/50 transition-colors"
+                                                className="px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm font-medium hover:bg-gray-600/50 transition-colors"
                                             >
                                                 Details
                                             </Link>
@@ -200,7 +200,7 @@ export default function PoolsPage() {
 
                 {/* How it Works */}
                 <div className="mt-12">
-                    <h2 className="text-xl font-semibold text-white mb-6">How Liquidity Providing Works</h2>
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">How Liquidity Providing Works</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
                             {
@@ -221,13 +221,13 @@ export default function PoolsPage() {
                         ].map((item) => (
                             <div
                                 key={item.step}
-                                className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6"
+                                className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6"
                             >
                                 <div className="w-10 h-10 bg-emerald-500/10 rounded-full flex items-center justify-center text-emerald-400 font-bold mb-4">
                                     {item.step}
                                 </div>
-                                <h3 className="font-semibold text-white mb-2">{item.title}</h3>
-                                <p className="text-gray-400 text-sm">{item.description}</p>
+                                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm">{item.description}</p>
                             </div>
                         ))}
                     </div>

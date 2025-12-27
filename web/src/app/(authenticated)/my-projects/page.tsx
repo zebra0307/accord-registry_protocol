@@ -63,7 +63,7 @@ const SECTOR_ICONS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, { bg: string; text: string; label: string }> = {
-    draft: { bg: "bg-gray-500/10", text: "text-gray-400", label: "Draft" },
+    draft: { bg: "bg-gray-500/10", text: "text-gray-600 dark:text-gray-400", label: "Draft" },
     pending: { bg: "bg-yellow-500/10", text: "text-yellow-400", label: "Pending Verification" },
     verified: { bg: "bg-emerald-500/10", text: "text-emerald-400", label: "Verified" },
     rejected: { bg: "bg-red-500/10", text: "text-red-400", label: "Rejected" },
@@ -100,8 +100,8 @@ function MyProjectsContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔒</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to view your projects.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to view your projects.</p>
                 </div>
             </div>
         );
@@ -121,12 +121,12 @@ function MyProjectsContent() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">My Projects</h1>
-                        <p className="text-gray-400 mt-1">Manage and track your carbon credit projects</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Projects</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">Manage and track your carbon credit projects</p>
                     </div>
                     <Link
                         href="/register"
-                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90 transition-opacity"
                     >
                         + New Project
                     </Link>
@@ -134,24 +134,24 @@ function MyProjectsContent() {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                        <div className="text-gray-400 text-sm">Total Projects</div>
-                        <div className="text-3xl font-bold text-white mt-1">{projects.length}</div>
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                        <div className="text-gray-600 dark:text-gray-400 text-sm">Total Projects</div>
+                        <div className="text-3xl font-bold text-gray-900 dark:text-white mt-1">{projects.length}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                        <div className="text-gray-400 text-sm">Verified</div>
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                        <div className="text-gray-600 dark:text-gray-400 text-sm">Verified</div>
                         <div className="text-3xl font-bold text-emerald-400 mt-1">
                             {projects.filter(p => p.status === "verified").length}
                         </div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                        <div className="text-gray-400 text-sm">Total Carbon Tons</div>
-                        <div className="text-3xl font-bold text-white mt-1">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                        <div className="text-gray-600 dark:text-gray-400 text-sm">Total Carbon Tons</div>
+                        <div className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
                             {projects.reduce((sum, p) => sum + p.carbonTons, 0).toLocaleString()}
                         </div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                        <div className="text-gray-400 text-sm">Credits Issued</div>
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                        <div className="text-gray-600 dark:text-gray-400 text-sm">Credits Issued</div>
                         <div className="text-3xl font-bold text-teal-400 mt-1">
                             {projects.reduce((sum, p) => sum + p.creditsIssued, 0).toLocaleString()}
                         </div>
@@ -166,7 +166,7 @@ function MyProjectsContent() {
                             onClick={() => setFilter(f as any)}
                             className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${filter === f
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-400 hover:text-white hover:bg-gray-700/50"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:bg-gray-700/50"
                                 }`}
                         >
                             {f === "all" ? "All Projects" : f}
@@ -176,10 +176,10 @@ function MyProjectsContent() {
 
                 {/* Projects List */}
                 {filteredProjects.length === 0 ? (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-12 text-center">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-12 text-center">
                         <div className="text-6xl mb-4">🌱</div>
-                        <h3 className="text-xl font-semibold text-white mb-2">No Projects Found</h3>
-                        <p className="text-gray-400 mb-6">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Projects Found</h3>
+                        <p className="text-gray-600 dark:text-gray-400 mb-6">
                             {filter === "all"
                                 ? "Start your carbon credit journey by registering your first project."
                                 : `No ${filter} projects found.`}
@@ -187,7 +187,7 @@ function MyProjectsContent() {
                         {filter === "all" && (
                             <Link
                                 href="/register"
-                                className="inline-flex px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90"
+                                className="inline-flex px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90"
                             >
                                 Register Your First Project
                             </Link>
@@ -200,27 +200,27 @@ function MyProjectsContent() {
                             return (
                                 <div
                                     key={project.id}
-                                    className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 hover:border-emerald-500/30 transition-colors"
+                                    className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 hover:border-emerald-500/30 transition-colors"
                                 >
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start space-x-4">
-                                            <div className="w-14 h-14 bg-gray-700/50 rounded-xl flex items-center justify-center text-3xl">
+                                            <div className="w-14 h-14 bg-gray-100 dark:bg-gray-700/50 rounded-xl flex items-center justify-center text-3xl">
                                                 {SECTOR_ICONS[project.sector] || "🌍"}
                                             </div>
                                             <div>
                                                 <div className="flex items-center space-x-3">
-                                                    <h3 className="text-lg font-semibold text-white">{project.name}</h3>
+                                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{project.name}</h3>
                                                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}>
                                                         {statusStyle.label}
                                                     </span>
                                                 </div>
-                                                <p className="text-gray-400 text-sm mt-1">
+                                                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                                     {project.projectId} • {project.location}
                                                 </p>
                                                 <div className="flex items-center space-x-6 mt-3">
                                                     <div>
                                                         <span className="text-gray-500 text-xs">Carbon Tons</span>
-                                                        <div className="text-white font-semibold">{project.carbonTons.toLocaleString()}</div>
+                                                        <div className="text-gray-900 dark:text-white font-semibold">{project.carbonTons.toLocaleString()}</div>
                                                     </div>
                                                     <div>
                                                         <span className="text-gray-500 text-xs">Credits Issued</span>
@@ -244,7 +244,7 @@ function MyProjectsContent() {
                                             )}
                                             <Link
                                                 href={`/project/${project.projectId}`}
-                                                className="px-4 py-2 bg-gray-700/50 rounded-lg text-white text-sm font-medium hover:bg-gray-600/50"
+                                                className="px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm font-medium hover:bg-gray-600/50"
                                             >
                                                 Manage
                                             </Link>

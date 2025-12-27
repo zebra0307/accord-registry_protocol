@@ -112,8 +112,8 @@ function GovernmentDashboardContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔒</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to access the government dashboard.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to access the government dashboard.</p>
                 </div>
             </div>
         );
@@ -124,8 +124,8 @@ function GovernmentDashboardContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🏛️</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Government Access Required</h2>
-                    <p className="text-gray-400 mb-6">You need Government role to access this dashboard.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Government Access Required</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">You need Government role to access this dashboard.</p>
                     <Link
                         href="/settings"
                         className="px-6 py-3 bg-purple-500/10 border border-purple-500/30 rounded-xl text-purple-400 font-medium"
@@ -159,45 +159,45 @@ function GovernmentDashboardContent() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">Government Dashboard</h1>
-                        <p className="text-gray-400 mt-1">Manage Letters of Authorization and compliance</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Government Dashboard</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">Manage Letters of Authorization and compliance</p>
                     </div>
                 </div>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-xl">📜</span>
-                            <span className="text-gray-400 text-sm">LoAs Issued</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">LoAs Issued</span>
                         </div>
-                        <div className="text-2xl font-bold text-white">{stats.loasIssued}</div>
+                        <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.loasIssued}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-xl">⏳</span>
-                            <span className="text-gray-400 text-sm">Pending</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Pending</span>
                         </div>
                         <div className="text-2xl font-bold text-yellow-400">{stats.pendingRequests}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-xl">📤</span>
-                            <span className="text-gray-400 text-sm">Credits Exported</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Credits Exported</span>
                         </div>
                         <div className="text-2xl font-bold text-emerald-400">{(stats.creditsExported / 1000).toFixed(0)}K</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-xl">📊</span>
-                            <span className="text-gray-400 text-sm">Export Quota</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Export Quota</span>
                         </div>
                         <div className="text-2xl font-bold text-purple-400">{Math.round((stats.creditsExported / stats.exportLimit) * 100)}%</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-5">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-xl">🎯</span>
-                            <span className="text-gray-400 text-sm">NDC Progress</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">NDC Progress</span>
                         </div>
                         <div className="text-2xl font-bold text-teal-400">{stats.ndcProgress}%</div>
                     </div>
@@ -216,7 +216,7 @@ function GovernmentDashboardContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors whitespace-nowrap ${activeTab === tab.id
                                     ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                    : "text-gray-400 hover:text-white hover:bg-gray-800"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             {tab.label}
@@ -235,24 +235,24 @@ function GovernmentDashboardContent() {
                         {pendingLoAs.map((loa) => (
                             <div
                                 key={loa.id}
-                                className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-colors"
+                                className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 hover:border-purple-500/30 transition-colors"
                             >
                                 <div className="flex items-start justify-between">
                                     <div>
                                         <div className="flex items-center space-x-3">
-                                            <h3 className="text-lg font-semibold text-white">{loa.name}</h3>
+                                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{loa.name}</h3>
                                             <span className="px-2 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-xs">
                                                 Awaiting LoA
                                             </span>
                                         </div>
-                                        <p className="text-gray-400 text-sm mt-1">
+                                        <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                             {loa.projectId} • {loa.location}
                                         </p>
 
                                         <div className="flex items-center space-x-6 mt-3">
                                             <div>
                                                 <span className="text-gray-500 text-xs">Verified Carbon</span>
-                                                <div className="text-white font-semibold">{loa.verifiedTons.toLocaleString()} tons</div>
+                                                <div className="text-gray-900 dark:text-white font-semibold">{loa.verifiedTons.toLocaleString()} tons</div>
                                             </div>
                                             <div>
                                                 <span className="text-gray-500 text-xs">Validator</span>
@@ -265,7 +265,7 @@ function GovernmentDashboardContent() {
                                         </div>
 
                                         {/* Article 6 Compliance Status */}
-                                        <div className="mt-4 p-3 bg-gray-900/50 rounded-lg">
+                                        <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                             <div className="text-sm font-medium text-gray-300 mb-2">Article 6 Compliance Check</div>
                                             <div className="flex items-center space-x-4">
                                                 <span className={`text-sm ${loa.article6Status.additionality ? "text-emerald-400" : "text-red-400"}`}>
@@ -297,40 +297,40 @@ function GovernmentDashboardContent() {
 
                 {/* Issued LoAs Tab */}
                 {activeTab === "issued" && (
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden">
                         <table className="w-full">
-                            <thead className="bg-gray-900/50">
+                            <thead className="bg-gray-50 dark:bg-gray-900/50">
                                 <tr>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Project</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Carbon Amount</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Issued</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Expires</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Status</th>
-                                    <th className="text-right p-4 text-sm text-gray-400 font-medium">Actions</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Project</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Carbon Amount</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Issued</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Expires</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Status</th>
+                                    <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-700/50">
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {issuedLoAs.map((loa) => (
-                                    <tr key={loa.id} className="hover:bg-gray-700/20">
+                                    <tr key={loa.id} className="hover:bg-gray-200 dark:hover:bg-gray-700/20">
                                         <td className="p-4">
-                                            <div className="font-medium text-white">{loa.name}</div>
-                                            <div className="text-gray-400 text-sm">{loa.projectId}</div>
+                                            <div className="font-medium text-gray-900 dark:text-white">{loa.name}</div>
+                                            <div className="text-gray-600 dark:text-gray-400 text-sm">{loa.projectId}</div>
                                         </td>
-                                        <td className="p-4 text-white">{loa.carbonAmount.toLocaleString()} tons</td>
-                                        <td className="p-4 text-gray-400">{loa.issuedAt}</td>
-                                        <td className="p-4 text-gray-400">{loa.expiresAt}</td>
+                                        <td className="p-4 text-gray-900 dark:text-white">{loa.carbonAmount.toLocaleString()} tons</td>
+                                        <td className="p-4 text-gray-600 dark:text-gray-400">{loa.issuedAt}</td>
+                                        <td className="p-4 text-gray-600 dark:text-gray-400">{loa.expiresAt}</td>
                                         <td className="p-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${loa.status === "active"
                                                     ? "bg-emerald-500/10 text-emerald-400"
                                                     : loa.status === "expired"
-                                                        ? "bg-gray-500/10 text-gray-400"
+                                                        ? "bg-gray-500/10 text-gray-600 dark:text-gray-400"
                                                         : "bg-red-500/10 text-red-400"
                                                 }`}>
                                                 {loa.status}
                                             </span>
                                         </td>
                                         <td className="p-4 text-right">
-                                            <button className="text-gray-400 hover:text-white text-sm">
+                                            <button className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white text-sm">
                                                 View Details
                                             </button>
                                         </td>
@@ -345,13 +345,13 @@ function GovernmentDashboardContent() {
                 {activeTab === "compliance" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* National Carbon Budget */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-white mb-4">📊 National Carbon Budget</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">📊 National Carbon Budget</h3>
                             <div className="space-y-4">
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-gray-400">Annual Budget Used</span>
-                                        <span className="text-white font-semibold">{stats.ndcProgress}%</span>
+                                        <span className="text-gray-600 dark:text-gray-400">Annual Budget Used</span>
+                                        <span className="text-gray-900 dark:text-white font-semibold">{stats.ndcProgress}%</span>
                                     </div>
                                     <div className="w-full bg-gray-700 rounded-full h-3">
                                         <div
@@ -361,12 +361,12 @@ function GovernmentDashboardContent() {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 mt-4">
-                                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                                        <div className="text-gray-400 text-sm">Allocated</div>
-                                        <div className="text-xl font-bold text-white">100,000 tons</div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Allocated</div>
+                                        <div className="text-xl font-bold text-gray-900 dark:text-white">100,000 tons</div>
                                     </div>
-                                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                                        <div className="text-gray-400 text-sm">Remaining</div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Remaining</div>
                                         <div className="text-xl font-bold text-emerald-400">55,000 tons</div>
                                     </div>
                                 </div>
@@ -374,13 +374,13 @@ function GovernmentDashboardContent() {
                         </div>
 
                         {/* Export Controls */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-white mb-4">📤 Export Controls</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">📤 Export Controls</h3>
                             <div className="space-y-4">
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-gray-400">Export Quota Usage</span>
-                                        <span className="text-white font-semibold">
+                                        <span className="text-gray-600 dark:text-gray-400">Export Quota Usage</span>
+                                        <span className="text-gray-900 dark:text-white font-semibold">
                                             {Math.round((stats.creditsExported / stats.exportLimit) * 100)}%
                                         </span>
                                     </div>
@@ -392,41 +392,41 @@ function GovernmentDashboardContent() {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 mt-4">
-                                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                                        <div className="text-gray-400 text-sm">Exported</div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Exported</div>
                                         <div className="text-xl font-bold text-purple-400">{(stats.creditsExported / 1000).toFixed(0)}K tons</div>
                                     </div>
-                                    <div className="p-3 bg-gray-900/50 rounded-lg">
-                                        <div className="text-gray-400 text-sm">Limit</div>
-                                        <div className="text-xl font-bold text-white">{(stats.exportLimit / 1000).toFixed(0)}K tons</div>
+                                    <div className="p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Limit</div>
+                                        <div className="text-xl font-bold text-gray-900 dark:text-white">{(stats.exportLimit / 1000).toFixed(0)}K tons</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         {/* Corresponding Adjustments */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 md:col-span-2">
-                            <h3 className="text-lg font-semibold text-white mb-4">⚖️ Corresponding Adjustments (Article 6.2)</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 md:col-span-2">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">⚖️ Corresponding Adjustments (Article 6.2)</h3>
                             <div className="grid grid-cols-4 gap-4">
-                                <div className="p-4 bg-gray-900/50 rounded-lg text-center">
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-center">
                                     <div className="text-3xl mb-2">📝</div>
-                                    <div className="text-2xl font-bold text-white">98</div>
-                                    <div className="text-gray-400 text-sm">Projects Adjusted</div>
+                                    <div className="text-2xl font-bold text-gray-900 dark:text-white">98</div>
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">Projects Adjusted</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-lg text-center">
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-center">
                                     <div className="text-3xl mb-2">🔄</div>
                                     <div className="text-2xl font-bold text-emerald-400">45K</div>
-                                    <div className="text-gray-400 text-sm">ITMOs Transferred</div>
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">ITMOs Transferred</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-lg text-center">
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-center">
                                     <div className="text-3xl mb-2">📥</div>
                                     <div className="text-2xl font-bold text-blue-400">12K</div>
-                                    <div className="text-gray-400 text-sm">ITMOs Received</div>
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">ITMOs Received</div>
                                 </div>
-                                <div className="p-4 bg-gray-900/50 rounded-lg text-center">
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg text-center">
                                     <div className="text-3xl mb-2">✅</div>
                                     <div className="text-2xl font-bold text-teal-400">100%</div>
-                                    <div className="text-gray-400 text-sm">UNFCCC Reported</div>
+                                    <div className="text-gray-600 dark:text-gray-400 text-sm">UNFCCC Reported</div>
                                 </div>
                             </div>
                         </div>
@@ -436,50 +436,50 @@ function GovernmentDashboardContent() {
                 {/* Policy Tab */}
                 {activeTab === "policy" && (
                     <div className="space-y-6">
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h3 className="text-lg font-semibold text-white mb-4">⚙️ Policy Configuration</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">⚙️ Policy Configuration</h3>
                             <div className="space-y-4">
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-white font-medium">Annual Export Limit</div>
-                                        <div className="text-gray-400 text-sm">Maximum carbon credits that can be exported</div>
+                                        <div className="text-gray-900 dark:text-white font-medium">Annual Export Limit</div>
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Maximum carbon credits that can be exported</div>
                                     </div>
                                     <div className="flex items-center space-x-3">
                                         <input
                                             type="number"
                                             defaultValue={100000}
-                                            className="w-32 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-right"
+                                            className="w-32 px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-right"
                                         />
-                                        <span className="text-gray-400">tons</span>
+                                        <span className="text-gray-600 dark:text-gray-400">tons</span>
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-white font-medium">Minimum Verification Level</div>
-                                        <div className="text-gray-400 text-sm">Required verification tier for LoA issuance</div>
+                                        <div className="text-gray-900 dark:text-white font-medium">Minimum Verification Level</div>
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Required verification tier for LoA issuance</div>
                                     </div>
-                                    <select className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white">
+                                    <select className="px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white">
                                         <option>Gold Standard</option>
                                         <option>Verra VCS</option>
                                         <option>CDM</option>
                                     </select>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                                     <div>
-                                        <div className="text-white font-medium">Auto-Approve Threshold</div>
-                                        <div className="text-gray-400 text-sm">Projects below this size auto-approve</div>
+                                        <div className="text-gray-900 dark:text-white font-medium">Auto-Approve Threshold</div>
+                                        <div className="text-gray-600 dark:text-gray-400 text-sm">Projects below this size auto-approve</div>
                                     </div>
                                     <div className="flex items-center space-x-3">
                                         <input
                                             type="number"
                                             defaultValue={500}
-                                            className="w-32 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white text-right"
+                                            className="w-32 px-3 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white text-right"
                                         />
-                                        <span className="text-gray-400">tons</span>
+                                        <span className="text-gray-600 dark:text-gray-400">tons</span>
                                     </div>
                                 </div>
                             </div>
-                            <button className="mt-6 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold">
+                            <button className="mt-6 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-gray-900 dark:text-white font-semibold">
                                 Save Policy Settings
                             </button>
                         </div>
@@ -489,21 +489,21 @@ function GovernmentDashboardContent() {
                 {/* Review Modal */}
                 {selectedLoA && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-gray-800 border border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                             <div className="p-6 border-b border-gray-700">
                                 <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-semibold text-white">Issue Letter of Authorization</h2>
-                                    <button onClick={() => setSelectedLoA(null)} className="text-gray-400 hover:text-white">✕</button>
+                                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Issue Letter of Authorization</h2>
+                                    <button onClick={() => setSelectedLoA(null)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white">✕</button>
                                 </div>
                             </div>
                             <div className="p-6 space-y-6">
-                                <div className="p-4 bg-gray-900/50 rounded-xl">
-                                    <h3 className="font-semibold text-white mb-2">{selectedLoA.name}</h3>
-                                    <p className="text-gray-400 text-sm">{selectedLoA.projectId}</p>
+                                <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+                                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{selectedLoA.name}</h3>
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm">{selectedLoA.projectId}</p>
                                     <div className="grid grid-cols-2 gap-4 mt-4">
                                         <div>
                                             <span className="text-gray-500 text-xs">Verified Carbon</span>
-                                            <div className="text-white font-semibold">{selectedLoA.verifiedTons} tons</div>
+                                            <div className="text-gray-900 dark:text-white font-semibold">{selectedLoA.verifiedTons} tons</div>
                                         </div>
                                         <div>
                                             <span className="text-gray-500 text-xs">Validator</span>
@@ -518,7 +518,7 @@ function GovernmentDashboardContent() {
                                         value={loaNotes}
                                         onChange={(e) => setLoaNotes(e.target.value)}
                                         rows={3}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white"
                                         placeholder="Add notes for this LoA..."
                                     />
                                 </div>
@@ -526,7 +526,7 @@ function GovernmentDashboardContent() {
                                 <div className="flex items-center space-x-4">
                                     <button
                                         onClick={() => handleIssueLoA(selectedLoA)}
-                                        className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold"
+                                        className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-gray-900 dark:text-white font-semibold"
                                     >
                                         📜 Issue LoA
                                     </button>

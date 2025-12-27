@@ -19,7 +19,7 @@ interface User {
 }
 
 const ROLE_OPTIONS = [
-    { id: "user", label: "User (Developer)", description: "Can register projects, trade credits", color: "text-gray-400" },
+    { id: "user", label: "User (Developer)", description: "Can register projects, trade credits", color: "text-gray-600 dark:text-gray-400" },
     { id: "validator", label: "Validator", description: "Can verify projects, earn fees", color: "text-blue-400" },
     { id: "government", label: "Government", description: "Can issue LoA, approve compliance", color: "text-purple-400" },
     { id: "admin", label: "Admin", description: "Can create/vote on proposals", color: "text-orange-400" },
@@ -121,8 +121,8 @@ function UserManagementContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🔒</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Access Denied</h2>
-                    <p className="text-gray-400 mb-4">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Access Denied</h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
                         You need SuperAdmin privileges to manage users.
                     </p>
                     <p className="text-gray-500 text-sm mb-6">
@@ -130,7 +130,7 @@ function UserManagementContent() {
                     </p>
                     <Link
                         href="/dashboard"
-                        className="px-6 py-3 bg-gray-700 rounded-xl text-white font-medium hover:bg-gray-600"
+                        className="px-6 py-3 bg-gray-700 rounded-xl text-gray-900 dark:text-white font-medium hover:bg-gray-600"
                     >
                         Go to Dashboard
                     </Link>
@@ -148,49 +148,49 @@ function UserManagementContent() {
                         <Link href="/dashboard/admin" className="text-purple-400 hover:underline text-sm">
                             ← Back to Admin Dashboard
                         </Link>
-                        <h1 className="text-3xl font-bold text-white mt-2">User Management</h1>
-                        <p className="text-gray-400 mt-1">Manage user roles, permissions, and KYC status</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-2">User Management</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">Manage user roles, permissions, and KYC status</p>
                     </div>
                 </div>
 
                 {/* How It Works Info */}
                 <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-6 mb-8">
-                    <h3 className="font-semibold text-white mb-3">🔐 How Role Assignment Works</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">🔐 How Role Assignment Works</h3>
                     <div className="grid md:grid-cols-3 gap-4 text-sm">
-                        <div className="p-4 bg-gray-900/50 rounded-lg">
+                        <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                             <div className="text-purple-400 font-medium mb-2">1. Select User</div>
-                            <p className="text-gray-400">Search by wallet address and review their KYC status and activity</p>
+                            <p className="text-gray-600 dark:text-gray-400">Search by wallet address and review their KYC status and activity</p>
                         </div>
-                        <div className="p-4 bg-gray-900/50 rounded-lg">
+                        <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                             <div className="text-purple-400 font-medium mb-2">2. Create Proposal</div>
-                            <p className="text-gray-400">Role changes require a multi-sig proposal that other admins must approve</p>
+                            <p className="text-gray-600 dark:text-gray-400">Role changes require a multi-sig proposal that other admins must approve</p>
                         </div>
-                        <div className="p-4 bg-gray-900/50 rounded-lg">
+                        <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
                             <div className="text-purple-400 font-medium mb-2">3. Execute on Approval</div>
-                            <p className="text-gray-400">Once threshold is met (e.g., 2 of 3 admins), the role is assigned on-chain</p>
+                            <p className="text-gray-600 dark:text-gray-400">Once threshold is met (e.g., 2 of 3 admins), the role is assigned on-chain</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Filters */}
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 mb-6">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 mb-6">
                     <div className="flex flex-wrap gap-4">
                         <div className="flex-1 min-w-[200px]">
-                            <label className="block text-sm text-gray-400 mb-2">Search Wallet</label>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Search Wallet</label>
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Enter wallet address..."
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             />
                         </div>
                         <div className="w-40">
-                            <label className="block text-sm text-gray-400 mb-2">Role</label>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Role</label>
                             <select
                                 value={roleFilter}
                                 onChange={(e) => setRoleFilter(e.target.value)}
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             >
                                 <option value="all">All Roles</option>
                                 {ROLE_OPTIONS.map(r => (
@@ -199,11 +199,11 @@ function UserManagementContent() {
                             </select>
                         </div>
                         <div className="w-40">
-                            <label className="block text-sm text-gray-400 mb-2">KYC Status</label>
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">KYC Status</label>
                             <select
                                 value={kycFilter}
                                 onChange={(e) => setKycFilter(e.target.value)}
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="verified">Verified</option>
@@ -215,37 +215,37 @@ function UserManagementContent() {
                 </div>
 
                 {/* Users Table */}
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl overflow-hidden">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden">
                     <div className="p-6 border-b border-gray-700/50 flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-white">Users ({filteredUsers.length})</h2>
+                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Users ({filteredUsers.length})</h2>
                     </div>
 
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-900/50">
+                            <thead className="bg-gray-50 dark:bg-gray-900/50">
                                 <tr>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Wallet</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Role</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">KYC</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Activity</th>
-                                    <th className="text-left p-4 text-sm text-gray-400 font-medium">Joined</th>
-                                    <th className="text-right p-4 text-sm text-gray-400 font-medium">Actions</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Wallet</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Role</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">KYC</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Activity</th>
+                                    <th className="text-left p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Joined</th>
+                                    <th className="text-right p-4 text-sm text-gray-600 dark:text-gray-400 font-medium">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-700/50">
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {filteredUsers.map((user) => {
                                     const roleInfo = ROLE_OPTIONS.find(r => r.id === user.role);
                                     const kycInfo = KYC_LEVELS.find(k => k.level === user.kycLevel);
 
                                     return (
-                                        <tr key={user.pubkey} className="hover:bg-gray-700/20">
+                                        <tr key={user.pubkey} className="hover:bg-gray-200 dark:hover:bg-gray-700/20">
                                             <td className="p-4">
                                                 <div className="flex items-center space-x-3">
-                                                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                                                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-gray-900 dark:text-white font-bold">
                                                         {user.pubkey.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div>
-                                                        <div className="font-mono text-white">{user.pubkey}</div>
+                                                        <div className="font-mono text-gray-900 dark:text-white">{user.pubkey}</div>
                                                         <div className={`text-xs ${user.isActive ? "text-emerald-400" : "text-red-400"}`}>
                                                             {user.isActive ? "Active" : "Inactive"}
                                                         </div>
@@ -253,7 +253,7 @@ function UserManagementContent() {
                                                 </div>
                                             </td>
                                             <td className="p-4">
-                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${roleInfo?.color} bg-gray-700/50`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${roleInfo?.color} bg-gray-100 dark:bg-gray-700/50`}>
                                                     {roleInfo?.label || user.role}
                                                 </span>
                                             </td>
@@ -265,12 +265,12 @@ function UserManagementContent() {
                                                     <span className={kycInfo?.color}>{kycInfo?.label}</span>
                                                 </div>
                                             </td>
-                                            <td className="p-4 text-gray-400 text-sm">
+                                            <td className="p-4 text-gray-600 dark:text-gray-400 text-sm">
                                                 {user.role === "user" && `${user.projectCount || 0} projects, ${user.creditsHeld || 0} credits`}
                                                 {user.role === "validator" && `${user.verificationsCompleted || 0} verifications`}
                                                 {user.role === "government" && `${user.loaIssued || 0} LoAs issued`}
                                             </td>
-                                            <td className="p-4 text-gray-400 text-sm">{user.createdAt}</td>
+                                            <td className="p-4 text-gray-600 dark:text-gray-400 text-sm">{user.createdAt}</td>
                                             <td className="p-4 text-right">
                                                 <button
                                                     onClick={() => {
@@ -294,13 +294,13 @@ function UserManagementContent() {
                 {/* Role Assignment Modal */}
                 {showAssignModal && selectedUser && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-gray-800 border border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                             <div className="p-6 border-b border-gray-700">
                                 <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-semibold text-white">Manage User</h2>
+                                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Manage User</h2>
                                     <button
                                         onClick={() => setShowAssignModal(false)}
-                                        className="text-gray-400 hover:text-white"
+                                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                     >
                                         ✕
                                     </button>
@@ -309,24 +309,24 @@ function UserManagementContent() {
 
                             <div className="p-6">
                                 {/* User Info */}
-                                <div className="mb-6 p-4 bg-gray-900/50 rounded-xl">
-                                    <div className="font-mono text-white mb-2">{selectedUser.pubkey}</div>
+                                <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+                                    <div className="font-mono text-gray-900 dark:text-white mb-2">{selectedUser.pubkey}</div>
                                     <div className="flex items-center space-x-4 text-sm">
-                                        <span className="text-gray-400">Current Role: <span className="text-white">{selectedUser.role}</span></span>
-                                        <span className="text-gray-400">KYC: <span className={KYC_LEVELS.find(k => k.level === selectedUser.kycLevel)?.color}>{KYC_LEVELS.find(k => k.level === selectedUser.kycLevel)?.label}</span></span>
+                                        <span className="text-gray-600 dark:text-gray-400">Current Role: <span className="text-gray-900 dark:text-white">{selectedUser.role}</span></span>
+                                        <span className="text-gray-600 dark:text-gray-400">KYC: <span className={KYC_LEVELS.find(k => k.level === selectedUser.kycLevel)?.color}>{KYC_LEVELS.find(k => k.level === selectedUser.kycLevel)?.label}</span></span>
                                     </div>
                                 </div>
 
                                 {/* Role Selection */}
                                 <div className="mb-6">
-                                    <h3 className="font-medium text-white mb-3">Assign New Role</h3>
+                                    <h3 className="font-medium text-gray-900 dark:text-white mb-3">Assign New Role</h3>
                                     <div className="space-y-2">
                                         {ROLE_OPTIONS.map((roleOption) => (
                                             <label
                                                 key={roleOption.id}
                                                 className={`flex items-center p-4 rounded-xl cursor-pointer transition-colors ${newRole === roleOption.id
                                                     ? "bg-purple-500/10 border border-purple-500/30"
-                                                    : "bg-gray-900/50 border border-gray-700/50 hover:border-gray-600"
+                                                    : "bg-gray-50 dark:bg-gray-900/50 border border-gray-700/50 hover:border-gray-600"
                                                     }`}
                                             >
                                                 <input
@@ -343,7 +343,7 @@ function UserManagementContent() {
                                                 </div>
                                                 <div>
                                                     <div className={`font-medium ${roleOption.color}`}>{roleOption.label}</div>
-                                                    <div className="text-sm text-gray-400">{roleOption.description}</div>
+                                                    <div className="text-sm text-gray-600 dark:text-gray-400">{roleOption.description}</div>
                                                 </div>
                                             </label>
                                         ))}
@@ -352,14 +352,14 @@ function UserManagementContent() {
 
                                 {/* Permissions (for advanced users) */}
                                 <div className="mb-6">
-                                    <h3 className="font-medium text-white mb-3">Granular Permissions (Optional)</h3>
+                                    <h3 className="font-medium text-gray-900 dark:text-white mb-3">Granular Permissions (Optional)</h3>
                                     <div className="grid grid-cols-2 gap-2">
                                         {PERMISSIONS.map((perm) => (
                                             <label
                                                 key={perm.id}
                                                 className={`flex items-center p-3 rounded-lg cursor-pointer transition-colors ${selectedPermissions.includes(perm.bit)
                                                     ? "bg-emerald-500/10 border border-emerald-500/30"
-                                                    : "bg-gray-900/50 border border-gray-700/50"
+                                                    : "bg-gray-50 dark:bg-gray-900/50 border border-gray-700/50"
                                                     }`}
                                             >
                                                 <input
@@ -369,7 +369,7 @@ function UserManagementContent() {
                                                     className="sr-only"
                                                 />
                                                 <span className={`w-4 h-4 rounded flex items-center justify-center mr-3 ${selectedPermissions.includes(perm.bit)
-                                                    ? "bg-emerald-500 text-white"
+                                                    ? "bg-emerald-500 text-gray-900 dark:text-white"
                                                     : "bg-gray-700"
                                                     }`}>
                                                     {selectedPermissions.includes(perm.bit) && "✓"}
@@ -386,7 +386,7 @@ function UserManagementContent() {
                                         <span className="text-xl">⚠️</span>
                                         <div className="text-sm">
                                             <p className="text-yellow-400 font-medium">Multi-Sig Required</p>
-                                            <p className="text-gray-400 mt-1">
+                                            <p className="text-gray-600 dark:text-gray-400 mt-1">
                                                 This action will create a proposal that requires approval from {2} of {3} admins before it takes effect.
                                             </p>
                                         </div>
@@ -397,14 +397,14 @@ function UserManagementContent() {
                                 <div className="flex items-center justify-end space-x-4">
                                     <button
                                         onClick={() => setShowAssignModal(false)}
-                                        className="px-6 py-3 border border-gray-700 rounded-xl text-gray-400 font-medium hover:text-white hover:border-gray-600"
+                                        className="px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-400 font-medium hover:text-gray-900 dark:text-white hover:border-gray-600"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         onClick={handleAssignRole}
                                         disabled={newRole === selectedUser.role}
-                                        className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
+                                        className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
                                     >
                                         Create Role Assignment Proposal
                                     </button>

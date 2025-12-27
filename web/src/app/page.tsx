@@ -1,173 +1,328 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+
+// FAQ Item Component
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border-b border-gray-200 dark:border-gray-700">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-5 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-gray-800 transition-colors px-2 -mx-2 rounded"
+      >
+        <span className="font-medium text-gray-900 dark:text-gray-900 dark:text-white">{question}</span>
+        <span className="text-2xl text-violet-600 ml-4">
+          {isOpen ? "−" : "+"}
+        </span>
+      </button>
+      {isOpen && (
+        <div className="pb-5 text-gray-600 dark:text-gray-600 dark:text-gray-400 leading-relaxed">
+          {answer}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-teal-500/10" />
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: `linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }} />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-          <div className="text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-8">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse mr-2" />
-              <span className="text-sm text-emerald-400">Built on Solana</span>
-            </div>
-
-            {/* Headline */}
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                Transparent Carbon
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                Credit Registry
-              </span>
-            </h1>
-
-            {/* Subheadline */}
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
-              Register, verify, and trade carbon credits on the blockchain.
-              Full lifecycle management from project registration to retirement,
-              aligned with Paris Agreement Article 6.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/explore"
-                className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold text-lg shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-shadow"
-              >
-                Explore Projects
-              </Link>
-              <Link
-                href="/register"
-                className="px-8 py-4 bg-gray-800 border border-gray-700 rounded-xl text-white font-semibold text-lg hover:bg-gray-750 transition-colors"
-              >
-                Register Project
-              </Link>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { label: "Projects Registered", value: "45+" },
-              { label: "Credits Issued", value: "125K" },
-              { label: "Credits Retired", value: "45K" },
-              { label: "Countries", value: "5" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-gray-500 mt-2">{stat.label}</div>
-              </div>
-            ))}
+      <section className="pt-20 pb-24 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-gray-500 dark:text-gray-600 dark:text-gray-400 text-sm uppercase tracking-wider mb-4">
+            Welcome to
+          </p>
+          <h1 className="text-6xl md:text-7xl font-bold text-gray-900 dark:text-gray-900 dark:text-white tracking-tight mb-6">
+            Accord Registry
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            The transparent blockchain-based carbon credit registry. Register, verify,
+            and trade carbon credits aligned with Paris Agreement Article 6.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/explore"
+              className="px-8 py-3.5 bg-violet-600 text-gray-900 dark:text-white rounded-full font-medium hover:bg-violet-700 transition-colors flex items-center gap-2"
+            >
+              View all projects
+              <span>→</span>
+            </Link>
+            <Link
+              href="/guide"
+              className="text-violet-600 hover:underline font-medium"
+            >
+              Learn how it works
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Complete Carbon Credit Lifecycle
+      {/* Promo Strip */}
+      <section className="bg-gray-50 dark:bg-gray-900 py-16 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
+          <div className="lg:max-w-xl">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-4">
+              Ready to offset your carbon footprint?
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              From project registration to credit retirement, manage every step on-chain
+            <p className="text-gray-600 dark:text-gray-600 dark:text-gray-400 mb-6">
+              Browse verified carbon credit projects from around the world.
+              Each credit is traceable, transparent, and blockchain-verified.
             </p>
+            <Link
+              href="/marketplace"
+              className="inline-flex px-6 py-3 bg-violet-600 text-gray-900 dark:text-white rounded-full font-medium hover:bg-violet-700 transition-colors"
+            >
+              Explore Marketplace
+            </Link>
           </div>
+          <div className="w-72 h-48 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-2xl flex items-center justify-center">
+            <span className="text-6xl">🌿</span>
+          </div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-3 gap-8">
+      {/* About / Features Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-12 text-center">
+            About Accord Registry
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               {
-                icon: "🌿",
-                title: "Register Projects",
-                description: "Submit mangrove, forestry, and renewable energy projects with geospatial verification and ICM Registry integration.",
+                num: "01",
+                title: "Blockchain Verified",
+                description: "Every carbon credit is registered on-chain using Solana, ensuring complete transparency and immutability.",
               },
               {
-                icon: "🔍",
-                title: "Verify & Audit",
-                description: "Accredited validators review DePIN data including satellite imagery, IoT sensors, and ecosystem health scores.",
+                num: "02",
+                title: "ICM Compliant",
+                description: "Fully aligned with Paris Agreement Article 6 and India's Carbon Market regulations for cross-border credit transfers.",
               },
               {
-                icon: "💱",
-                title: "Trade Credits",
-                description: "Buy and sell credits on the P2P marketplace or provide liquidity to the built-in AMM DEX.",
+                num: "03",
+                title: "DePIN Integration",
+                description: "Satellite imagery, IoT sensors, and real-time ecosystem data feed into our verification process.",
               },
               {
-                icon: "🏛️",
-                title: "Government Approval",
-                description: "Receive Letter of Authorization (LoA) for Article 6 compliance and international credit transfers.",
-              },
-              {
-                icon: "🔥",
-                title: "Retire & Offset",
-                description: "Burn credits to offset emissions and receive immutable, soulbound retirement certificates.",
-              },
-              {
-                icon: "📊",
-                title: "Track Impact",
-                description: "Monitor environmental impact with real-time analytics, leaderboards, and SDG contribution tracking.",
+                num: "04",
+                title: "Instant Settlement",
+                description: "Trade credits on our built-in DEX with instant on-chain settlement and no intermediaries.",
               },
             ].map((feature) => (
               <div
-                key={feature.title}
-                className="p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-emerald-500/30 transition-colors"
+                key={feature.num}
+                className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-8 hover:shadow-lg transition-shadow"
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">
+                <span className="text-violet-600 font-bold text-lg">{feature.num}</span>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mt-3 mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <p className="text-gray-600 dark:text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Make an Impact?
-          </h2>
-          <p className="text-xl text-gray-400 mb-8">
-            Join the future of transparent carbon markets. Connect your wallet to get started.
+      {/* Stats Row */}
+      <section className="bg-gray-50 dark:bg-gray-900 py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-gray-600 dark:text-gray-600 dark:text-gray-400 mb-8">
+            Trusted by project developers and organizations worldwide
           </p>
-          <Link
-            href="/dashboard"
-            className="inline-flex px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold text-lg shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-shadow"
-          >
-            Launch App
-          </Link>
+          <div className="flex flex-wrap justify-center gap-16">
+            {[
+              { value: "45+", label: "Projects" },
+              { value: "125K", label: "Credits Issued" },
+              { value: "5", label: "Countries" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-4xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">{stat.value}</div>
+                <div className="text-gray-500 mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-800 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
+      {/* How to Use Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-12 text-center">
+            How to Use Accord
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              {
+                num: "01",
+                title: "Connect Wallet",
+                description: "Link your Solana wallet to access the platform and manage your carbon credits.",
+              },
+              {
+                num: "02",
+                title: "Register Project",
+                description: "Submit your carbon project with location data and supporting documentation.",
+              },
+              {
+                num: "03",
+                title: "Get Verified",
+                description: "Accredited validators review your project using DePIN and satellite data.",
+              },
+              {
+                num: "04",
+                title: "Trade Credits",
+                description: "Once verified, mint tokens and trade on the marketplace or DEX.",
+              },
+            ].map((step) => (
+              <div key={step.num} className="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-2xl p-6">
+                <span className="text-violet-600 font-bold text-2xl">{step.num}</span>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-900 dark:text-white mt-4 mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-              <span className="text-lg font-bold text-white">Accord Registry</span>
-            </div>
-            <p className="text-gray-500 text-sm">
-              Built for a sustainable future 🌍
-            </p>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-4">
+            <Link
+              href="/register"
+              className="px-8 py-3 bg-violet-600 text-gray-900 dark:text-white rounded-full font-medium hover:bg-violet-700 transition-colors"
+            >
+              Start Exploring
+            </Link>
+            <Link
+              href="/guide"
+              className="px-8 py-3 border border-gray-300 dark:border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full font-medium hover:bg-gray-50 dark:hover:bg-gray-100 dark:bg-gray-800 transition-colors"
+            >
+              Learn More
+            </Link>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="bg-gray-50 dark:bg-gray-900 py-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-12 text-center">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="bg-white dark:bg-gray-950 rounded-2xl p-8">
+            <FAQItem
+              question="What is a carbon credit?"
+              answer="A carbon credit represents one tonne of CO2 equivalent that has been removed or prevented from entering the atmosphere. Credits can be traded and retired to offset emissions."
+            />
+            <FAQItem
+              question="How does blockchain verification work?"
+              answer="Each project and credit is registered on Solana blockchain, creating an immutable record. Verification data from satellites and IoT sensors is stored on-chain for transparency."
+            />
+            <FAQItem
+              question="What project types are supported?"
+              answer="We support blue carbon (mangroves, seagrass), forestry, renewable energy, waste management, agriculture, and industrial emission reduction projects."
+            />
+            <FAQItem
+              question="How do I become a validator?"
+              answer="Validators must apply through the platform and demonstrate relevant credentials. Government bodies and accredited institutions receive priority verification."
+            />
+            <FAQItem
+              question="What is Article 6 compliance?"
+              answer="Article 6 of the Paris Agreement governs international carbon credit transfers. Our platform ensures proper corresponding adjustments for cross-border transactions."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Resources Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-12 text-center">
+            Learning Resources
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { num: "01", title: "Documentation", description: "Complete technical guides for developers and project owners." },
+              { num: "02", title: "API Reference", description: "Integrate with our on-chain program using the Anchor SDK." },
+              { num: "03", title: "Video Tutorials", description: "Step-by-step video walkthroughs for every feature." },
+              { num: "04", title: "Case Studies", description: "Real-world examples of successful carbon projects." },
+              { num: "05", title: "Whitepaper", description: "Deep dive into our tokenomics and protocol design." },
+              { num: "06", title: "Community Forum", description: "Connect with other project developers and validators." },
+            ].map((resource) => (
+              <div
+                key={resource.num}
+                className="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 hover:shadow-lg transition-shadow"
+              >
+                <span className="text-violet-600 font-bold">{resource.num}</span>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-900 dark:text-white mt-3 mb-2">
+                  {resource.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  {resource.description}
+                </p>
+                <span className="inline-block px-3 py-1 bg-gray-200 dark:bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-600 dark:text-gray-400 text-xs rounded-full">
+                  Coming Soon
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Projects Section */}
+      <section className="bg-gray-50 dark:bg-gray-900 py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-12 text-center">
+            Recent Projects
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Sundarbans Mangrove", tag: "Blue Carbon", color: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" },
+              { title: "Western Ghats Forest", tag: "Forestry", color: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" },
+              { title: "Gujarat Solar Park", tag: "Renewable", color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" },
+              { title: "Mumbai Waste-to-Energy", tag: "Industrial", color: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400" },
+            ].map((project, i) => (
+              <div
+                key={i}
+                className="bg-white dark:bg-gray-950 rounded-2xl overflow-hidden hover:shadow-lg transition-shadow group"
+              >
+                <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
+                  <span className="text-4xl opacity-50 group-hover:scale-110 transition-transform">
+                    {project.tag === "Blue Carbon" ? "🌊" :
+                      project.tag === "Forestry" ? "🌲" :
+                        project.tag === "Renewable" ? "☀️" : "🏭"}
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-bold text-gray-900 dark:text-gray-900 dark:text-white mb-2">{project.title}</h3>
+                  <span className={`inline-block px-3 py-1 text-xs rounded-full ${project.color}`}>
+                    {project.tag}
+                  </span>
+                  <Link
+                    href="/explore"
+                    className="block mt-4 text-violet-600 text-sm hover:underline"
+                  >
+                    View project →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

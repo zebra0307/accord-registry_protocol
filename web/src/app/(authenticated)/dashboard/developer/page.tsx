@@ -31,7 +31,7 @@ interface ActivityItem {
 }
 
 const STATUS_CONFIG = {
-    draft: { label: "Draft", color: "bg-gray-500/10 text-gray-400", icon: "📝" },
+    draft: { label: "Draft", color: "bg-gray-500/10 text-gray-600 dark:text-gray-400", icon: "📝" },
     pending: { label: "Pending Verification", color: "bg-yellow-500/10 text-yellow-400", icon: "⏳" },
     awaitingAudit: { label: "Awaiting Audit", color: "bg-yellow-500/10 text-yellow-400", icon: "⏳" },
     underReview: { label: "Under Review", color: "bg-blue-500/10 text-blue-400", icon: "🔍" },
@@ -194,8 +194,8 @@ function DeveloperDashboardContent() {
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="text-6xl mb-4">🌱</div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Connect your Solana wallet to access the Developer Dashboard.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Connect your Solana wallet to access the Developer Dashboard.</p>
                 </div>
             </div>
         );
@@ -214,18 +214,18 @@ function DeveloperDashboardContent() {
         return (
             <div className="min-h-screen py-12">
                 <div className="max-w-2xl mx-auto px-4">
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-8 text-center">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl p-8 text-center">
                         <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6">
                             <span className="text-4xl">🌿</span>
                         </div>
-                        <h2 className="text-2xl font-bold text-white mb-4">Welcome to Accord Registry</h2>
-                        <p className="text-gray-400 mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Accord Registry</h2>
+                        <p className="text-gray-600 dark:text-gray-400 mb-6">
                             To register projects and participate in the carbon credit marketplace,
                             you need to create your on-chain user account.
                         </p>
 
-                        <div className="bg-gray-900/50 rounded-xl p-6 mb-6 text-left">
-                            <h3 className="font-semibold text-white mb-4">What you'll be able to do:</h3>
+                        <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-6 mb-6 text-left">
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">What you'll be able to do:</h3>
                             <ul className="space-y-3">
                                 <li className="flex items-center space-x-3">
                                     <span className="text-emerald-400">✓</span>
@@ -251,7 +251,7 @@ function DeveloperDashboardContent() {
                                 <span className="text-xl">⚠️</span>
                                 <div className="text-left">
                                     <p className="text-yellow-400 text-sm font-medium">One Registration Per Wallet</p>
-                                    <p className="text-gray-400 text-sm">
+                                    <p className="text-gray-600 dark:text-gray-400 text-sm">
                                         Each wallet can only register once and have one role in the system.
                                     </p>
                                 </div>
@@ -261,7 +261,7 @@ function DeveloperDashboardContent() {
                         <button
                             onClick={handleRegister}
                             disabled={registering}
-                            className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity"
+                            className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity"
                         >
                             {registering ? "Registering..." : "Register as Developer"}
                         </button>
@@ -281,13 +281,13 @@ function DeveloperDashboardContent() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">Developer Dashboard</h1>
-                        <p className="text-gray-400 mt-1">Manage your carbon credit projects</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Developer Dashboard</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your carbon credit projects</p>
                     </div>
                     <div className="flex items-center space-x-3">
                         <Link
                             href="/register"
-                            className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90"
+                            className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90"
                         >
                             + New Project
                         </Link>
@@ -296,31 +296,31 @@ function DeveloperDashboardContent() {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-2xl">📁</span>
-                            <span className="text-gray-400 text-sm">My Projects</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">My Projects</span>
                         </div>
-                        <div className="text-3xl font-bold text-white">{stats.totalProjects}</div>
+                        <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalProjects}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-2xl">🪙</span>
-                            <span className="text-gray-400 text-sm">Credits Issued</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Credits Issued</span>
                         </div>
                         <div className="text-3xl font-bold text-emerald-400">{stats.creditsIssued.toLocaleString()}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-2xl">⏳</span>
-                            <span className="text-gray-400 text-sm">Pending Verification</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Pending Verification</span>
                         </div>
                         <div className="text-3xl font-bold text-yellow-400">{stats.pendingVerification}</div>
                     </div>
-                    <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
+                    <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
                             <span className="text-2xl">🔒</span>
-                            <span className="text-gray-400 text-sm">Escrow Locked</span>
+                            <span className="text-gray-600 dark:text-gray-400 text-sm">Escrow Locked</span>
                         </div>
                         <div className="text-3xl font-bold text-purple-400">{stats.escrowLocked} SOL</div>
                     </div>
@@ -331,7 +331,7 @@ function DeveloperDashboardContent() {
                     {/* Projects List */}
                     <div className="lg:col-span-2 space-y-4">
                         <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-xl font-semibold text-white">My Projects</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Projects</h2>
                             <Link href="/my-projects" className="text-emerald-400 text-sm hover:underline">
                                 View All →
                             </Link>
@@ -342,29 +342,29 @@ function DeveloperDashboardContent() {
                             return (
                                 <div
                                     key={project.id}
-                                    className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 hover:border-emerald-500/30 transition-colors"
+                                    className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 hover:border-emerald-500/30 transition-colors"
                                 >
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start space-x-4">
-                                            <div className="w-12 h-12 bg-gray-700/50 rounded-xl flex items-center justify-center text-2xl">
+                                            <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700/50 rounded-xl flex items-center justify-center text-2xl">
                                                 {SECTOR_ICONS[project.sector] || "🌍"}
                                             </div>
                                             <div>
                                                 <div className="flex items-center space-x-3">
-                                                    <h3 className="font-semibold text-white">{project.name}</h3>
+                                                    <h3 className="font-semibold text-gray-900 dark:text-white">{project.name}</h3>
                                                     <span className={`px-2 py-1 rounded-full text-xs ${statusConfig.color}`}>
                                                         {statusConfig.icon} {statusConfig.label}
                                                     </span>
                                                 </div>
-                                                <p className="text-gray-400 text-sm mt-1">
+                                                <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                                     {project.projectId} • {project.location}
                                                 </p>
                                                 <div className="flex items-center space-x-4 mt-2 text-sm">
-                                                    <span className="text-gray-400">
-                                                        Claimed: <span className="text-white">{project.claimedTons.toLocaleString()} tons</span>
+                                                    <span className="text-gray-600 dark:text-gray-400">
+                                                        Claimed: <span className="text-gray-900 dark:text-white">{project.claimedTons.toLocaleString()} tons</span>
                                                     </span>
                                                     {project.issuedCredits > 0 && (
-                                                        <span className="text-gray-400">
+                                                        <span className="text-gray-600 dark:text-gray-400">
                                                             Issued: <span className="text-emerald-400">{project.issuedCredits.toLocaleString()}</span>
                                                         </span>
                                                     )}
@@ -385,7 +385,7 @@ function DeveloperDashboardContent() {
                                                     List
                                                 </Link>
                                             )}
-                                            <button className="px-4 py-2 bg-gray-700/50 rounded-lg text-gray-300 text-sm">
+                                            <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-gray-300 text-sm">
                                                 Manage
                                             </button>
                                         </div>
@@ -396,18 +396,18 @@ function DeveloperDashboardContent() {
 
                         <Link
                             href="/register"
-                            className="block p-6 border-2 border-dashed border-gray-700 rounded-xl text-center hover:border-emerald-500/50 transition-colors"
+                            className="block p-6 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl text-center hover:border-emerald-500/50 transition-colors"
                         >
                             <span className="text-4xl block mb-2">+</span>
-                            <span className="text-gray-400">Register New Project</span>
+                            <span className="text-gray-600 dark:text-gray-400">Register New Project</span>
                         </Link>
                     </div>
 
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {/* Recent Activity */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h3 className="font-semibold text-white mb-4">Recent Activity</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
                             <div className="space-y-4">
                                 {activity.map((item) => (
                                     <div key={item.id} className="flex items-start space-x-3">
@@ -422,22 +422,22 @@ function DeveloperDashboardContent() {
                         </div>
 
                         {/* Quick Actions */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
-                            <h3 className="font-semibold text-white mb-4">Quick Actions</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
                             <div className="grid grid-cols-2 gap-3">
-                                <Link href="/wallet" className="p-4 bg-gray-900/50 rounded-lg hover:bg-gray-700/50 transition-colors text-center">
+                                <Link href="/wallet" className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:bg-gray-700/50 transition-colors text-center">
                                     <div className="text-2xl mb-1">💰</div>
                                     <div className="text-sm text-gray-300">Wallet</div>
                                 </Link>
-                                <Link href="/marketplace" className="p-4 bg-gray-900/50 rounded-lg hover:bg-gray-700/50 transition-colors text-center">
+                                <Link href="/marketplace" className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:bg-gray-700/50 transition-colors text-center">
                                     <div className="text-2xl mb-1">🏪</div>
                                     <div className="text-sm text-gray-300">Marketplace</div>
                                 </Link>
-                                <Link href="/dex" className="p-4 bg-gray-900/50 rounded-lg hover:bg-gray-700/50 transition-colors text-center">
+                                <Link href="/dex" className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:bg-gray-700/50 transition-colors text-center">
                                     <div className="text-2xl mb-1">💱</div>
                                     <div className="text-sm text-gray-300">DEX</div>
                                 </Link>
-                                <Link href="/settings" className="p-4 bg-gray-900/50 rounded-lg hover:bg-gray-700/50 transition-colors text-center">
+                                <Link href="/settings" className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:bg-gray-700/50 transition-colors text-center">
                                     <div className="text-2xl mb-1">⚙️</div>
                                     <div className="text-sm text-gray-300">Settings</div>
                                 </Link>
@@ -448,8 +448,8 @@ function DeveloperDashboardContent() {
                         {role === "user" && (
                             <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-6">
                                 <div className="text-2xl mb-2">🚀</div>
-                                <h3 className="font-semibold text-white mb-2">Upgrade Your Role</h3>
-                                <p className="text-gray-400 text-sm mb-4">
+                                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Upgrade Your Role</h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                                     Apply to become a Validator or Government official to unlock more features.
                                 </p>
                                 <Link

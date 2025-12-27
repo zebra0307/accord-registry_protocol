@@ -4,7 +4,9 @@ import "./globals.css";
 import { SolanaWalletProvider } from "@/providers/WalletProvider";
 import { ProgramProvider } from "@/providers/ProgramProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,15 +22,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-gray-950 text-gray-100 min-h-screen`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}>
         <QueryProvider>
           <SolanaWalletProvider>
             <ProgramProvider>
-              <Header />
-              <main className="pt-16">
-                {children}
-              </main>
+              <ThemeProvider>
+                <Header />
+                <main className="pt-16 min-h-screen">
+                  {children}
+                </main>
+                <Footer />
+              </ThemeProvider>
             </ProgramProvider>
           </SolanaWalletProvider>
         </QueryProvider>

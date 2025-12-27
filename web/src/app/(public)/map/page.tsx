@@ -79,8 +79,8 @@ export default function MapPage() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">Project Map</h1>
-                        <p className="text-gray-400 mt-1">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Project Map</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">
                             Explore carbon credit projects geospatially with H3 hexagon indexing
                         </p>
                     </div>
@@ -89,7 +89,7 @@ export default function MapPage() {
                             onClick={() => setMapView("satellite")}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mapView === "satellite"
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-400 hover:text-white"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                 }`}
                         >
                             🛰️ Satellite
@@ -98,7 +98,7 @@ export default function MapPage() {
                             onClick={() => setMapView("terrain")}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mapView === "terrain"
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-400 hover:text-white"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                 }`}
                         >
                             🗺️ Terrain
@@ -109,7 +109,7 @@ export default function MapPage() {
                 <div className="flex gap-8">
                     {/* Map Area */}
                     <div className="flex-1">
-                        <div className="relative bg-gray-800/50 border border-gray-700/50 rounded-2xl overflow-hidden aspect-[4/3]">
+                        <div className="relative bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl overflow-hidden aspect-[4/3]">
                             {/* Map Background (placeholder - would be replaced with real map) */}
                             <div
                                 className="absolute inset-0"
@@ -174,17 +174,17 @@ export default function MapPage() {
 
                             {/* Map Controls */}
                             <div className="absolute top-4 left-4 flex flex-col space-y-2">
-                                <button className="w-10 h-10 bg-gray-900/80 backdrop-blur rounded-lg text-white hover:bg-gray-800">
+                                <button className="w-10 h-10 bg-gray-900/80 backdrop-blur rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
                                     +
                                 </button>
-                                <button className="w-10 h-10 bg-gray-900/80 backdrop-blur rounded-lg text-white hover:bg-gray-800">
+                                <button className="w-10 h-10 bg-gray-900/80 backdrop-blur rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
                                     −
                                 </button>
                             </div>
 
                             {/* Legend */}
                             <div className="absolute bottom-4 left-4 bg-gray-900/80 backdrop-blur rounded-xl p-4">
-                                <h4 className="text-sm font-medium text-white mb-3">Project Types</h4>
+                                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Project Types</h4>
                                 <div className="space-y-2">
                                     {Object.entries(SECTOR_ICONS).slice(0, 4).map(([sector, icon]) => (
                                         <div key={sector} className="flex items-center space-x-2 text-sm">
@@ -199,9 +199,9 @@ export default function MapPage() {
                             <div className="absolute top-4 right-4 bg-gray-900/80 backdrop-blur rounded-xl p-4">
                                 <div className="flex items-center space-x-2 mb-2">
                                     <span className="text-emerald-400">⬡</span>
-                                    <span className="text-sm font-medium text-white">H3 Hexagon Grid</span>
+                                    <span className="text-sm font-medium text-gray-900 dark:text-white">H3 Hexagon Grid</span>
                                 </div>
-                                <p className="text-xs text-gray-400 max-w-[200px]">
+                                <p className="text-xs text-gray-600 dark:text-gray-400 max-w-[200px]">
                                     Projects are indexed using H3 geospatial system for double-counting prevention
                                 </p>
                             </div>
@@ -212,7 +212,7 @@ export default function MapPage() {
                     <div className="w-80 flex-shrink-0">
                         {/* Selected Project */}
                         {selectedProject ? (
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 mb-6">
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 mb-6">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center space-x-3">
                                         <span className="text-3xl">{SECTOR_ICONS[selectedProject.sector]}</span>
@@ -227,28 +227,28 @@ export default function MapPage() {
                                     </div>
                                     <button
                                         onClick={() => setSelectedProject(null)}
-                                        className="text-gray-500 hover:text-white"
+                                        className="text-gray-500 hover:text-gray-900 dark:text-white"
                                     >
                                         ✕
                                     </button>
                                 </div>
 
-                                <h3 className="text-lg font-semibold text-white mb-1">{selectedProject.name}</h3>
-                                <p className="text-sm text-gray-400 mb-4">{selectedProject.id}</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">{selectedProject.name}</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{selectedProject.id}</p>
 
                                 <div className="space-y-3">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400 text-sm">Carbon Tons</span>
-                                        <span className="text-white font-medium">{selectedProject.carbonTons.toLocaleString()}</span>
+                                        <span className="text-gray-600 dark:text-gray-400 text-sm">Carbon Tons</span>
+                                        <span className="text-gray-900 dark:text-white font-medium">{selectedProject.carbonTons.toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400 text-sm">Location</span>
-                                        <span className="text-white font-medium">
+                                        <span className="text-gray-600 dark:text-gray-400 text-sm">Location</span>
+                                        <span className="text-gray-900 dark:text-white font-medium">
                                             {selectedProject.lat.toFixed(3)}, {selectedProject.lng.toFixed(3)}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400 text-sm">H3 Index</span>
+                                        <span className="text-gray-600 dark:text-gray-400 text-sm">H3 Index</span>
                                         <span className="text-emerald-400 font-mono text-xs">{selectedProject.h3Index}</span>
                                     </div>
                                 </div>
@@ -261,30 +261,30 @@ export default function MapPage() {
                                 </Link>
                             </div>
                         ) : (
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 mb-6 text-center">
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 mb-6 text-center">
                                 <div className="text-4xl mb-3">📍</div>
-                                <p className="text-gray-400">Click a project marker to view details</p>
+                                <p className="text-gray-600 dark:text-gray-400">Click a project marker to view details</p>
                             </div>
                         )}
 
                         {/* Project List */}
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl">
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl">
                             <div className="p-4 border-b border-gray-700/50">
-                                <h3 className="font-semibold text-white">All Projects ({projects.length})</h3>
+                                <h3 className="font-semibold text-gray-900 dark:text-white">All Projects ({projects.length})</h3>
                             </div>
-                            <div className="max-h-80 overflow-y-auto divide-y divide-gray-700/50">
+                            <div className="max-h-80 overflow-y-auto divide-y divide-gray-200 dark:divide-gray-700/50">
                                 {projects.map((project) => (
                                     <button
                                         key={project.id}
                                         onClick={() => setSelectedProject(project)}
-                                        className={`w-full p-4 text-left hover:bg-gray-700/20 transition-colors ${selectedProject?.id === project.id ? "bg-gray-700/30" : ""
+                                        className={`w-full p-4 text-left hover:bg-gray-200 dark:hover:bg-gray-700/20 transition-colors ${selectedProject?.id === project.id ? "bg-gray-700/30" : ""
                                             }`}
                                     >
                                         <div className="flex items-center space-x-3">
                                             <span className="text-xl">{SECTOR_ICONS[project.sector]}</span>
                                             <div className="flex-1 min-w-0">
-                                                <div className="font-medium text-white truncate">{project.name}</div>
-                                                <div className="text-xs text-gray-400">{project.id}</div>
+                                                <div className="font-medium text-gray-900 dark:text-white truncate">{project.name}</div>
+                                                <div className="text-xs text-gray-600 dark:text-gray-400">{project.id}</div>
                                             </div>
                                             <span className={`w-2 h-2 rounded-full ${project.status === "verified" ? "bg-emerald-400" : "bg-yellow-400"
                                                 }`} />
@@ -296,15 +296,15 @@ export default function MapPage() {
 
                         {/* Stats */}
                         <div className="mt-6 grid grid-cols-2 gap-4">
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
-                                <div className="text-2xl font-bold text-white">{projects.length}</div>
-                                <div className="text-xs text-gray-400">Total Projects</div>
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-4 text-center">
+                                <div className="text-2xl font-bold text-gray-900 dark:text-white">{projects.length}</div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">Total Projects</div>
                             </div>
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center">
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-4 text-center">
                                 <div className="text-2xl font-bold text-emerald-400">
                                     {projects.reduce((sum, p) => sum + p.carbonTons, 0).toLocaleString()}
                                 </div>
-                                <div className="text-xs text-gray-400">Total Tons</div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">Total Tons</div>
                             </div>
                         </div>
                     </div>

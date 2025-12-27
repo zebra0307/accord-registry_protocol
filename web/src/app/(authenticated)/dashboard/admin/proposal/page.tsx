@@ -56,8 +56,8 @@ export default function CreateProposalPage() {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to create proposals.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to create proposals.</p>
                 </div>
             </div>
         );
@@ -71,13 +71,13 @@ export default function CreateProposalPage() {
                     <Link href="/dashboard/admin" className="text-purple-400 hover:underline text-sm">
                         ← Back to Admin Dashboard
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mt-4">Create Proposal</h1>
-                    <p className="text-gray-400 mt-2">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-4">Create Proposal</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
                         Proposals require multi-sig approval before execution
                     </p>
                 </div>
 
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-8">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl p-8">
                     {/* Proposal Type Selection */}
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-gray-300 mb-3">
@@ -90,14 +90,14 @@ export default function CreateProposalPage() {
                                     onClick={() => setProposalType(type.id)}
                                     className={`p-4 rounded-xl border text-left transition-colors ${proposalType === type.id
                                             ? "border-purple-500 bg-purple-500/10"
-                                            : "border-gray-700 hover:border-gray-600"
+                                            : "border-gray-200 dark:border-gray-700 hover:border-gray-600"
                                         }`}
                                 >
                                     <div className="flex items-center space-x-3">
                                         <span className="text-2xl">{type.icon}</span>
                                         <div>
-                                            <div className="font-medium text-white">{type.label}</div>
-                                            <div className="text-xs text-gray-400">{type.description}</div>
+                                            <div className="font-medium text-gray-900 dark:text-white">{type.label}</div>
+                                            <div className="text-xs text-gray-600 dark:text-gray-400">{type.description}</div>
                                         </div>
                                     </div>
                                 </button>
@@ -119,7 +119,7 @@ export default function CreateProposalPage() {
                                         value={targetAddress}
                                         onChange={(e) => setTargetAddress(e.target.value)}
                                         placeholder="Enter Solana wallet address..."
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white font-mono text-sm focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white font-mono text-sm focus:outline-none focus:border-purple-500"
                                     />
                                 </div>
                             )}
@@ -133,7 +133,7 @@ export default function CreateProposalPage() {
                                     <select
                                         value={selectedRole}
                                         onChange={(e) => setSelectedRole(e.target.value)}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                                     >
                                         <option value="">Select a role...</option>
                                         {USER_ROLES.map((role) => (
@@ -158,7 +158,7 @@ export default function CreateProposalPage() {
                                         min={1}
                                         max={10}
                                         placeholder="e.g., 2"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                                     />
                                     <p className="text-sm text-gray-500 mt-1">
                                         Current threshold: 2 of 3 admins
@@ -173,7 +173,7 @@ export default function CreateProposalPage() {
                                         <span className="text-2xl">⚠️</span>
                                         <div>
                                             <p className="text-red-400 font-medium">Critical Action</p>
-                                            <p className="text-gray-400 text-sm mt-1">
+                                            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
                                                 Pausing the system will halt all operations including project registration,
                                                 credit minting, and trading. Use only in genuine emergencies.
                                             </p>
@@ -192,7 +192,7 @@ export default function CreateProposalPage() {
                                     onChange={(e) => setDescription(e.target.value)}
                                     placeholder="Explain the reason for this proposal..."
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-purple-500 resize-none"
+                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 resize-none"
                                 />
                             </div>
 
@@ -208,7 +208,7 @@ export default function CreateProposalPage() {
                                             onClick={() => setExpiresIn(days)}
                                             className={`py-2 rounded-lg text-sm font-medium transition-colors ${expiresIn === days
                                                     ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                                    : "bg-gray-700 text-gray-400 hover:text-white"
+                                                    : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                                 }`}
                                         >
                                             {days} days
@@ -218,41 +218,41 @@ export default function CreateProposalPage() {
                             </div>
 
                             {/* Summary */}
-                            <div className="p-6 bg-gray-900/50 rounded-xl mb-6">
-                                <h3 className="font-semibold text-white mb-4">Proposal Summary</h3>
+                            <div className="p-6 bg-gray-50 dark:bg-gray-900/50 rounded-xl mb-6">
+                                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Proposal Summary</h3>
                                 <div className="space-y-2 text-sm">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400">Type</span>
-                                        <span className="text-white flex items-center space-x-2">
+                                        <span className="text-gray-600 dark:text-gray-400">Type</span>
+                                        <span className="text-gray-900 dark:text-white flex items-center space-x-2">
                                             <span>{selectedProposal?.icon}</span>
                                             <span>{selectedProposal?.label}</span>
                                         </span>
                                     </div>
                                     {targetAddress && (
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Target</span>
-                                            <span className="text-white font-mono text-xs">{targetAddress.slice(0, 12)}...</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Target</span>
+                                            <span className="text-gray-900 dark:text-white font-mono text-xs">{targetAddress.slice(0, 12)}...</span>
                                         </div>
                                     )}
                                     {selectedRole && (
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Role</span>
-                                            <span className="text-white">{USER_ROLES.find(r => r.id === selectedRole)?.label}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Role</span>
+                                            <span className="text-gray-900 dark:text-white">{USER_ROLES.find(r => r.id === selectedRole)?.label}</span>
                                         </div>
                                     )}
                                     {newThreshold && (
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">New Threshold</span>
-                                            <span className="text-white">{newThreshold}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">New Threshold</span>
+                                            <span className="text-gray-900 dark:text-white">{newThreshold}</span>
                                         </div>
                                     )}
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400">Expires In</span>
-                                        <span className="text-white">{expiresIn} days</span>
+                                        <span className="text-gray-600 dark:text-gray-400">Expires In</span>
+                                        <span className="text-gray-900 dark:text-white">{expiresIn} days</span>
                                     </div>
-                                    <div className="border-t border-gray-700 my-3" />
+                                    <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
                                     <div className="flex justify-between">
-                                        <span className="text-gray-400">Required Approvals</span>
+                                        <span className="text-gray-600 dark:text-gray-400">Required Approvals</span>
                                         <span className="text-purple-400 font-medium">2 of 3 admins</span>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@ export default function CreateProposalPage() {
                                     (["AssignRole", "RevokeRole"].includes(proposalType) && !selectedRole) ||
                                     (proposalType === "UpdateThreshold" && !newThreshold)
                                 }
-                                className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                                className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-gray-900 dark:text-white font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                             >
                                 {isSubmitting ? "Creating Proposal..." : "Create Proposal"}
                             </button>

@@ -44,8 +44,8 @@ export default function CreateListingPage() {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to create a listing.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to create a listing.</p>
                 </div>
             </div>
         );
@@ -59,14 +59,14 @@ export default function CreateListingPage() {
                     <Link href="/marketplace" className="text-emerald-400 hover:underline text-sm">
                         ← Back to Marketplace
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mt-4">Create Listing</h1>
-                    <p className="text-gray-400 mt-2">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-4">Create Listing</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
                         List your carbon credits for sale on the marketplace
                     </p>
                 </div>
 
                 {/* Form */}
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-8">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl p-8">
                     {/* Project Selection */}
                     <div className="mb-6">
                         <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -78,7 +78,7 @@ export default function CreateListingPage() {
                                 setSelectedProject(e.target.value);
                                 setQuantity("");
                             }}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         >
                             <option value="">Choose credits...</option>
                             {holdings.map((holding) => (
@@ -103,7 +103,7 @@ export default function CreateListingPage() {
                                     max={maxQuantity}
                                     min={1}
                                     placeholder="0"
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                 />
                                 <button
                                     onClick={() => setQuantity(maxQuantity.toString())}
@@ -132,7 +132,7 @@ export default function CreateListingPage() {
                                 min={0.01}
                                 step={0.01}
                                 placeholder="15.00"
-                                className="w-full pl-8 pr-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                                className="w-full pl-8 pr-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                             />
                         </div>
                         <p className="text-sm text-gray-500 mt-2">
@@ -150,7 +150,7 @@ export default function CreateListingPage() {
                             value={minPurchase}
                             onChange={(e) => setMinPurchase(e.target.value)}
                             min={1}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         />
                     </div>
 
@@ -166,7 +166,7 @@ export default function CreateListingPage() {
                                     onClick={() => setExpiresIn(days)}
                                     className={`py-2 rounded-lg text-sm font-medium transition-colors ${expiresIn === days
                                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                            : "bg-gray-700 text-gray-400 hover:text-white"
+                                            : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
                                         }`}
                                 >
                                     {days} days
@@ -177,32 +177,32 @@ export default function CreateListingPage() {
 
                     {/* Summary */}
                     {quantity && pricePerTon && parseFloat(quantity) > 0 && parseFloat(pricePerTon) > 0 && (
-                        <div className="p-6 bg-gray-900/50 rounded-xl mb-6">
-                            <h3 className="font-semibold text-white mb-4">Listing Summary</h3>
+                        <div className="p-6 bg-gray-50 dark:bg-gray-900/50 rounded-xl mb-6">
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Listing Summary</h3>
                             <div className="space-y-3">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Project</span>
-                                    <span className="text-white">{selectedHolding?.name}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Project</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedHolding?.name}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Vintage</span>
-                                    <span className="text-white">{selectedHolding?.vintage}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Vintage</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedHolding?.vintage}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Quantity</span>
-                                    <span className="text-white">{parseFloat(quantity).toLocaleString()} credits</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Quantity</span>
+                                    <span className="text-gray-900 dark:text-white">{parseFloat(quantity).toLocaleString()} credits</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Price per Credit</span>
-                                    <span className="text-white">${parseFloat(pricePerTon).toFixed(2)}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Price per Credit</span>
+                                    <span className="text-gray-900 dark:text-white">${parseFloat(pricePerTon).toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-400">Duration</span>
-                                    <span className="text-white">{expiresIn} days</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Duration</span>
+                                    <span className="text-gray-900 dark:text-white">{expiresIn} days</span>
                                 </div>
-                                <div className="border-t border-gray-700 my-3" />
+                                <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
                                 <div className="flex justify-between items-center">
-                                    <span className="text-gray-400">Total Listing Value</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Total Listing Value</span>
                                     <span className="text-2xl font-bold text-emerald-400">${totalValue}</span>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@ export default function CreateListingPage() {
                             <span className="text-xl">ℹ️</span>
                             <div className="text-sm">
                                 <p className="text-blue-400 font-medium">How Listings Work</p>
-                                <p className="text-gray-400 mt-1">
+                                <p className="text-gray-600 dark:text-gray-400 mt-1">
                                     Your credits will be locked in a vault until sold or the listing is cancelled.
                                     A 2% platform fee is deducted from each sale.
                                 </p>
@@ -227,7 +227,7 @@ export default function CreateListingPage() {
                     <button
                         onClick={handleCreateListing}
                         disabled={!selectedProject || !quantity || !pricePerTon || parseFloat(quantity) <= 0 || parseFloat(quantity) > maxQuantity || isSubmitting}
-                        className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
+                        className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition-opacity"
                     >
                         {isSubmitting ? "Creating Listing..." : "Create Listing"}
                     </button>

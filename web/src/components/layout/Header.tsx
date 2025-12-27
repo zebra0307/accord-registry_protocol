@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletStore, isSuperAdminWallet } from "@/stores/useWalletStore";
 import { useState, useEffect, useRef } from "react";
+import { useTheme } from "@/providers/ThemeProvider";
 
 // Dynamically import WalletMultiButton to prevent hydration issues
 const WalletMultiButtonDynamic = dynamic(
     async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
-    { ssr: false, loading: () => <div className="h-10 w-36 bg-gray-700 rounded-lg animate-pulse" /> }
+    { ssr: false, loading: () => <div className="h-10 w-36 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" /> }
 );
 
 const publicNavItems = [
@@ -26,6 +28,31 @@ const authenticatedNavItems = [
     { label: "DEX", href: "/dex" },
     { label: "Wallet", href: "/wallet" },
 ];
+
+// Theme Toggle Button Component
+function ThemeToggle() {
+    const { theme, toggleTheme } = useTheme();
+
+    return (
+        <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg transition-colors text-gray-600 dark:text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+            title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        >
+            {theme === "light" ? (
+                // Moon icon for switching to dark
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+            ) : (
+                // Sun icon for switching to light
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                </svg>
+            )}
+        </button>
+    );
+}
 
 export function Header() {
     const pathname = usePathname();
@@ -95,15 +122,19 @@ export function Header() {
     const displayRole = mounted ? getDisplayRole() : null;
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold text-lg">A</span>
-                        </div>
-                        <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                    <Link href="/" className="flex items-center space-x-3">
+                        <Image
+                            src="/logo.png"
+                            alt="Accord Logo"
+                            width={36}
+                            height={36}
+                            className="w-9 h-9"
+                        />
+                        <span className="text-xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
                             Accord
                         </span>
                     </Link>
@@ -115,8 +146,8 @@ export function Header() {
                                 key={item.href}
                                 href={item.href}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${pathname === item.href
-                                    ? "bg-emerald-500/10 text-emerald-400"
-                                    : "text-gray-400 hover:text-gray-200 hover:bg-gray-800"
+                                    ? "bg-violet-100 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400"
+                                    : "text-gray-600 dark:text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                                     }`}
                             >
                                 {item.label}
@@ -125,14 +156,14 @@ export function Header() {
 
                         {mounted && connected && (
                             <>
-                                <div className="w-px h-6 bg-gray-700 mx-2" />
+                                <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-2" />
                                 {authenticatedNavItems.map((item) => (
                                     <Link
                                         key={item.href}
                                         href={item.href}
                                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${pathname.startsWith(item.href)
-                                            ? "bg-emerald-500/10 text-emerald-400"
-                                            : "text-gray-400 hover:text-gray-200 hover:bg-gray-800"
+                                            ? "bg-violet-100 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400"
+                                            : "text-gray-600 dark:text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                                             }`}
                                     >
                                         {item.label}
@@ -142,24 +173,27 @@ export function Header() {
                         )}
                     </nav>
 
-                    {/* Wallet, Settings & Role */}
+                    {/* Wallet, Theme Toggle, Settings & Role */}
                     <div className="flex items-center space-x-3">
                         {displayRole && (
                             <span className={`px-3 py-1 text-xs font-medium rounded-full capitalize ${displayRole === "SuperAdmin"
-                                ? "bg-red-500/10 text-red-400"
-                                : "bg-emerald-500/10 text-emerald-400"
+                                ? "bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400"
+                                : "bg-violet-100 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400"
                                 }`}>
                                 {displayRole}
                             </span>
                         )}
+
+                        {/* Theme Toggle */}
+                        <ThemeToggle />
 
                         {/* Settings Icon */}
                         {mounted && connected && (
                             <Link
                                 href="/settings"
                                 className={`p-2 rounded-lg transition-colors ${pathname === "/settings" || pathname.startsWith("/settings")
-                                        ? "bg-emerald-500/10 text-emerald-400"
-                                        : "text-gray-400 hover:text-gray-200 hover:bg-gray-800"
+                                    ? "bg-violet-100 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400"
+                                    : "text-gray-600 dark:text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                                     }`}
                                 title="Settings"
                             >
@@ -169,11 +203,10 @@ export function Header() {
                             </Link>
                         )}
 
-                        <WalletMultiButtonDynamic className="!bg-gradient-to-r !from-emerald-500 !to-teal-500 !rounded-lg !h-10 !text-sm !font-medium hover:!opacity-90 !transition-opacity" />
+                        <WalletMultiButtonDynamic className="!bg-violet-600 hover:!bg-violet-700 !rounded-full !h-10 !text-sm !font-medium !transition-colors" />
                     </div>
                 </div>
             </div>
         </header>
     );
 }
-

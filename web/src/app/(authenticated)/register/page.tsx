@@ -131,8 +131,8 @@ export default function RegisterProjectPage() {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
-                    <p className="text-gray-400">Please connect your wallet to register a project.</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect Your Wallet</h2>
+                    <p className="text-gray-600 dark:text-gray-400">Please connect your wallet to register a project.</p>
                 </div>
             </div>
         );
@@ -146,8 +146,8 @@ export default function RegisterProjectPage() {
                     <Link href="/dashboard/developer" className="text-emerald-400 hover:underline">
                         ← Back to Dashboard
                     </Link>
-                    <h1 className="text-3xl font-bold text-white mt-4">Register New Project</h1>
-                    <p className="text-gray-400 mt-2">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mt-4">Register New Project</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
                         Submit your carbon credit project for verification
                     </p>
                 </div>
@@ -158,10 +158,10 @@ export default function RegisterProjectPage() {
                         <div key={label} className="flex items-center">
                             <div
                                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${step > i + 1
-                                    ? "bg-emerald-500 text-white"
+                                    ? "bg-emerald-500 text-gray-900 dark:text-white"
                                     : step === i + 1
                                         ? "bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500"
-                                        : "bg-gray-700 text-gray-400"
+                                        : "bg-gray-700 text-gray-600 dark:text-gray-400"
                                     }`}
                             >
                                 {step > i + 1 ? "✓" : i + 1}
@@ -177,12 +177,12 @@ export default function RegisterProjectPage() {
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-8">
+                <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl p-8">
                     {/* Step 1: ICM Registry ID */}
                     {step === 1 && (
                         <div>
-                            <h2 className="text-xl font-semibold text-white mb-2">ICM Registry ID</h2>
-                            <p className="text-gray-400 mb-6">
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">ICM Registry ID</h2>
+                            <p className="text-gray-600 dark:text-gray-400 mb-6">
                                 Enter your government-issued ICM Registry ID. This ID will be used as your Project ID.
                             </p>
 
@@ -197,7 +197,7 @@ export default function RegisterProjectPage() {
                                         value={formData.icmRegistryId}
                                         onChange={handleInputChange}
                                         placeholder="e.g., ICM-MH-2024-001"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Must match exactly with your government registration
@@ -209,7 +209,7 @@ export default function RegisterProjectPage() {
                                 <button
                                     onClick={() => setStep(2)}
                                     disabled={!formData.icmRegistryId}
-                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50"
+                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50"
                                 >
                                     Continue
                                 </button>
@@ -220,7 +220,7 @@ export default function RegisterProjectPage() {
                     {/* Step 2: Project Details */}
                     {step === 2 && (
                         <div>
-                            <h2 className="text-xl font-semibold text-white mb-6">Project Details</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Project Details</h2>
 
                             <div className="space-y-6">
                                 {/* Sector Selection */}
@@ -234,7 +234,7 @@ export default function RegisterProjectPage() {
                                                 key={sector.id}
                                                 className={`p-4 rounded-xl border cursor-pointer transition-colors ${formData.projectSector === sector.id
                                                     ? "border-emerald-500 bg-emerald-500/10"
-                                                    : "border-gray-700 hover:border-gray-600"
+                                                    : "border-gray-200 dark:border-gray-700 hover:border-gray-600"
                                                     }`}
                                             >
                                                 <input
@@ -245,8 +245,8 @@ export default function RegisterProjectPage() {
                                                     onChange={handleInputChange}
                                                     className="sr-only"
                                                 />
-                                                <div className="font-medium text-white">{sector.label}</div>
-                                                <div className="text-sm text-gray-400">{sector.description}</div>
+                                                <div className="font-medium text-gray-900 dark:text-white">{sector.label}</div>
+                                                <div className="text-sm text-gray-600 dark:text-gray-400">{sector.description}</div>
                                             </label>
                                         ))}
                                     </div>
@@ -263,7 +263,7 @@ export default function RegisterProjectPage() {
                                             value={formData.carbonTonsEstimated}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 1000"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -277,7 +277,7 @@ export default function RegisterProjectPage() {
                                             value={formData.areaHectares}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 100"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -290,7 +290,7 @@ export default function RegisterProjectPage() {
                                             name="vintageYear"
                                             value={formData.vintageYear}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -304,7 +304,7 @@ export default function RegisterProjectPage() {
                                             value={formData.pricePerTon}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 15"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
                                 </div>
@@ -313,14 +313,14 @@ export default function RegisterProjectPage() {
                             <div className="flex justify-between mt-8">
                                 <button
                                     onClick={() => setStep(1)}
-                                    className="px-6 py-3 bg-gray-700 rounded-xl text-white font-semibold"
+                                    className="px-6 py-3 bg-gray-700 rounded-xl text-gray-900 dark:text-white font-semibold"
                                 >
                                     Back
                                 </button>
                                 <button
                                     onClick={() => setStep(3)}
                                     disabled={!formData.carbonTonsEstimated}
-                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50"
+                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50"
                                 >
                                     Continue
                                 </button>
@@ -331,7 +331,7 @@ export default function RegisterProjectPage() {
                     {/* Step 3: Location */}
                     {step === 3 && (
                         <div>
-                            <h2 className="text-xl font-semibold text-white mb-6">Project Location</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Project Location</h2>
 
                             <div className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
@@ -346,7 +346,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., IN"
                                             maxLength={2}
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 uppercase"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 uppercase"
                                         />
                                     </div>
 
@@ -360,7 +360,7 @@ export default function RegisterProjectPage() {
                                             value={formData.regionName}
                                             onChange={handleInputChange}
                                             placeholder="e.g., Maharashtra"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -375,7 +375,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., 19.076"
                                             step="0.001"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -390,7 +390,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., 72.877"
                                             step="0.001"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
                                 </div>
@@ -399,14 +399,14 @@ export default function RegisterProjectPage() {
                             <div className="flex justify-between mt-8">
                                 <button
                                     onClick={() => setStep(2)}
-                                    className="px-6 py-3 bg-gray-700 rounded-xl text-white font-semibold"
+                                    className="px-6 py-3 bg-gray-700 rounded-xl text-gray-900 dark:text-white font-semibold"
                                 >
                                     Back
                                 </button>
                                 <button
                                     onClick={() => setStep(4)}
                                     disabled={!formData.countryCode || !formData.regionName}
-                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50"
+                                    className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50"
                                 >
                                     Continue
                                 </button>
@@ -417,7 +417,7 @@ export default function RegisterProjectPage() {
                     {/* Step 4: Documentation & Submit */}
                     {step === 4 && (
                         <div>
-                            <h2 className="text-xl font-semibold text-white mb-6">Documentation & Fees</h2>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Documentation & Fees</h2>
 
                             <div className="space-y-6">
                                 <div>
@@ -430,7 +430,7 @@ export default function RegisterProjectPage() {
                                         value={formData.ipfsCid}
                                         onChange={handleInputChange}
                                         placeholder="e.g., QmYwAPJzv5CZsnA..."
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Upload your PDD to IPFS and enter the content hash
@@ -448,7 +448,7 @@ export default function RegisterProjectPage() {
                                         onChange={handleInputChange}
                                         min="0.1"
                                         step="0.1"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-xl text-white focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Minimum 0.1 SOL. This fee will be held in escrow and released to the validator after verification.
@@ -456,28 +456,28 @@ export default function RegisterProjectPage() {
                                 </div>
 
                                 {/* Summary */}
-                                <div className="bg-gray-900/50 rounded-xl p-6">
-                                    <h3 className="font-semibold text-white mb-4">Registration Summary</h3>
+                                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-6">
+                                    <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Registration Summary</h3>
                                     <div className="space-y-2 text-sm">
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Project ID:</span>
-                                            <span className="text-white">{formData.icmRegistryId}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Project ID:</span>
+                                            <span className="text-gray-900 dark:text-white">{formData.icmRegistryId}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Sector:</span>
-                                            <span className="text-white capitalize">{formData.projectSector}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Sector:</span>
+                                            <span className="text-gray-900 dark:text-white capitalize">{formData.projectSector}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Carbon Tons:</span>
-                                            <span className="text-white">{formData.carbonTonsEstimated}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Carbon Tons:</span>
+                                            <span className="text-gray-900 dark:text-white">{formData.carbonTonsEstimated}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-gray-400">Location:</span>
-                                            <span className="text-white">{formData.regionName}, {formData.countryCode}</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Location:</span>
+                                            <span className="text-gray-900 dark:text-white">{formData.regionName}, {formData.countryCode}</span>
                                         </div>
-                                        <div className="border-t border-gray-700 my-3" />
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
                                         <div className="flex justify-between font-semibold">
-                                            <span className="text-gray-400">Verification Fee:</span>
+                                            <span className="text-gray-600 dark:text-gray-400">Verification Fee:</span>
                                             <span className="text-emerald-400">{formData.verificationFee} SOL</span>
                                         </div>
                                     </div>
@@ -487,14 +487,14 @@ export default function RegisterProjectPage() {
                             <div className="flex justify-between mt-8">
                                 <button
                                     onClick={() => setStep(3)}
-                                    className="px-6 py-3 bg-gray-700 rounded-xl text-white font-semibold"
+                                    className="px-6 py-3 bg-gray-700 rounded-xl text-gray-900 dark:text-white font-semibold"
                                 >
                                     Back
                                 </button>
                                 <button
                                     onClick={handleSubmit}
                                     disabled={loading || parseFloat(formData.verificationFee) < 0.1}
-                                    className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold disabled:opacity-50"
+                                    className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50"
                                 >
                                     {loading ? "Registering..." : "Register Project"}
                                 </button>

@@ -28,7 +28,7 @@ const SECTOR_ICONS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-    pending: "bg-gray-500/10 text-gray-400",
+    pending: "bg-gray-500/10 text-gray-600 dark:text-gray-400",
     awaitingAudit: "bg-yellow-500/10 text-yellow-400",
     underReview: "bg-blue-500/10 text-blue-400",
     verified: "bg-emerald-500/10 text-emerald-400",
@@ -83,8 +83,8 @@ export default function ExplorePage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl font-bold text-white">Explore Projects</h1>
-                    <p className="text-gray-400 mt-2">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Explore Projects</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-2">
                         Discover verified carbon credit projects from around the world
                     </p>
                 </div>
@@ -97,7 +97,7 @@ export default function ExplorePage() {
                             placeholder="Search by Project ID or Name..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                         />
                     </div>
                     <div className="flex items-center space-x-2">
@@ -111,7 +111,7 @@ export default function ExplorePage() {
                                 onClick={() => setSelectedStatus(status.id)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedStatus === status.id
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "bg-gray-800/50 text-gray-400 border border-gray-700/50 hover:border-gray-600"
+                                    : "bg-gray-800/50 text-gray-600 dark:text-gray-400 border border-gray-700/50 hover:border-gray-600"
                                     }`}
                             >
                                 {status.label}
@@ -130,10 +130,10 @@ export default function ExplorePage() {
                     ].map((stat) => (
                         <div
                             key={stat.label}
-                            className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center"
+                            className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-4 text-center"
                         >
-                            <div className="text-2xl font-bold text-white">{stat.value}</div>
-                            <div className="text-sm text-gray-400">{stat.label}</div>
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                         </div>
                     ))}
                 </div>
@@ -149,13 +149,13 @@ export default function ExplorePage() {
                 {!loading && projects.length === 0 && (
                     <div className="text-center py-16">
                         <div className="text-6xl mb-4">🌱</div>
-                        <h3 className="text-xl font-semibold text-white mb-2">No Projects Yet</h3>
-                        <p className="text-gray-400 max-w-md mx-auto mb-6">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No Projects Yet</h3>
+                        <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto mb-6">
                             Be the first to register a carbon credit project on the Accord Registry.
                         </p>
                         <Link
                             href="/register"
-                            className="inline-flex px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90"
+                            className="inline-flex px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90"
                         >
                             Register a Project
                         </Link>
@@ -169,38 +169,38 @@ export default function ExplorePage() {
                             <Link
                                 key={project.id}
                                 href={`/project/${project.id}`}
-                                className="bg-gray-800/50 border border-gray-700/50 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-all card-hover"
+                                className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-all card-hover"
                             >
                                 {/* Header */}
                                 <div className="p-6 border-b border-gray-700/50">
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="flex items-center space-x-2">
                                             <span className="text-2xl">{SECTOR_ICONS[project.sector] || "🌍"}</span>
-                                            <span className="text-sm text-gray-400 capitalize">{project.sector}</span>
+                                            <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">{project.sector}</span>
                                         </div>
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[project.status] || STATUS_COLORS.pending}`}>
                                             {project.status.replace(/([A-Z])/g, " $1").trim()}
                                         </span>
                                     </div>
-                                    <h3 className="text-lg font-semibold text-white">{project.name}</h3>
-                                    <p className="text-sm text-gray-400 mt-1">{project.id}</p>
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{project.name}</h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{project.id}</p>
                                 </div>
 
                                 {/* Details */}
                                 <div className="p-6">
                                     <div className="grid grid-cols-2 gap-4 mb-4">
                                         <div>
-                                            <div className="text-sm text-gray-400">Estimated Tons</div>
-                                            <div className="font-semibold text-white">{project.carbonTons.toLocaleString()}</div>
+                                            <div className="text-sm text-gray-600 dark:text-gray-400">Estimated Tons</div>
+                                            <div className="font-semibold text-gray-900 dark:text-white">{project.carbonTons.toLocaleString()}</div>
                                         </div>
                                         <div>
-                                            <div className="text-sm text-gray-400">Credits Issued</div>
+                                            <div className="text-sm text-gray-600 dark:text-gray-400">Credits Issued</div>
                                             <div className="font-semibold text-emerald-400">{project.creditsIssued.toLocaleString()}</div>
                                         </div>
                                     </div>
 
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-gray-400">
+                                        <span className="text-gray-600 dark:text-gray-400">
                                             📍 {project.location.regionName}, {project.location.countryCode}
                                         </span>
                                         {project.qualityRating > 0 && (
@@ -226,8 +226,8 @@ export default function ExplorePage() {
                 {!loading && projects.length > 0 && filteredProjects.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-4xl mb-4">🔍</div>
-                        <h3 className="text-lg font-semibold text-white mb-2">No Projects Found</h3>
-                        <p className="text-gray-400">Try adjusting your search or filters</p>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Projects Found</h3>
+                        <p className="text-gray-600 dark:text-gray-400">Try adjusting your search or filters</p>
                     </div>
                 )}
             </div>

@@ -127,14 +127,14 @@ export default function MarketplacePage() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-white">Marketplace</h1>
-                        <p className="text-gray-400 mt-1">
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Marketplace</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">
                             Browse and purchase verified carbon credits
                         </p>
                     </div>
                     <Link
                         href="/marketplace/create"
-                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold hover:opacity-90 transition-opacity"
                     >
                         + Create Listing
                     </Link>
@@ -143,16 +143,16 @@ export default function MarketplacePage() {
                 <div className="flex gap-8">
                     {/* Filters Sidebar */}
                     <div className="w-64 flex-shrink-0">
-                        <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 sticky top-24">
-                            <h3 className="font-semibold text-white mb-4">Filters</h3>
+                        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6 sticky top-24">
+                            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Filters</h3>
 
                             {/* Sector Filter */}
                             <div className="mb-6">
-                                <label className="block text-sm text-gray-400 mb-2">Sector</label>
+                                <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Sector</label>
                                 <select
                                     value={selectedSector}
                                     onChange={(e) => setSelectedSector(e.target.value)}
-                                    className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-3 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                 >
                                     {SECTORS.map(sector => (
                                         <option key={sector.id} value={sector.id}>
@@ -164,14 +164,14 @@ export default function MarketplacePage() {
 
                             {/* Price Range */}
                             <div className="mb-6">
-                                <label className="block text-sm text-gray-400 mb-2">Price Range (USD)</label>
+                                <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Price Range (USD)</label>
                                 <div className="flex items-center space-x-2">
                                     <input
                                         type="number"
                                         placeholder="Min"
                                         value={minPrice}
                                         onChange={(e) => setMinPrice(e.target.value)}
-                                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-3 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                     />
                                     <span className="text-gray-500">-</span>
                                     <input
@@ -179,18 +179,18 @@ export default function MarketplacePage() {
                                         placeholder="Max"
                                         value={maxPrice}
                                         onChange={(e) => setMaxPrice(e.target.value)}
-                                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-3 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             {/* Sort By */}
                             <div>
-                                <label className="block text-sm text-gray-400 mb-2">Sort By</label>
+                                <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Sort By</label>
                                 <select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
-                                    className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-3 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                 >
                                     <option value="priceAsc">Price: Low to High</option>
                                     <option value="priceDesc">Price: High to Low</option>
@@ -207,7 +207,7 @@ export default function MarketplacePage() {
                                     setMaxPrice("");
                                     setSortBy("priceAsc");
                                 }}
-                                className="w-full mt-6 px-4 py-2 border border-gray-700 rounded-lg text-gray-400 hover:text-white hover:border-gray-600 transition-colors"
+                                className="w-full mt-6 px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:border-gray-600 transition-colors"
                             >
                                 Clear Filters
                             </button>
@@ -217,23 +217,23 @@ export default function MarketplacePage() {
                     {/* Listings Grid */}
                     <div className="flex-1">
                         <div className="flex items-center justify-between mb-4">
-                            <p className="text-gray-400">
+                            <p className="text-gray-600 dark:text-gray-400">
                                 {filteredListings.length} listing{filteredListings.length !== 1 ? "s" : ""} found
                             </p>
                         </div>
 
                         {filteredListings.length === 0 ? (
-                            <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-12 text-center">
+                            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-12 text-center">
                                 <div className="text-4xl mb-4">🔍</div>
-                                <h3 className="text-lg font-semibold text-white mb-2">No Listings Found</h3>
-                                <p className="text-gray-400">Try adjusting your filters</p>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Listings Found</h3>
+                                <p className="text-gray-600 dark:text-gray-400">Try adjusting your filters</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {filteredListings.map((listing) => (
                                     <div
                                         key={listing.id}
-                                        className="bg-gray-800/50 border border-gray-700/50 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-colors card-hover"
+                                        className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl overflow-hidden hover:border-emerald-500/30 transition-colors card-hover"
                                     >
                                         {/* Header */}
                                         <div className="p-6 border-b border-gray-700/50">
@@ -241,10 +241,10 @@ export default function MarketplacePage() {
                                                 <div>
                                                     <div className="flex items-center space-x-2 mb-1">
                                                         <span className="text-2xl">{SECTOR_ICONS[listing.sector]}</span>
-                                                        <span className="text-sm text-gray-400 capitalize">{listing.sector}</span>
+                                                        <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">{listing.sector}</span>
                                                     </div>
-                                                    <h3 className="text-lg font-semibold text-white">{listing.projectId}</h3>
-                                                    <p className="text-sm text-gray-400">
+                                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{listing.projectId}</h3>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400">
                                                         {listing.regionName}, {listing.countryCode}
                                                     </p>
                                                 </div>
@@ -265,13 +265,13 @@ export default function MarketplacePage() {
                                         <div className="p-6">
                                             <div className="grid grid-cols-2 gap-4 mb-4">
                                                 <div>
-                                                    <div className="text-sm text-gray-400">Available</div>
-                                                    <div className="text-xl font-bold text-white">
+                                                    <div className="text-sm text-gray-600 dark:text-gray-400">Available</div>
+                                                    <div className="text-xl font-bold text-gray-900 dark:text-white">
                                                         {listing.quantityAvailable.toLocaleString()} tons
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <div className="text-sm text-gray-400">Price</div>
+                                                    <div className="text-sm text-gray-600 dark:text-gray-400">Price</div>
                                                     <div className="text-xl font-bold text-emerald-400">
                                                         ${listing.pricePerTon}/ton
                                                     </div>
@@ -283,7 +283,7 @@ export default function MarketplacePage() {
                                                 {listing.coBenefits.map((benefit) => (
                                                     <span
                                                         key={benefit}
-                                                        className="px-2 py-1 bg-gray-700/50 rounded-full text-xs text-gray-300"
+                                                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700/50 rounded-full text-xs text-gray-300"
                                                     >
                                                         {benefit.replace(/([A-Z])/g, " $1").trim()}
                                                     </span>
