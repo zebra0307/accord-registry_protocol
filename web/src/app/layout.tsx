@@ -11,9 +11,13 @@ import { Footer } from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Accord Registry | Carbon Credit Platform",
+  title: "Accord Registry",
   description: "Decentralized carbon credit registry on Solana. Register projects, verify emissions reductions, and trade carbon credits.",
   keywords: ["carbon credits", "carbon registry", "solana", "blockchain", "climate", "sustainability"],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
