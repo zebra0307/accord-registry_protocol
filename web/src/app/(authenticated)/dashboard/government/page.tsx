@@ -216,7 +216,7 @@ function GovernmentDashboardContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors whitespace-nowrap ${activeTab === tab.id
                                     ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             {tab.label}
@@ -330,7 +330,7 @@ function GovernmentDashboardContent() {
                                             </span>
                                         </td>
                                         <td className="p-4 text-right">
-                                            <button className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white text-sm">
+                                            <button className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm">
                                                 View Details
                                             </button>
                                         </td>
@@ -493,7 +493,7 @@ function GovernmentDashboardContent() {
                             <div className="p-6 border-b border-gray-700">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Issue Letter of Authorization</h2>
-                                    <button onClick={() => setSelectedLoA(null)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white">✕</button>
+                                    <button onClick={() => setSelectedLoA(null)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">✕</button>
                                 </div>
                             </div>
                             <div className="p-6 space-y-6">

@@ -89,7 +89,7 @@ export default function MapPage() {
                             onClick={() => setMapView("satellite")}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mapView === "satellite"
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                 }`}
                         >
                             🛰️ Satellite
@@ -98,7 +98,7 @@ export default function MapPage() {
                             onClick={() => setMapView("terrain")}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mapView === "terrain"
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                 }`}
                         >
                             🗺️ Terrain
@@ -227,7 +227,7 @@ export default function MapPage() {
                                     </div>
                                     <button
                                         onClick={() => setSelectedProject(null)}
-                                        className="text-gray-500 hover:text-gray-900 dark:text-white"
+                                        className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
                                     >
                                         ✕
                                     </button>

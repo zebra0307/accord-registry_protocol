@@ -219,7 +219,7 @@ export default function AddLiquidityPage() {
                                             onClick={() => setSlippage(s)}
                                             className={`px-2 py-1 rounded text-xs ${slippage === s
                                                     ? "bg-emerald-500/20 text-emerald-400"
-                                                    : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                                    : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                                 }`}
                                         >
                                             {s}%

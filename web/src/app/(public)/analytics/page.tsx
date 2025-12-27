@@ -47,7 +47,7 @@ export default function AnalyticsPage() {
                                 onClick={() => setTimeRange(range.id as any)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${timeRange === range.id
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                     }`}
                             >
                                 {range.label}

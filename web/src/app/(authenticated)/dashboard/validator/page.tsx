@@ -192,7 +192,7 @@ function ValidatorDashboardContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors ${activeTab === tab.id
                                 ? "bg-blue-500/10 text-blue-400 border border-blue-500/30"
-                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             {tab.label}
@@ -400,7 +400,7 @@ function ValidatorDashboardContent() {
                                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Review Project</h2>
                                     <button
                                         onClick={() => setSelectedProject(null)}
-                                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                     >
                                         ✕
                                     </button>

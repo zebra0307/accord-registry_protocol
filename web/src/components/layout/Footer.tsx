@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function Footer() {
     return (
-        <footer className="bg-gray-900 text-gray-900 dark:text-white py-16 px-6">
+        <footer className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white py-16 px-6">
             <div className="max-w-6xl mx-auto">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-12">
                     <div>
@@ -17,7 +17,7 @@ export function Footer() {
                                 height={40}
                                 className="w-10 h-10"
                             />
-                            <span className="text-xl font-bold">Accord</span>
+                            <span className="text-xl font-bold text-gray-900 dark:text-white">Accord</span>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 max-w-xs">
                             Building a transparent future for carbon markets on Solana.
@@ -26,37 +26,37 @@ export function Footer() {
 
                     <div className="flex flex-col md:flex-row gap-12">
                         <div>
-                            <h4 className="font-bold uppercase text-sm tracking-wider mb-4 text-gray-600 dark:text-gray-400">
+                            <h4 className="font-bold uppercase text-sm tracking-wider mb-4 text-gray-500 dark:text-gray-400">
                                 Platform
                             </h4>
                             <nav className="flex flex-col gap-2">
-                                <Link href="/explore" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <Link href="/explore" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Explore
                                 </Link>
-                                <Link href="/marketplace" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <Link href="/marketplace" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Marketplace
                                 </Link>
-                                <Link href="/analytics" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <Link href="/analytics" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Analytics
                                 </Link>
-                                <Link href="/guide" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <Link href="/guide" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Guide
                                 </Link>
                             </nav>
                         </div>
 
                         <div>
-                            <h4 className="font-bold uppercase text-sm tracking-wider mb-4 text-gray-600 dark:text-gray-400">
+                            <h4 className="font-bold uppercase text-sm tracking-wider mb-4 text-gray-500 dark:text-gray-400">
                                 Contact Us
                             </h4>
                             <div className="flex gap-6">
-                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Github
                                 </a>
-                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Discord
                                 </a>
-                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors">
+                                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-white transition-colors">
                                     Twitter
                                 </a>
                             </div>
@@ -64,7 +64,7 @@ export function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                <div className="border-t border-gray-200 dark:border-gray-800 mt-12 pt-8 text-center text-gray-500 dark:text-gray-500 text-sm">
                     © 2025 Accord Registry. All rights reserved.
                 </div>
             </div>

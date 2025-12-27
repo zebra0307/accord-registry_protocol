@@ -97,7 +97,7 @@ export default function WalletPage() {
                         onClick={() => setActiveTab("credits")}
                         className={`px-6 py-3 rounded-xl font-medium transition-colors ${activeTab === "credits"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             }`}
                     >
                         Credit Holdings
@@ -106,7 +106,7 @@ export default function WalletPage() {
                         onClick={() => setActiveTab("retired")}
                         className={`px-6 py-3 rounded-xl font-medium transition-colors ${activeTab === "retired"
                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                             }`}
                     >
                         Retirement Certificates

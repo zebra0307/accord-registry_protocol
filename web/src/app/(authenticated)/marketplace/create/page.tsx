@@ -166,7 +166,7 @@ export default function CreateListingPage() {
                                     onClick={() => setExpiresIn(days)}
                                     className={`py-2 rounded-lg text-sm font-medium transition-colors ${expiresIn === days
                                             ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                            : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                            : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                         }`}
                                 >
                                     {days} days

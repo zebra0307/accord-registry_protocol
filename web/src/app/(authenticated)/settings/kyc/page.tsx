@@ -213,7 +213,7 @@ function KYCPageContent() {
                 {/* Header */}
                 <div className="mb-8">
                     <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 text-sm mb-2">
-                        <Link href="/settings" className="hover:text-gray-900 dark:text-white">Settings</Link>
+                        <Link href="/settings" className="hover:text-gray-900 dark:hover:text-white">Settings</Link>
                         <span>/</span>
                         <span className="text-gray-900 dark:text-white">KYC Verification</span>
                     </div>
@@ -287,7 +287,7 @@ function KYCPageContent() {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors flex items-center space-x-2 ${activeTab === tab.id
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             <span>{tab.icon}</span>

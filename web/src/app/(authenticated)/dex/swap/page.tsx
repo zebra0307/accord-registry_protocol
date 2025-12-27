@@ -117,7 +117,7 @@ export default function SwapPage() {
                             <div className="flex justify-center -my-2 relative z-10">
                                 <button
                                     onClick={handleSwapDirection}
-                                    className="w-10 h-10 bg-gray-700 border-4 border-gray-800 rounded-xl flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-600 transition-colors"
+                                    className="w-10 h-10 bg-gray-700 border-4 border-gray-800 rounded-xl flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-600 transition-colors"
                                 >
                                     ↕
                                 </button>
@@ -178,7 +178,7 @@ export default function SwapPage() {
                                                     onClick={() => setSlippage(s)}
                                                     className={`px-2 py-1 rounded text-xs ${slippage === s
                                                         ? "bg-emerald-500/20 text-emerald-400"
-                                                        : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                                        : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                                         }`}
                                                 >
                                                     {s}%

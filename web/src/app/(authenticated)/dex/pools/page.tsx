@@ -122,7 +122,7 @@ export default function PoolsPage() {
                             onClick={() => setSortBy(option.id as any)}
                             className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${sortBy === option.id
                                 ? "bg-emerald-500/10 text-emerald-400"
-                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                 }`}
                         >
                             {option.label}

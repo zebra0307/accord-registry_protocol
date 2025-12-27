@@ -300,7 +300,7 @@ function UserManagementContent() {
                                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Manage User</h2>
                                     <button
                                         onClick={() => setShowAssignModal(false)}
-                                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white"
+                                        className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                     >
                                         ✕
                                     </button>
@@ -397,7 +397,7 @@ function UserManagementContent() {
                                 <div className="flex items-center justify-end space-x-4">
                                     <button
                                         onClick={() => setShowAssignModal(false)}
-                                        className="px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-400 font-medium hover:text-gray-900 dark:text-white hover:border-gray-600"
+                                        className="px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-600 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-white hover:border-gray-600"
                                     >
                                         Cancel
                                     </button>

@@ -166,7 +166,7 @@ function MyProjectsContent() {
                             onClick={() => setFilter(f as any)}
                             className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${filter === f
                                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:bg-gray-100 dark:bg-gray-700/50"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:bg-gray-700/50"
                                 }`}
                         >
                             {f === "all" ? "All Projects" : f}

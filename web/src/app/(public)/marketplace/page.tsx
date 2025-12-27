@@ -207,7 +207,7 @@ export default function MarketplacePage() {
                                     setMaxPrice("");
                                     setSortBy("priceAsc");
                                 }}
-                                className="w-full mt-6 px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white hover:border-gray-600 transition-colors"
+                                className="w-full mt-6 px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-600 transition-colors"
                             >
                                 Clear Filters
                             </button>
