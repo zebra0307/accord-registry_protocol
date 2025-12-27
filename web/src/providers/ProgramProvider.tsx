@@ -88,8 +88,8 @@ export function ProgramProvider({ children }: ProgramProviderProps) {
         if (!provider || !idl) return null;
 
         try {
-            const programId = new PublicKey(PROGRAM_ID);
-            return new Program(idl, programId, provider);
+            // Anchor 0.30+ uses (idl, provider) signature
+            return new Program(idl, provider);
         } catch (e) {
             console.error("Failed to create program:", e);
             setError("Failed to initialize program");
@@ -116,7 +116,6 @@ export function useProgram() {
 export function createReadonlyProgram(idl: Idl): Program<Idl> | null {
     try {
         const connection = new Connection(DEFAULT_RPC, "confirmed");
-        const programId = new PublicKey(PROGRAM_ID);
 
         // Create a readonly provider (no wallet needed for reading)
         const readonlyProvider = new AnchorProvider(
@@ -129,7 +128,7 @@ export function createReadonlyProgram(idl: Idl): Program<Idl> | null {
             { commitment: "confirmed" }
         );
 
-        return new Program(idl, programId, readonlyProvider);
+        return new Program(idl, readonlyProvider);
     } catch (e) {
         console.error("Failed to create readonly program:", e);
         return null;

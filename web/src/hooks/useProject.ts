@@ -30,7 +30,8 @@ export function useProject(owner: PublicKey | null, projectId: string | null) {
             const [projectPda] = getProjectPda(owner, projectId);
 
             try {
-                const account = await program.account.project.fetch(projectPda);
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const account = await (program.account as any).project.fetch(projectPda);
 
                 return {
                     projectId: account.projectId,

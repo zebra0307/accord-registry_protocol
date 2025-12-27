@@ -272,11 +272,12 @@ function SettingsContent() {
                                 {(Object.keys(ROLE_INFO) as RoleRequestType[]).map((roleKey) => {
                                     const info = ROLE_INFO[roleKey];
                                     const isSelected = selectedRole === roleKey;
-                                    const colorClasses = {
+                                    const colorMap = {
                                         blue: { bg: "bg-blue-500/10", border: "border-blue-500/30", text: "text-blue-400" },
                                         purple: { bg: "bg-purple-500/10", border: "border-purple-500/30", text: "text-purple-400" },
                                         orange: { bg: "bg-orange-500/10", border: "border-orange-500/30", text: "text-orange-400" },
-                                    }[info.color];
+                                    };
+                                    const colorClasses = colorMap[info.color as keyof typeof colorMap] || colorMap.blue;
 
                                     return (
                                         <button
