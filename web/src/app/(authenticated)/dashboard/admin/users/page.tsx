@@ -182,7 +182,7 @@ function UserManagementContent() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Enter wallet address..."
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             />
                         </div>
                         <div className="w-40">
@@ -190,7 +190,7 @@ function UserManagementContent() {
                             <select
                                 value={roleFilter}
                                 onChange={(e) => setRoleFilter(e.target.value)}
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             >
                                 <option value="all">All Roles</option>
                                 {ROLE_OPTIONS.map(r => (
@@ -203,7 +203,7 @@ function UserManagementContent() {
                             <select
                                 value={kycFilter}
                                 onChange={(e) => setKycFilter(e.target.value)}
-                                className="w-full px-4 py-2 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
+                                className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="verified">Verified</option>

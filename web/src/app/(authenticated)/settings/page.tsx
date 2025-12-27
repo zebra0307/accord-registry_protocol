@@ -337,7 +337,7 @@ function SettingsContent() {
                                         value={justification}
                                         onChange={(e) => setJustification(e.target.value)}
                                         rows={4}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         placeholder="Explain your qualifications and why you should be granted this role..."
                                     />
                                 </div>

@@ -88,7 +88,7 @@ export default function RetireCreditsPage() {
                                 setSelectedProject(e.target.value);
                                 setRetireAmount("");
                             }}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         >
                             <option value="">Choose a project...</option>
                             {holdings.map((holding) => (
@@ -113,7 +113,7 @@ export default function RetireCreditsPage() {
                                     max={maxAmount}
                                     min={1}
                                     placeholder="0"
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white text-2xl focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white text-2xl focus:outline-none focus:border-emerald-500"
                                 />
                                 <button
                                     onClick={() => setRetireAmount(maxAmount.toString())}
@@ -138,7 +138,7 @@ export default function RetireCreditsPage() {
                             value={beneficiaryName}
                             onChange={(e) => setBeneficiaryName(e.target.value)}
                             placeholder="Your name or organization"
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         />
                         <p className="text-sm text-gray-500 mt-2">
                             This name will appear on the retirement certificate
@@ -155,7 +155,7 @@ export default function RetireCreditsPage() {
                             onChange={(e) => setReason(e.target.value)}
                             placeholder="e.g., Offsetting 2024 business travel emissions"
                             rows={3}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500 resize-none"
+                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500 resize-none"
                         />
                     </div>
 

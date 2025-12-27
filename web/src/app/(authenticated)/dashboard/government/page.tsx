@@ -518,7 +518,7 @@ function GovernmentDashboardContent() {
                                         value={loaNotes}
                                         onChange={(e) => setLoaNotes(e.target.value)}
                                         rows={3}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white"
                                         placeholder="Add notes for this LoA..."
                                     />
                                 </div>

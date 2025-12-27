@@ -78,7 +78,7 @@ export default function CreateListingPage() {
                                 setSelectedProject(e.target.value);
                                 setQuantity("");
                             }}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         >
                             <option value="">Choose credits...</option>
                             {holdings.map((holding) => (
@@ -103,7 +103,7 @@ export default function CreateListingPage() {
                                     max={maxQuantity}
                                     min={1}
                                     placeholder="0"
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                 />
                                 <button
                                     onClick={() => setQuantity(maxQuantity.toString())}
@@ -132,7 +132,7 @@ export default function CreateListingPage() {
                                 min={0.01}
                                 step={0.01}
                                 placeholder="15.00"
-                                className="w-full pl-8 pr-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                className="w-full pl-8 pr-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                             />
                         </div>
                         <p className="text-sm text-gray-500 mt-2">
@@ -150,7 +150,7 @@ export default function CreateListingPage() {
                             value={minPurchase}
                             onChange={(e) => setMinPurchase(e.target.value)}
                             min={1}
-                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                         />
                     </div>
 

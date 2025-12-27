@@ -197,7 +197,7 @@ export default function RegisterProjectPage() {
                                         value={formData.icmRegistryId}
                                         onChange={handleInputChange}
                                         placeholder="e.g., ICM-MH-2024-001"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Must match exactly with your government registration
@@ -263,7 +263,7 @@ export default function RegisterProjectPage() {
                                             value={formData.carbonTonsEstimated}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 1000"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -277,7 +277,7 @@ export default function RegisterProjectPage() {
                                             value={formData.areaHectares}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 100"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -290,7 +290,7 @@ export default function RegisterProjectPage() {
                                             name="vintageYear"
                                             value={formData.vintageYear}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -304,7 +304,7 @@ export default function RegisterProjectPage() {
                                             value={formData.pricePerTon}
                                             onChange={handleInputChange}
                                             placeholder="e.g., 15"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
                                 </div>
@@ -346,7 +346,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., IN"
                                             maxLength={2}
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 uppercase"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 uppercase"
                                         />
                                     </div>
 
@@ -360,7 +360,7 @@ export default function RegisterProjectPage() {
                                             value={formData.regionName}
                                             onChange={handleInputChange}
                                             placeholder="e.g., Maharashtra"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -375,7 +375,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., 19.076"
                                             step="0.001"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
 
@@ -390,7 +390,7 @@ export default function RegisterProjectPage() {
                                             onChange={handleInputChange}
                                             placeholder="e.g., 72.877"
                                             step="0.001"
-                                            className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                         />
                                     </div>
                                 </div>
@@ -430,7 +430,7 @@ export default function RegisterProjectPage() {
                                         value={formData.ipfsCid}
                                         onChange={handleInputChange}
                                         placeholder="e.g., QmYwAPJzv5CZsnA..."
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Upload your PDD to IPFS and enter the content hash
@@ -448,7 +448,7 @@ export default function RegisterProjectPage() {
                                         onChange={handleInputChange}
                                         min="0.1"
                                         step="0.1"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                     />
                                     <p className="text-gray-500 text-sm mt-2">
                                         Minimum 0.1 SOL. This fee will be held in escrow and released to the validator after verification.

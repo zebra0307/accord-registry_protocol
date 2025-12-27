@@ -226,7 +226,7 @@ export default function ListingDetailPage() {
                                                 onChange={(e) => setPurchaseAmount(e.target.value)}
                                                 min={1}
                                                 max={listing.quantity}
-                                                className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                             />
                                             <button
                                                 onClick={() => setPurchaseAmount(listing.quantity.toString())}

@@ -119,7 +119,7 @@ export default function CreateProposalPage() {
                                         value={targetAddress}
                                         onChange={(e) => setTargetAddress(e.target.value)}
                                         placeholder="Enter Solana wallet address..."
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white font-mono text-sm focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white font-mono text-sm focus:outline-none focus:border-purple-500"
                                     />
                                 </div>
                             )}
@@ -133,7 +133,7 @@ export default function CreateProposalPage() {
                                     <select
                                         value={selectedRole}
                                         onChange={(e) => setSelectedRole(e.target.value)}
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                                     >
                                         <option value="">Select a role...</option>
                                         {USER_ROLES.map((role) => (
@@ -158,7 +158,7 @@ export default function CreateProposalPage() {
                                         min={1}
                                         max={10}
                                         placeholder="e.g., 2"
-                                        className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500"
                                     />
                                     <p className="text-sm text-gray-500 mt-1">
                                         Current threshold: 2 of 3 admins
@@ -192,7 +192,7 @@ export default function CreateProposalPage() {
                                     onChange={(e) => setDescription(e.target.value)}
                                     placeholder="Explain the reason for this proposal..."
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 resize-none"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-purple-500 resize-none"
                                 />
                             </div>
 

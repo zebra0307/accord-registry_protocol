@@ -260,7 +260,7 @@ export default function VerifyProjectPage() {
                                     onChange={(e) => setVerifiedCarbonTons(e.target.value)}
                                     placeholder={project.carbonTonsEstimated.toString()}
                                     max={project.carbonTonsEstimated}
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500"
                                 />
                                 <p className="text-sm text-gray-500 mt-1">
                                     Estimated: {project.carbonTonsEstimated.toLocaleString()} tCO2e
@@ -276,7 +276,7 @@ export default function VerifyProjectPage() {
                                     onChange={(e) => setNotes(e.target.value)}
                                     placeholder="Add any notes or observations..."
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500 resize-none"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-emerald-500 resize-none"
                                 />
                             </div>
 
