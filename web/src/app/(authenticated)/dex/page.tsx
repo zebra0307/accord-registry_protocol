@@ -1,9 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
+import { useAllPools } from "@/hooks/useOnChainData";
+import { formatAddress, lamportsToSol } from "@/lib/data/onchain";
+import { LoadingSpinner, EmptyState } from "@/components/ui/EmptyState";
+
+interface PoolDisplay {
+    id: string;
+    pair: string;
+    creditMint: string;
+    quoteMint: string;
+    tvl: number;
+    apr: number;
+    volume24h: number;
+    feePercent: number;
+}
 
 export default function DEXPage() {
+    // Fetch pools from on-chain
+    const { data: onChainPools, isLoading: loading, error } = useAllPools();
+
+    // Transform on-chain pools to display format
+    const pools = useMemo<PoolDisplay[]>(() => {
+        if (!onChainPools) return [];
+
+        return onChainPools.filter(p => p.isActive).map((p) => {
+            // Calculate TVL based on reserves (simplified)
+            const tvl = lamportsToSol(p.creditReserve + p.quoteReserve);
+            // Calculate fee percentage
+            const feePercent = p.feeDenominator > 0
+                ? (p.feeNumerator / p.feeDenominator) * 100
+                : 0.3;
+
+            return {
+                id: p.publicKey.toString(),
+                pair: `${formatAddress(p.creditMint)} / ${formatAddress(p.quoteMint)}`,
+                creditMint: p.creditMint.toString(),
+                quoteMint: p.quoteMint.toString(),
+                tvl,
+                apr: 0, // Would need historical data to calculate
+                volume24h: 0, // Would need historical data
+                feePercent,
+            };
+        });
+    }, [onChainPools]);
+
+    // Calculate stats
+    const stats = useMemo(() => ({
+        totalValueLocked: pools.reduce((sum, p) => sum + p.tvl, 0),
+        volume24h: pools.reduce((sum, p) => sum + p.volume24h, 0),
+        totalPools: pools.length,
+        totalTraders: 0, // Would need on-chain tracking
+    }), [pools]);
+
     return (
         <div className="min-h-screen py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,10 +104,10 @@ export default function DEXPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
                     {[
-                        { label: "Total Value Locked", value: "$1.2M" },
-                        { label: "24h Volume", value: "$45,230" },
-                        { label: "Total Pools", value: "3" },
-                        { label: "Total Traders", value: "128" },
+                        { label: "Total Value Locked", value: loading ? "..." : `${stats.totalValueLocked.toFixed(2)} SOL` },
+                        { label: "24h Volume", value: loading ? "..." : `${stats.volume24h.toFixed(2)} SOL` },
+                        { label: "Total Pools", value: loading ? "..." : stats.totalPools.toString() },
+                        { label: "Total Traders", value: loading ? "..." : stats.totalTraders.toString() },
                     ].map((stat) => (
                         <div
                             key={stat.label}
@@ -75,73 +125,75 @@ export default function DEXPage() {
                         <h2 className="text-xl font-semibold text-white">Available Pools</h2>
                     </div>
 
-                    <div className="divide-y divide-gray-700/50">
-                        {[
-                            {
-                                pair: "ACCORD / USDC",
-                                tvl: "$850,000",
-                                apr: "12.5%",
-                                volume24h: "$32,100",
-                            },
-                            {
-                                pair: "ACCORD / SOL",
-                                tvl: "$250,000",
-                                apr: "18.2%",
-                                volume24h: "$8,450",
-                            },
-                            {
-                                pair: "ACCORD / USDT",
-                                tvl: "$100,000",
-                                apr: "9.8%",
-                                volume24h: "$4,680",
-                            },
-                        ].map((pool) => (
-                            <div
-                                key={pool.pair}
-                                className="p-6 hover:bg-gray-700/20 transition-colors"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-4">
-                                        <div className="flex -space-x-2">
-                                            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-gray-800">
-                                                A
+                    {loading ? (
+                        <div className="p-12 flex justify-center">
+                            <LoadingSpinner size="lg" />
+                        </div>
+                    ) : pools.length === 0 ? (
+                        <div className="p-12">
+                            <EmptyState
+                                icon="🌊"
+                                title="No Pools Available"
+                                description="Be the first to create a liquidity pool for carbon credits"
+                                actionLabel="Create Pool"
+                                actionHref="/dex/pools/add"
+                            />
+                        </div>
+                    ) : (
+                        <div className="divide-y divide-gray-700/50">
+                            {pools.map((pool) => (
+                                <div
+                                    key={pool.id}
+                                    className="p-6 hover:bg-gray-700/20 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="flex -space-x-2">
+                                                <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-gray-800">
+                                                    C
+                                                </div>
+                                                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-gray-800">
+                                                    $
+                                                </div>
                                             </div>
-                                            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-gray-800">
-                                                $
+                                            <div>
+                                                <div className="font-semibold text-white">{pool.pair}</div>
+                                                <div className="text-sm text-gray-400">{pool.feePercent.toFixed(2)}% fee</div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className="font-semibold text-white">{pool.pair}</div>
-                                            <div className="text-sm text-gray-400">0.3% fee</div>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex items-center space-x-8">
-                                        <div className="text-right">
-                                            <div className="text-sm text-gray-400">TVL</div>
-                                            <div className="font-semibold text-white">{pool.tvl}</div>
+                                        <div className="flex items-center space-x-8">
+                                            <div className="text-right">
+                                                <div className="text-sm text-gray-400">TVL</div>
+                                                <div className="font-semibold text-white">{pool.tvl.toFixed(2)} SOL</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-sm text-gray-400">APR</div>
+                                                <div className="font-semibold text-emerald-400">
+                                                    {pool.apr > 0 ? `${pool.apr.toFixed(1)}%` : "—"}
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-sm text-gray-400">24h Volume</div>
+                                                <div className="font-semibold text-white">
+                                                    {pool.volume24h > 0 ? `${pool.volume24h.toFixed(2)} SOL` : "—"}
+                                                </div>
+                                            </div>
+                                            <Link
+                                                href={`/dex/pools/add?pool=${pool.id}`}
+                                                className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors"
+                                            >
+                                                Add Liquidity
+                                            </Link>
                                         </div>
-                                        <div className="text-right">
-                                            <div className="text-sm text-gray-400">APR</div>
-                                            <div className="font-semibold text-emerald-400">{pool.apr}</div>
-                                        </div>
-                                        <div className="text-right">
-                                            <div className="text-sm text-gray-400">24h Volume</div>
-                                            <div className="font-semibold text-white">{pool.volume24h}</div>
-                                        </div>
-                                        <Link
-                                            href={`/dex/pools/${pool.pair.replace(" / ", "-").toLowerCase()}`}
-                                            className="px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-colors"
-                                        >
-                                            Add Liquidity
-                                        </Link>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
     );
 }
+

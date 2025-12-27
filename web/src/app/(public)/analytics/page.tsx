@@ -1,27 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { usePlatformStats, useAllProjects } from "@/hooks/useOnChainData";
+import { LoadingSpinner } from "@/components/ui/EmptyState";
 
 export default function AnalyticsPage() {
     const [timeRange, setTimeRange] = useState<"7d" | "30d" | "all">("30d");
 
-    // Mock data
-    const platformStats = {
-        totalProjects: 45,
-        verifiedProjects: 38,
-        totalCreditsIssued: 125000,
-        creditsRetired: 45000,
-        tvl: 1200000,
-        totalTraders: 1250,
-    };
+    // Fetch real platform stats
+    const { data: platformStats, isLoading: loadingStats } = usePlatformStats();
+    const { data: allProjects, isLoading: loadingProjects } = useAllProjects();
 
-    const recentTransactions = [
-        { type: "mint", project: "ICM-MH-2024-001", amount: 500, time: "2 hours ago" },
-        { type: "retire", project: "ICM-KA-2024-002", amount: 100, time: "5 hours ago" },
-        { type: "trade", from: "5abc...", to: "7def...", amount: 250, time: "8 hours ago" },
-        { type: "verify", project: "ICM-AP-2024-003", time: "1 day ago" },
-        { type: "register", project: "ICM-TN-2024-006", time: "2 days ago" },
-    ];
+    const loading = loadingStats || loadingProjects;
+
+    // Calculate top projects by credits issued
+    const topProjects = useMemo(() => {
+        if (!allProjects) return [];
+        return [...allProjects]
+            .sort((a, b) => b.creditsIssued - a.creditsIssued)
+            .slice(0, 5)
+            .map((p, i) => ({
+                rank: i + 1,
+                id: p.projectId,
+                name: p.projectId,
+                credits: p.creditsIssued,
+            }));
+    }, [allProjects]);
 
     return (
         <div className="min-h-screen py-12">
@@ -42,8 +46,8 @@ export default function AnalyticsPage() {
                                 key={range.id}
                                 onClick={() => setTimeRange(range.id as any)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${timeRange === range.id
-                                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                                        : "text-gray-400 hover:text-white"
+                                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
+                                    : "text-gray-400 hover:text-white"
                                     }`}
                             >
                                 {range.label}
@@ -55,12 +59,12 @@ export default function AnalyticsPage() {
                 {/* Main Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                     {[
-                        { label: "Total Projects", value: platformStats.totalProjects, icon: "📋" },
-                        { label: "Verified", value: platformStats.verifiedProjects, icon: "✅", color: "text-emerald-400" },
-                        { label: "Credits Issued", value: `${(platformStats.totalCreditsIssued / 1000).toFixed(0)}K`, icon: "🌿" },
-                        { label: "Credits Retired", value: `${(platformStats.creditsRetired / 1000).toFixed(0)}K`, icon: "🔥", color: "text-orange-400" },
-                        { label: "TVL", value: `$${(platformStats.tvl / 1000000).toFixed(1)}M`, icon: "💰", color: "text-purple-400" },
-                        { label: "Total Traders", value: platformStats.totalTraders.toLocaleString(), icon: "👥" },
+                        { label: "Total Projects", value: loading ? "..." : platformStats?.totalProjects ?? 0, icon: "📋" },
+                        { label: "Verified", value: loading ? "..." : platformStats?.verifiedProjects ?? 0, icon: "✅", color: "text-emerald-400" },
+                        { label: "Credits Issued", value: loading ? "..." : `${((platformStats?.totalCreditsIssued ?? 0) / 1000).toFixed(0)}K`, icon: "🌿" },
+                        { label: "Credits Minted", value: loading ? "..." : `${((platformStats?.totalCreditsMinted ?? 0) / 1000).toFixed(0)}K`, icon: "🪙", color: "text-blue-400" },
+                        { label: "Active Listings", value: loading ? "..." : platformStats?.totalActiveListings ?? 0, icon: "🏪", color: "text-purple-400" },
+                        { label: "Countries", value: loading ? "..." : platformStats?.uniqueCountries ?? 0, icon: "🌍" },
                     ].map((stat) => (
                         <div
                             key={stat.label}
@@ -74,6 +78,7 @@ export default function AnalyticsPage() {
                         </div>
                     ))}
                 </div>
+
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -131,62 +136,48 @@ export default function AnalyticsPage() {
                     <div className="lg:col-span-2 bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
                         <h3 className="font-semibold text-white mb-4">Top Projects by Credits</h3>
                         <div className="space-y-4">
-                            {[
-                                { rank: 1, id: "ICM-MH-2024-001", name: "Mangrove Restoration", credits: 12500 },
-                                { rank: 2, id: "ICM-KA-2024-002", name: "Seagrass Meadow", credits: 8400 },
-                                { rank: 3, id: "ICM-GO-2023-005", name: "Solar Farm Initiative", credits: 6200 },
-                                { rank: 4, id: "ICM-AP-2024-003", name: "Forestry Conservation", credits: 5100 },
-                                { rank: 5, id: "ICM-TN-2024-006", name: "Wind Energy Project", credits: 4800 },
-                            ].map((project) => (
-                                <div key={project.id} className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-4">
-                                        <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${project.rank === 1 ? "bg-yellow-500/20 text-yellow-400" :
+                            {loading ? (
+                                <div className="flex justify-center py-8">
+                                    <LoadingSpinner />
+                                </div>
+                            ) : topProjects.length === 0 ? (
+                                <p className="text-gray-400 text-center py-8">No projects registered yet</p>
+                            ) : (
+                                topProjects.map((project) => (
+                                    <div key={project.id} className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <span className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${project.rank === 1 ? "bg-yellow-500/20 text-yellow-400" :
                                                 project.rank === 2 ? "bg-gray-300/20 text-gray-300" :
                                                     project.rank === 3 ? "bg-orange-500/20 text-orange-400" :
                                                         "bg-gray-700 text-gray-400"
-                                            }`}>
-                                            {project.rank}
-                                        </span>
-                                        <div>
-                                            <div className="font-medium text-white">{project.name}</div>
-                                            <div className="text-sm text-gray-400">{project.id}</div>
+                                                }`}>
+                                                {project.rank}
+                                            </span>
+                                            <div>
+                                                <div className="font-medium text-white">{project.name}</div>
+                                                <div className="text-sm text-gray-400">{project.id}</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold text-emerald-400">{project.credits.toLocaleString()}</div>
+                                            <div className="text-xs text-gray-500">credits</div>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <div className="font-semibold text-emerald-400">{project.credits.toLocaleString()}</div>
-                                        <div className="text-xs text-gray-500">credits</div>
-                                    </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
 
                     {/* Recent Activity */}
                     <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-6">
                         <h3 className="font-semibold text-white mb-4">Recent Activity</h3>
-                        <div className="space-y-4">
-                            {recentTransactions.map((tx, i) => (
-                                <div key={i} className="flex items-start space-x-3">
-                                    <span className="text-lg">
-                                        {tx.type === "mint" ? "🌿" :
-                                            tx.type === "retire" ? "🔥" :
-                                                tx.type === "trade" ? "💱" :
-                                                    tx.type === "verify" ? "✅" : "📋"}
-                                    </span>
-                                    <div className="flex-1">
-                                        <div className="text-sm text-white">
-                                            {tx.type === "mint" && `Minted ${tx.amount} credits`}
-                                            {tx.type === "retire" && `Retired ${tx.amount} credits`}
-                                            {tx.type === "trade" && `Traded ${tx.amount} credits`}
-                                            {tx.type === "verify" && `Project verified`}
-                                            {tx.type === "register" && `New project registered`}
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            {tx.project} • {tx.time}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="space-y-4 text-center py-8">
+                            <p className="text-gray-400 text-sm">
+                                On-chain activity tracking coming soon
+                            </p>
+                            <p className="text-xs text-gray-500">
+                                Transaction history will be displayed here
+                            </p>
                         </div>
                     </div>
                 </div>

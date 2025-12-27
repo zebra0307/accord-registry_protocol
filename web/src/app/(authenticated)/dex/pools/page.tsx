@@ -1,62 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useAllPools } from "@/hooks/useOnChainData";
+import { formatAddress, lamportsToSol } from "@/lib/data/onchain";
+import { LoadingSpinner, EmptyState } from "@/components/ui/EmptyState";
 
-const MOCK_POOLS = [
-    {
-        id: "accord-usdc",
-        pair: "ACCORD / USDC",
-        creditMint: "Accord Token",
-        quoteMint: "USDC",
-        tvl: 850000,
-        volume24h: 32100,
-        apr: 12.5,
-        feeBps: 30,
-        creditReserve: 56666,
-        quoteReserve: 850000,
-    },
-    {
-        id: "accord-sol",
-        pair: "ACCORD / SOL",
-        creditMint: "Accord Token",
-        quoteMint: "SOL",
-        tvl: 250000,
-        volume24h: 8450,
-        apr: 18.2,
-        feeBps: 30,
-        creditReserve: 16666,
-        quoteReserve: 1250, // ~$200/SOL
-    },
-    {
-        id: "accord-usdt",
-        pair: "ACCORD / USDT",
-        creditMint: "Accord Token",
-        quoteMint: "USDT",
-        tvl: 100000,
-        volume24h: 4680,
-        apr: 9.8,
-        feeBps: 30,
-        creditReserve: 6666,
-        quoteReserve: 100000,
-    },
-];
+interface PoolDisplay {
+    id: string;
+    pair: string;
+    creditMint: string;
+    quoteMint: string;
+    tvl: number;
+    volume24h: number;
+    apr: number;
+    feeBps: number;
+    creditReserve: number;
+    quoteReserve: number;
+}
 
 export default function PoolsPage() {
     const [sortBy, setSortBy] = useState<"tvl" | "apr" | "volume">("tvl");
 
-    const sortedPools = [...MOCK_POOLS].sort((a, b) => {
-        switch (sortBy) {
-            case "tvl":
-                return b.tvl - a.tvl;
-            case "apr":
-                return b.apr - a.apr;
-            case "volume":
-                return b.volume24h - a.volume24h;
-            default:
-                return 0;
-        }
-    });
+    // Fetch pools from on-chain
+    const { data: onChainPools, isLoading: loading } = useAllPools();
+
+    // Transform on-chain pools to display format
+    const pools = useMemo<PoolDisplay[]>(() => {
+        if (!onChainPools) return [];
+
+        return onChainPools.filter(p => p.isActive).map((p) => {
+            const feePercent = p.feeDenominator > 0
+                ? (p.feeNumerator / p.feeDenominator) * 100
+                : 0.3;
+
+            return {
+                id: p.publicKey.toString(),
+                pair: `${formatAddress(p.creditMint)} / ${formatAddress(p.quoteMint)}`,
+                creditMint: p.creditMint.toString(),
+                quoteMint: p.quoteMint.toString(),
+                tvl: lamportsToSol(p.creditReserve + p.quoteReserve),
+                volume24h: 0, // Would need historical data
+                apr: 0, // Would need historical calculation
+                feeBps: Math.round(feePercent * 100),
+                creditReserve: lamportsToSol(p.creditReserve),
+                quoteReserve: lamportsToSol(p.quoteReserve),
+            };
+        });
+    }, [onChainPools]);
+
+    const sortedPools = useMemo(() => {
+        return [...pools].sort((a, b) => {
+            switch (sortBy) {
+                case "tvl":
+                    return b.tvl - a.tvl;
+                case "apr":
+                    return b.apr - a.apr;
+                case "volume":
+                    return b.volume24h - a.volume24h;
+                default:
+                    return 0;
+            }
+        });
+    }, [pools, sortBy]);
+
+    const stats = useMemo(() => ({
+        totalTvl: pools.reduce((sum, p) => sum + p.tvl, 0),
+        totalVolume: pools.reduce((sum, p) => sum + p.volume24h, 0),
+        activePools: pools.length,
+    }), [pools]);
+
 
     return (
         <div className="min-h-screen py-12">
@@ -81,9 +94,9 @@ export default function PoolsPage() {
                 {/* Stats Overview */}
                 <div className="grid grid-cols-3 gap-6 mb-8">
                     {[
-                        { label: "Total Value Locked", value: `$${(MOCK_POOLS.reduce((sum, p) => sum + p.tvl, 0) / 1000000).toFixed(2)}M` },
-                        { label: "24h Trading Volume", value: `$${(MOCK_POOLS.reduce((sum, p) => sum + p.volume24h, 0) / 1000).toFixed(1)}K` },
-                        { label: "Active Pools", value: MOCK_POOLS.length.toString() },
+                        { label: "Total Value Locked", value: loading ? "..." : `${stats.totalTvl.toFixed(2)} SOL` },
+                        { label: "24h Trading Volume", value: loading ? "..." : `${stats.totalVolume.toFixed(2)} SOL` },
+                        { label: "Active Pools", value: loading ? "..." : stats.activePools.toString() },
                     ].map((stat) => (
                         <div
                             key={stat.label}
@@ -94,6 +107,7 @@ export default function PoolsPage() {
                         </div>
                     ))}
                 </div>
+
 
                 {/* Sort Options */}
                 <div className="flex items-center space-x-4 mb-6">
@@ -107,8 +121,8 @@ export default function PoolsPage() {
                             key={option.id}
                             onClick={() => setSortBy(option.id as any)}
                             className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${sortBy === option.id
-                                    ? "bg-emerald-500/10 text-emerald-400"
-                                    : "text-gray-400 hover:text-white"
+                                ? "bg-emerald-500/10 text-emerald-400"
+                                : "text-gray-400 hover:text-white"
                                 }`}
                         >
                             {option.label}
