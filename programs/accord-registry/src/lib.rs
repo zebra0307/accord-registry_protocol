@@ -36,11 +36,15 @@ pub mod blue_carbon_registry {
     }
 
     /// Registers a new project on the blockchain (Universal)
+    /// Requires:
+    /// - Valid ICM Registry ID (mandatory, must equal project_id)
+    /// - Verification fee (minimum 0.1 SOL, held in escrow)
     pub fn register_project(
         ctx: Context<RegisterProject>,
         project_data: ProjectRegistrationData,
+        verification_fee: u64,
     ) -> Result<()> {
-        instructions::register_project(ctx, project_data)
+        instructions::register_project(ctx, project_data, verification_fee)
     }
 
 // Initializing Double Counting Registry

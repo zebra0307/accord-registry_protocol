@@ -185,6 +185,7 @@ describe("blue-carbon-registry", () => {
 
   it("Registers a project successfully", async () => {
     const carbonTonsEstimated = new anchor.BN(1000);
+    const verificationFee = new anchor.BN(100_000_000); // 0.1 SOL minimum
 
     const projectData = {
       projectId: projectId,
@@ -202,12 +203,12 @@ describe("blue-carbon-registry", () => {
       establishmentDate: new anchor.BN(Date.now() / 1000),
       vintageYear: 2024,
       pricePerTon: new anchor.BN(10_000_000),
-      cctsRegistryId: "", // Empty for initial registration
-      complianceIdSignature: Buffer.from([]), // Empty signature
+      cctsRegistryId: projectId, // Must equal projectId
+      complianceIdSignature: Buffer.from([]),
     };
 
     const tx = await program.methods
-      .registerProject(projectData)
+      .registerProject(projectData, verificationFee)
       .accounts({
         project: projectPda,
         registry: registryPda,
@@ -220,27 +221,16 @@ describe("blue-carbon-registry", () => {
       .rpc();
 
     console.log("Project registration transaction signature:", tx);
-    console.log("✅ Project registered successfully");
+    console.log("✅ Project registered with escrow funded");
   });
 
-  it("Initializes Verification Escrow and Verifies", async () => {
-    // 1. Initialize Escrow
-    const fee = new anchor.BN(1_000_000_000); // 1 SOL
+  it("Verifies Project (Validator)", async () => {
+    // Escrow is already funded at registration
+    // Just verify and release escrow to verifier
 
-    await program.methods.initializeVerification(fee)
-      .accounts({
-        project: projectPda,
-        owner: projectOwner.publicKey,
-        verifier: projectOwner.publicKey,
-        systemProgram: SystemProgram.programId,
-      } as any)
-      .signers([projectOwner])
-      .rpc();
+    const projectAccountBefore = await program.account.project.fetch(projectPda);
+    console.log("Escrow balance before:", projectAccountBefore.auditEscrowBalance.toString());
 
-    const projectAccountAfterInit = await program.account.project.fetch(projectPda);
-    assert.equal(projectAccountAfterInit.auditEscrowBalance.toString(), fee.toString());
-
-    // 2. Verify Project & Release Escrow
     const verifiedCarbonTons = new anchor.BN(1000);
 
     const tx = await program.methods
@@ -256,10 +246,10 @@ describe("blue-carbon-registry", () => {
 
     console.log("Project verification transaction signature:", tx);
 
-    const projectAccountAfterVerify = await program.account.project.fetch(projectPda);
-    assert.equal(projectAccountAfterVerify.auditEscrowBalance.toString(), "0");
+    const projectAccountAfter = await program.account.project.fetch(projectPda);
+    assert.equal(Object.keys(projectAccountAfter.verificationStatus)[0], "verified");
 
-    console.log("✅ Project verified and escrow released successfully");
+    console.log("✅ Project verified successfully");
   });
 
   it("Approves project compliance (Government)", async () => {

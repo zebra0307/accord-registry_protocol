@@ -42,4 +42,18 @@ pub enum ErrorCode {
     InsufficientPermissions,
     #[msg("Unauthorized: Verifier does not match assigned project verifier")]
     UnauthorizedVerifier,
+    
+    // New Registration Validation Errors
+    #[msg("ICM Registry ID is mandatory for project registration")]
+    MissingRegistryId,
+    #[msg("Project ID must match ICM Registry ID")]
+    RegistryIdMismatch,
+    #[msg("Verification fee is below minimum required (0.1 SOL)")]
+    InsufficientVerificationFee,
+    #[msg("Invalid geographic coordinates")]
+    InvalidCoordinates,
+    #[msg("DePIN data submission not authorized")]
+    UnauthorizedDataSubmission,
+    #[msg("Monitoring data is stale or outdated")]
+    StaleMonitoringData,
 }
