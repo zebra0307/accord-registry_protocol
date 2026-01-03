@@ -6,7 +6,9 @@ import { ProgramProvider } from "@/providers/ProgramProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { ConditionalFooter } from "@/components/layout/ConditionalFooter";
+import { ToastProvider } from "@/components/ui/Toast";
+import { AutoRegister } from "@/components/AutoRegister";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,12 +33,14 @@ export default function RootLayout({
         <QueryProvider>
           <SolanaWalletProvider>
             <ProgramProvider>
+              <AutoRegister />
               <ThemeProvider>
                 <Header />
                 <main className="pt-16 min-h-screen">
                   {children}
                 </main>
-                <Footer />
+                <ConditionalFooter />
+                <ToastProvider />
               </ThemeProvider>
             </ProgramProvider>
           </SolanaWalletProvider>

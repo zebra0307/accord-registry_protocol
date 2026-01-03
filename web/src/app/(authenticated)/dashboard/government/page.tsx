@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletStore } from "@/stores/useWalletStore";
 import Link from "next/link";
+import { PublicKey } from "@solana/web3.js";
+import { useApproveCompliance } from "@/hooks";
+import { showToast } from "@/components/ui/Toast";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 interface PendingLoA {
     id: string;
@@ -137,10 +141,29 @@ function GovernmentDashboardContent() {
         );
     }
 
-    const handleIssueLoA = (loa: PendingLoA) => {
-        alert(`LoA issued for project ${loa.projectId}!`);
-        setSelectedLoA(null);
-        setLoaNotes("");
+    const approveComplianceMutation = useApproveCompliance();
+
+    const handleIssueLoA = async (loa: any) => {
+        const loadingToast = showToast.loading("Issuing Letter of Authorization...");
+
+        try {
+            const result = await approveComplianceMutation.mutateAsync({
+                projectId: loa.projectId,
+                projectOwner: new PublicKey(loa.developer),
+                authorizedExportLimit: 100000, // Default limit
+                cctsRegistryId: `CCTS-${loa.projectId}`,
+                loaIssued: true,
+            });
+
+            showToast.dismiss(loadingToast as any);
+            showToast.success("LoA issued successfully!", result.signature);
+
+            setSelectedLoA(null);
+            setLoaNotes("");
+        } catch (error: any) {
+            showToast.dismiss(loadingToast as any);
+            showToast.error("Failed to issue LoA", error.message);
+        }
     };
 
     const handleRejectLoA = (loa: PendingLoA) => {
@@ -189,14 +212,14 @@ function GovernmentDashboardContent() {
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-xl">📊</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Export Quota</span>
                         </div>
                         <div className="text-2xl font-bold text-purple-400">{Math.round((stats.creditsExported / stats.exportLimit) * 100)}%</div>
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-5">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-xl">🎯</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">NDC Progress</span>
                         </div>
                         <div className="text-2xl font-bold text-teal-400">{stats.ndcProgress}%</div>
@@ -215,8 +238,8 @@ function GovernmentDashboardContent() {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`px-6 py-3 rounded-xl font-medium transition-colors whitespace-nowrap ${activeTab === tab.id
-                                    ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
+                                ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
+                                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
                                 }`}
                         >
                             {tab.label}
@@ -321,10 +344,10 @@ function GovernmentDashboardContent() {
                                         <td className="p-4 text-gray-600 dark:text-gray-400">{loa.expiresAt}</td>
                                         <td className="p-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${loa.status === "active"
-                                                    ? "bg-emerald-500/10 text-emerald-400"
-                                                    : loa.status === "expired"
-                                                        ? "bg-gray-500/10 text-gray-600 dark:text-gray-400"
-                                                        : "bg-red-500/10 text-red-400"
+                                                ? "bg-emerald-500/10 text-emerald-400"
+                                                : loa.status === "expired"
+                                                    ? "bg-gray-500/10 text-gray-600 dark:text-gray-400"
+                                                    : "bg-red-500/10 text-red-400"
                                                 }`}>
                                                 {loa.status}
                                             </span>

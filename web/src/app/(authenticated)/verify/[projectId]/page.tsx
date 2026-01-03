@@ -337,7 +337,7 @@ export default function VerifyProjectPage() {
                         {/* Escrow Info */}
                         <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-6">
                             <div className="flex items-center space-x-3 mb-2">
-                                <span className="text-2xl">💰</span>
+                                
                                 <h3 className="font-semibold text-gray-900 dark:text-white">Verification Reward</h3>
                             </div>
                             <p className="text-3xl font-bold text-emerald-400 mb-2">{project.escrowBalance} SOL</p>

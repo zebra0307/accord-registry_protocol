@@ -4,6 +4,10 @@ import { useState, useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletStore } from "@/stores/useWalletStore";
 import Link from "next/link";
+import { PublicKey } from "@solana/web3.js";
+import { usePendingProjects, useVerifyProject, useRejectProject } from "@/hooks";
+import { showToast } from "@/components/ui/Toast";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 interface PendingProject {
     id: string;
@@ -52,22 +56,34 @@ function ValidatorDashboardContent() {
     const [completedVerifications, setCompletedVerifications] = useState<CompletedVerification[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch validator data from on-chain
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // TODO: Implement actual on-chain data fetching
-                setPendingProjects([]);
-                setCompletedVerifications([]);
-            } catch (error) {
-                console.error("Failed to fetch validator data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    // Use real on-chain data hooks
+    const { data: onChainPending, isLoading: pendingLoading, refetch } = usePendingProjects();
+    const verifyMutation = useVerifyProject();
+    const rejectMutation = useRejectProject();
 
+    // Transform on-chain data
+    useEffect(() => {
+        if (onChainPending) {
+            const transformed = onChainPending.map((p: any) => ({
+                id: p.publicKey?.toBase58() || p.account.projectId,
+                projectId: p.account.projectId,
+                name: p.account.projectId,
+                developer: p.account.owner?.toBase58() || "Unknown",
+                claimedTons: p.account.carbonTonsEstimated?.toNumber?.() || p.account.carbonTonsEstimated || 0,
+                escrowAmount: 0.1, // Default fee
+                submittedAt: new Date().toISOString(),
+                sector: Object.keys(p.account.projectSector || {})[0] || "forestry",
+                location: `${p.account.location?.countryCode || "--"}, ${p.account.location?.regionName || "--"}`,
+                depinData: { satellite: true, iot: false, drone: false },
+                ownerPubkey: p.account.owner,
+            }));
+            setPendingProjects(transformed as any);
+            setLoading(false);
+        }
+    }, [onChainPending]);
+
+    useEffect(() => {
         if (connected) {
-            fetchData();
         } else {
             setLoading(false);
         }
@@ -112,21 +128,59 @@ function ValidatorDashboardContent() {
         );
     }
 
-    const handleApprove = (project: PendingProject) => {
-        alert(`Approved project ${project.projectId} with ${calculatedTons || project.claimedTons} tons!`);
-        setSelectedProject(null);
-        setVerificationNotes("");
-        setCalculatedTons(null);
-    };
-
-    const handleReject = (project: PendingProject) => {
-        if (!verificationNotes.trim()) {
-            alert("Please provide rejection reason");
+    const handleApprove = async (project: any) => {
+        if (!calculatedTons && !project.claimedTons) {
+            showToast.error("Please calculate verified carbon tons first");
             return;
         }
-        alert(`Rejected project ${project.projectId}. Reason: ${verificationNotes}`);
-        setSelectedProject(null);
-        setVerificationNotes("");
+
+        const loadingToast = showToast.loading("Verifying project on-chain...");
+
+        try {
+            const result = await verifyMutation.mutateAsync({
+                projectOwner: project.ownerPubkey || new PublicKey(project.developer),
+                projectId: project.projectId,
+                verifiedCarbonTons: calculatedTons || project.claimedTons,
+            });
+
+            showToast.dismiss(loadingToast as any);
+            showToast.success("Project verified successfully!", result.signature);
+
+            setSelectedProject(null);
+            setVerificationNotes("");
+            setCalculatedTons(null);
+            refetch();
+        } catch (error: any) {
+            showToast.dismiss(loadingToast as any);
+            showToast.error("Verification failed", error.message);
+        }
+    };
+
+    const handleReject = async (project: any) => {
+        if (!verificationNotes.trim()) {
+            showToast.error("Please provide rejection reason");
+            return;
+        }
+
+        const loadingToast = showToast.loading("Rejecting project on-chain...");
+
+        try {
+            const result = await rejectMutation.mutateAsync({
+                projectOwner: project.ownerPubkey || new PublicKey(project.developer),
+                projectId: project.projectId,
+                reason: verificationNotes,
+            });
+
+            showToast.dismiss(loadingToast as any);
+            showToast.success("Project rejected", result.signature);
+
+            setSelectedProject(null);
+            setVerificationNotes("");
+            refetch();
+        } catch (error: any) {
+            showToast.dismiss(loadingToast as any);
+            showToast.error("Rejection failed", error.message);
+        }
     };
 
     return (
@@ -152,7 +206,7 @@ function ValidatorDashboardContent() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-2xl">✅</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Verified Projects</span>
                         </div>
                         <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.verifiedProjects}</div>
@@ -166,14 +220,14 @@ function ValidatorDashboardContent() {
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-2xl">💰</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Total Earnings</span>
                         </div>
                         <div className="text-3xl font-bold text-emerald-400">{stats.totalEarnings} SOL</div>
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-2xl">🔒</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Staked Amount</span>
                         </div>
                         <div className="text-3xl font-bold text-purple-400">{stats.stakedAmount} SOL</div>

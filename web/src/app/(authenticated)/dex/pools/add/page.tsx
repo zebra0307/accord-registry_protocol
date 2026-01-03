@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
+import { useInitializePool, useAddLiquidity } from "@/hooks";
+import { showToast } from "@/components/ui/Toast";
+import { PublicKey } from "@solana/web3.js";
 
 export default function AddLiquidityPage() {
     const { connected } = useWallet();
@@ -58,17 +61,59 @@ export default function AddLiquidityPage() {
         ? ((parseFloat(creditAmount) / (pool.creditReserve + parseFloat(creditAmount))) * 100).toFixed(4)
         : "0.0000";
 
+    const initializePoolMutation = useInitializePool();
+    const addLiquidityMutation = useAddLiquidity();
+
     const handleAddLiquidity = async () => {
         if (!creditAmount || !quoteAmount) return;
 
         setIsSubmitting(true);
+        const loadingToast = showToast.loading("Adding liquidity...");
+
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            alert("Liquidity added successfully!");
-        } catch (e) {
-            alert("Failed to add liquidity");
+            // Note: In a real scenario, we would check if pool exists. 
+            // If not, initialize it first. For MVP, we'll try to initialize then add liquidity
+            // or just add if it already exists (handled by program logic or separate flow).
+            // Here we assume we might need to initialize if it's a new pair.
+
+            // For simplicity in this MVP implementation, we'll assume we are adding to an existing pool
+            // OR initializing a new one if this page is reached with intent to create.
+            // Let's try to initialize first, if it fails (likely because it exists), we proceed to add liquidity.
+            // Ideally, we'd check existence first.
+
+            // Note: The UI currently mocks pool data. In production, 'pool' should come from on-chain data.
+            // We'll use the mock mints for now but cast them to PublicKeys.
+            // Replace these with REAL mint addresses in production!
+            const creditMint = new PublicKey("CreditMintAddress1111111111111111111111111");
+            const quoteMint = new PublicKey("QuoteMintAddress1111111111111111111111111");
+
+            // 1. Initialize Pool (if needed) - This would typically be a separate "Create Pool" flow
+            // caused by a "Pool not found" state.
+            // await initializePoolMutation.mutateAsync({
+            //    creditMint,
+            //    quoteMint,
+            //    feeBasisPoints: 30
+            // });
+
+            // 2. Add Liquidity
+            const result = await addLiquidityMutation.mutateAsync({
+                creditMint,
+                quoteMint,
+                amountA: parseFloat(creditAmount),
+                amountB: parseFloat(quoteAmount),
+            });
+
+            showToast.dismiss(loadingToast as any);
+            showToast.success("Liquidity added successfully!", result.signature);
+
+            setCreditAmount("");
+            setQuoteAmount("");
+        } catch (error: any) {
+            showToast.dismiss(loadingToast as any);
+            showToast.error("Failed to add liquidity", error.message);
+        } finally {
+            setIsSubmitting(false);
         }
-        setIsSubmitting(false);
     };
 
     if (!connected) {
@@ -218,8 +263,8 @@ export default function AddLiquidityPage() {
                                             key={s}
                                             onClick={() => setSlippage(s)}
                                             className={`px-2 py-1 rounded text-xs ${slippage === s
-                                                    ? "bg-emerald-500/20 text-emerald-400"
-                                                    : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                                                ? "bg-emerald-500/20 text-emerald-400"
+                                                : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                                 }`}
                                         >
                                             {s}%

@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
+import { PublicKey } from "@solana/web3.js";
+import { useCreateProposal } from "@/hooks";
+import { showToast } from "@/components/ui/Toast";
 import Link from "next/link";
 
 const PROPOSAL_TYPES = [
@@ -38,18 +41,56 @@ export default function CreateProposalPage() {
 
     const selectedProposal = PROPOSAL_TYPES.find(p => p.id === proposalType);
 
+    const createProposalMutation = useCreateProposal();
+
     const handleSubmit = async () => {
         if (!proposalType || !description) return;
 
-        setIsSubmitting(true);
-        try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            alert("Proposal created successfully!");
-            router.push("/dashboard/admin");
-        } catch (e) {
-            alert("Failed to create proposal");
+        // Validation for target address if required by type
+        let targetPubkey = PublicKey.default;
+        if (["AssignRole", "RevokeRole", "AddAdmin", "RemoveAdmin", "TransferAuthority"].includes(proposalType)) {
+            try {
+                targetPubkey = new PublicKey(targetAddress);
+            } catch (e) {
+                showToast.error("Invalid Target Address");
+                return;
+            }
         }
-        setIsSubmitting(false);
+
+        setIsSubmitting(true);
+        const loadingToast = showToast.loading("Creating proposal...");
+
+        try {
+            // Map string ID to Anchor Enum format (camelCase key)
+            const typeEnum = { [proposalType.charAt(0).toLowerCase() + proposalType.slice(1)]: {} };
+
+            // For specific proposals, we might want to encode data in the 'data' field
+            // But currently the contract doesn't explicitly decode 'data' in create_proposal, 
+            // it blindly stores it. So we can send empty buffer or specialized instruction data if needed later.
+            // For AssignRole, we'd ideally want to encode the specific role being assigned, etc. 
+            // Since the current contract instruction just takes generic 'data', we'll leave it empty 
+            // or use specific logic if we had instruction schemas. 
+            // The User Role selection in UI is effectively 'data' but the on-chain 'create_proposal' 
+            // doesn't take 'role' as a direct argument. 
+            // Assuming for MVP we just create the proposal wrapper. 
+
+            await createProposalMutation.mutateAsync({
+                type: typeEnum,
+                target: targetPubkey,
+                expiresInDays: parseInt(expiresIn),
+                data: Buffer.from([]) // Placeholder: Implement specific data serialization if contract requires specific layout
+            });
+
+            showToast.dismiss(loadingToast as any);
+            showToast.success("Proposal created successfully!");
+            setTimeout(() => router.push("/dashboard/admin"), 1000);
+        } catch (e: any) {
+            showToast.dismiss(loadingToast as any);
+            console.error(e);
+            showToast.error("Failed to create proposal", e.message || "Unknown error");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (!connected) {
@@ -89,8 +130,8 @@ export default function CreateProposalPage() {
                                     key={type.id}
                                     onClick={() => setProposalType(type.id)}
                                     className={`p-4 rounded-xl border text-left transition-colors ${proposalType === type.id
-                                            ? "border-purple-500 bg-purple-500/10"
-                                            : "border-gray-200 dark:border-gray-700 hover:border-gray-600"
+                                        ? "border-purple-500 bg-purple-500/10"
+                                        : "border-gray-200 dark:border-gray-700 hover:border-gray-600"
                                         }`}
                                 >
                                     <div className="flex items-center space-x-3">
@@ -207,8 +248,8 @@ export default function CreateProposalPage() {
                                             key={days}
                                             onClick={() => setExpiresIn(days)}
                                             className={`py-2 rounded-lg text-sm font-medium transition-colors ${expiresIn === days
-                                                    ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
-                                                    : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                                                ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
+                                                : "bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                                                 }`}
                                         >
                                             {days} days

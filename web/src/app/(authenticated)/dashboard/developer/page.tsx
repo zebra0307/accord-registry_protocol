@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { useProgram } from "@/providers/ProgramProvider";
 import { useWalletStore, isSuperAdminWallet } from "@/stores/useWalletStore";
 import Link from "next/link";
 import { PublicKey } from "@solana/web3.js";
-import { useMyProjects } from "@/hooks/useOnChainData";
+import { useMyProjects, useMintCredits, useRegisterUser } from "@/hooks";
 import { lamportsToSol } from "@/lib/data/onchain";
+import { showToast } from "@/components/ui/Toast";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 interface Project {
     id: string;
@@ -18,6 +20,8 @@ interface Project {
     location: string;
     claimedTons: number;
     issuedCredits: number;
+    mintedCredits: number;
+    availableToMint: number;
     submittedAt: string;
     verifiedAt?: string;
 }
@@ -60,7 +64,8 @@ const ACTIVITY_ICONS: Record<string, string> = {
 
 function DeveloperDashboardContent() {
     const { publicKey, connected } = useWallet();
-    const { program } = useProgram();
+    const { connection } = useConnection(); // Properly initialize hook
+    const { program, isLoading: isProgramLoading } = useProgram();
     const { role, isRegistered, setRole, setIsRegistered, setPermissions } = useWalletStore();
 
     // Fetch user's projects from on-chain using TanStack Query
@@ -93,7 +98,9 @@ function DeveloperDashboardContent() {
                 sector: p.projectSector,
                 location: `${p.location.regionName}, ${p.location.countryCode}`,
                 claimedTons: p.carbonTonsEstimated,
-                issuedCredits: p.creditsIssued,
+                issuedCredits: p.creditsIssued || 0,
+                mintedCredits: p.tokensMinted || 0,
+                availableToMint: (p.creditsIssued || 0) - (p.tokensMinted || 0),
                 submittedAt: new Date(p.establishmentDate * 1000).toISOString().split("T")[0],
                 verifiedAt: p.verificationStatus === "verified" ? new Date().toISOString().split("T")[0] : undefined,
             };
@@ -107,6 +114,10 @@ function DeveloperDashboardContent() {
         pendingVerification: projects.filter(p => p.status === "pending").length,
         escrowLocked: onChainProjects?.reduce((sum, p) => sum + lamportsToSol(p.auditEscrowBalance), 0) || 0,
     }), [projects, onChainProjects]);
+
+    // Mint mutation
+    const mintCreditsMutation = useMintCredits();
+    const registerUserMutation = useRegisterUser();
 
     // Check registration and handle superadmin
     useEffect(() => {
@@ -161,29 +172,70 @@ function DeveloperDashboardContent() {
         checkRegistration();
     }, [publicKey, program, setRole, setIsRegistered, setPermissions]);
 
-    const handleRegister = async () => {
-        if (!publicKey) {
-            alert("Please connect your wallet first");
+    const handleMint = async (project: Project) => {
+        if (project.availableToMint <= 0) {
+            showToast.error("No verified credits available to mint");
             return;
         }
 
-        console.log("Starting registration...");
-        setRegistering(true);
+        const loadingToast = showToast.loading("Minting credits...");
 
         try {
-            // Simulate blockchain registration delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const result = await mintCreditsMutation.mutateAsync({
+                projectId: project.projectId,
+                amount: project.availableToMint,
+            });
 
-            // Update store state
+            showToast.dismiss(loadingToast as any);
+            showToast.success(`Successfully minted ${project.availableToMint} credits!`, result.signature);
+        } catch (error: any) {
+            showToast.dismiss(loadingToast as any);
+            showToast.error("Failed to mint credits", error.message);
+        }
+    };
+
+    const handleRegister = async () => {
+        if (!publicKey) {
+            showToast.error("Please connect your wallet first");
+            return;
+        }
+
+        // Check for balance
+        try {
+            const balance = await connection.getBalance(publicKey);
+            // 0.05 SOL minimum to be safe (rent + fees)
+            const MIN_SOL = 0.05 * 1000000000;
+            if (balance < MIN_SOL) {
+                showToast.error("Insufficient SOL", "You need at least 0.05 SOL to register. Please request Devnet SOL from a faucet.");
+                return;
+            }
+        } catch (err) {
+            console.error("Failed to check balance:", err);
+            // Continue anyway, but warn
+        }
+
+        setRegistering(true);
+        const loadingToast = showToast.loading("Registering as developer...");
+
+        try {
+            // Register as 'user' role by default
+            await registerUserMutation.mutateAsync({ role: { user: {} } });
+
             setIsRegistered(true);
             setRole("user");
-            setPermissions(113); // Default user permissions
 
-            console.log("Registration successful!");
-            alert("Successfully registered as a Developer!");
-        } catch (error) {
-            console.error("Registration failed:", error);
-            alert("Registration failed. Please try again.");
+            showToast.dismiss(loadingToast as any);
+            showToast.success("Successfully registered! You can now create projects.");
+        } catch (error: any) {
+            console.error("Registration error:", error);
+            showToast.dismiss(loadingToast as any);
+
+            let message = error.message;
+            if (message.includes("Simulation failed") || message.includes("0x1")) { // Insufficient funds often 0x1
+                message = "Transaction failed. Likely insufficient SOL. Please airdrop some Devnet SOL.";
+            }
+
+            showToast.error("Failed to register.", message);
         } finally {
             setRegistering(false);
         }
@@ -216,7 +268,7 @@ function DeveloperDashboardContent() {
                 <div className="max-w-2xl mx-auto px-4">
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-2xl p-8 text-center">
                         <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span className="text-4xl">🌿</span>
+
                         </div>
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Welcome to Accord Registry</h2>
                         <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -260,10 +312,10 @@ function DeveloperDashboardContent() {
 
                         <button
                             onClick={handleRegister}
-                            disabled={registering}
+                            disabled={registering || isProgramLoading}
                             className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl text-gray-900 dark:text-white font-semibold disabled:opacity-50 hover:opacity-90 transition-opacity"
                         >
-                            {registering ? "Registering..." : "Register as Developer"}
+                            {registering ? "Registering..." : isProgramLoading ? "Initializing..." : "Register as Developer"}
                         </button>
 
                         <p className="text-gray-500 text-sm mt-4">
@@ -305,7 +357,7 @@ function DeveloperDashboardContent() {
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-2xl">🪙</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Credits Issued</span>
                         </div>
                         <div className="text-3xl font-bold text-emerald-400">{stats.creditsIssued.toLocaleString()}</div>
@@ -319,7 +371,7 @@ function DeveloperDashboardContent() {
                     </div>
                     <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/50 rounded-xl p-6">
                         <div className="flex items-center space-x-3 mb-2">
-                            <span className="text-2xl">🔒</span>
+
                             <span className="text-gray-600 dark:text-gray-400 text-sm">Escrow Locked</span>
                         </div>
                         <div className="text-3xl font-bold text-purple-400">{stats.escrowLocked} SOL</div>
@@ -384,6 +436,14 @@ function DeveloperDashboardContent() {
                                                 >
                                                     List
                                                 </Link>
+                                            )}
+                                            {project.status === "verified" && project.availableToMint > 0 && (
+                                                <button
+                                                    onClick={() => handleMint(project)}
+                                                    className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg text-blue-400 text-sm hover:bg-blue-500/20"
+                                                >
+                                                    Mint ({project.availableToMint})
+                                                </button>
                                             )}
                                             <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700/50 rounded-lg text-gray-300 text-sm">
                                                 Manage
@@ -463,7 +523,7 @@ function DeveloperDashboardContent() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
